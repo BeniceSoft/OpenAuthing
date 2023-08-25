@@ -1,5 +1,5 @@
-# YaYa BMS AM
-登录、用户、角色
+# OpenAuthing
+SSO & 组织 & 权限
 
 ## 页面截屏
 
