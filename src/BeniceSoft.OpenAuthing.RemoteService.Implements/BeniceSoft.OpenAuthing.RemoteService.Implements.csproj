@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Volo.Abp.Core" />
+        <PackageReference Include="AlibabaCloud.SDK.Dingtalk" />
+        <PackageReference Include="dingtalk-sdk-netCore" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BeniceSoft.OpenAuthing.RemoteService.Abstractions\BeniceSoft.OpenAuthing.RemoteService.Abstractions.csproj" />
+    </ItemGroup>
+
+</Project>

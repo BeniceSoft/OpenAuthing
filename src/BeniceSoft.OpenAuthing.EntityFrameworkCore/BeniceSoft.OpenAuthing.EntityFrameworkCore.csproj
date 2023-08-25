@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
+        <LangVersion>default</LangVersion>
+        <AssemblyName>BeniceSoft.OpenAuthing.EntityFrameworkCore</AssemblyName>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LinkMore.Abp.EntityFrameworkCore" />
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
+        <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BeniceSoft.OpenAuthing.Domain\BeniceSoft.OpenAuthing.Domain.csproj" />
+    </ItemGroup>
+
+</Project>

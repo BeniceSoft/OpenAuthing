@@ -1,0 +1,32 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>netstandard2.1</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+    <PropertyGroup Condition=" '$(Configuration)' == 'Debug' ">
+        <DocumentationFile>bin\Debug\YaYa.BMS.AM.Application.Contarcts.xml</DocumentationFile>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BeniceSoft.OpenAuthing.Domain.Shared\BeniceSoft.OpenAuthing.Domain.Shared.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LinkMore.Abp.Ddd.Application.Contracts" />
+        <PackageReference Include="System.ComponentModel.Annotations" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Dtos\Roles\Requests" />
+      <Folder Include="Dtos\Roles\Responses" />
+      <Folder Include="Dtos\Users\Requests" />
+      <Folder Include="Dtos\Users\Responses\" />
+    </ItemGroup>
+
+</Project>

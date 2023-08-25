@@ -1,0 +1,25 @@
+{
+  "culture": "zh-CN",
+  "texts": {
+    "SignIn": "登录",
+    "UserName": "用户名",
+    "UsernamePlaceholder": "请输入用户名",
+    "Password": "密码",
+    "PasswordPlaceholder": "请输入密码",
+    "RememberMe": "记住我？",
+    "AccountIsLockedOut": "尝试登录次数太多，账号已被锁定",
+    "IncorrectUsernameOrPassword": "用户名或密码错误",
+    "PasswordComplexityNotSatisfied": "密码复杂度要求不符",
+    "PasswordRequiresDigit": "密码至少需要一位是0到9的数字",
+    "PasswordRequiresLower": "密码至少需要一位是a到z的小写字母",
+    "PasswordRequiresNonAlphanumeric": "密码至少需要包含一个特殊字符（非字母或数字的字符）",
+    "PasswordRequiresUpper": "密码至少需要一位是A到Z的大写字母",
+    "PasswordMismatch": "密码不匹配",
+    "DuplicateUserName": "用户名已经存在",
+    "PasswordRequiresUniqueChars": "密码需要唯一字符",
+    "PasswordTooShort": "密码长度过短，需要大于6位",
+    "InvalidUserName": "无效的用户名",
+    "NotAllowAdmin": "Admin账号不允许操作",
+    "SupportLoginWithTheFollowingExternalAccounts": "支持使用以下外部账号登录"
+  }
+}

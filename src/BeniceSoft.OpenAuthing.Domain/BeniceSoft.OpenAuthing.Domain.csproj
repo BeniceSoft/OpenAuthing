@@ -1,0 +1,26 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="..\..\common.props" />
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
+        <LangVersion>default</LangVersion>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="LinkMore.Abp.Auth.Core" />
+        <PackageReference Include="LinkMore.Abp.Ddd.Domain" />
+        <PackageReference Include="Mapster" />
+        <PackageReference Include="Microsoft.Extensions.Identity.Core" />
+        <PackageReference Include="OpenIddict.Core" />
+        <PackageReference Include="System.Linq.Async" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\BeniceSoft.OpenAuthing.Domain.Shared\BeniceSoft.OpenAuthing.Domain.Shared.csproj" />
+    </ItemGroup>
+
+
+</Project>
