@@ -1,6 +1,6 @@
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Requests;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Responses;
-using LinkMore.Abp.Extensions.DistributedLock.Abstractions;
+using BeniceSoft.Abp.Extensions.DistributedLock.Abstractions;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 

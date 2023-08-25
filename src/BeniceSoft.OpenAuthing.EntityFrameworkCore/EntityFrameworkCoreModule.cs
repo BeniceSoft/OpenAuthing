@@ -5,7 +5,7 @@ using BeniceSoft.OpenAuthing.OpenIddict.Tokens;
 using BeniceSoft.OpenAuthing.Repositories;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.UserGroups;
-using LinkMore.Abp.EntityFrameworkCore;
+using BeniceSoft.Abp.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -17,7 +17,7 @@ namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
     typeof(AbpEntityFrameworkCorePostgreSqlModule),
-    typeof(LinkMoreAbpEntityFrameworkCoreModule),
+    typeof(BeniceSoftAbpEntityFrameworkCoreModule),
     typeof(DomainModule)
 )]
 public class EntityFrameworkCoreModule : AbpModule

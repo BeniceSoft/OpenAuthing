@@ -1,7 +1,7 @@
 using System.Net;
 using BeniceSoft.OpenAuthing.Models.Accounts;
-using LinkMore.Abp.Core.Extensions;
-using LinkMore.Abp.Core.Models;
+using BeniceSoft.Abp.Core.Extensions;
+using BeniceSoft.Abp.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 

@@ -1,5 +1,5 @@
 ﻿using BeniceSoft.OpenAuthing.Roles;
-using LinkMore.Abp.Core.Attributes;
+using BeniceSoft.Abp.Core.Attributes;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

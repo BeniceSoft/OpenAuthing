@@ -11,7 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="LinkMore.Abp.EntityFrameworkCore" />
+        <PackageReference Include="BeniceSoft.Abp.EntityFrameworkCore" />
         <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" />
         <PackageReference Include="Volo.Abp.EntityFrameworkCore.PostgreSql" />
     </ItemGroup>

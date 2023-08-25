@@ -1,7 +1,7 @@
 import { defineConfig } from "umi";
 
 export default defineConfig({
-    title: 'LinkMore AM',
+    title: 'BeniceSoft OpenAuthing',
     mock: false,
     esbuildMinifyIIFE: true,
     proxy: {

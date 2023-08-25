@@ -1,6 +1,6 @@
 using System.Security.Claims;
+using BeniceSoft.Abp.Auth.Core;
 using BeniceSoft.OpenAuthing.Roles;
-using LinkMore.Abp.Auth.Core;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;
@@ -55,7 +55,7 @@ public class UserClaimsPrincipalFactory : IUserClaimsPrincipalFactory<User>, ISc
         id.AddClaim(new Claim(_options.ClaimsIdentity.UserIdClaimType, userId));
         id.AddClaim(new Claim(_options.ClaimsIdentity.UserNameClaimType, userName));
         id.AddClaim(new Claim(OpenIddictConstants.Claims.Name, user.Nickname));
-        id.AddClaim(new Claim(LinkMoreAuthConstants.ClaimTypes.Avatar, user.Avatar ?? string.Empty));
+        id.AddClaim(new Claim(BeniceSoftAuthConstants.ClaimTypes.Avatar, user.Avatar ?? string.Empty));
         id.AddClaim(new Claim(OpenIddictConstants.Claims.PhoneNumber, user.PhoneNumber ?? string.Empty));
         id.AddClaim(new Claim(OpenIddictConstants.Claims.Gender, user.Gender ?? string.Empty));
         id.AddClaim(new Claim(OpenIddictConstants.Claims.Nickname, user.Nickname));
@@ -65,7 +65,7 @@ public class UserClaimsPrincipalFactory : IUserClaimsPrincipalFactory<User>, ISc
         foreach (var role in roles)
         {
             id.AddClaim(OpenIddictConstants.Claims.Role, role.Name);
-            id.AddClaim(LinkMoreAuthConstants.ClaimTypes.RoleId, role.Id.ToString());
+            id.AddClaim(BeniceSoftAuthConstants.ClaimTypes.RoleId, role.Id.ToString());
         }
 
         if (_userManager.SupportsUserEmail)

@@ -14,7 +14,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="LinkMore.Abp.Ddd.Application" />
+        <PackageReference Include="BeniceSoft.Abp.Ddd.Application" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
         <PackageReference Include="Volo.Abp.AutoMapper" />

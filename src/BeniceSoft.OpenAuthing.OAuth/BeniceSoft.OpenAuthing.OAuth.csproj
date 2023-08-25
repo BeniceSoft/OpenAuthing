@@ -10,7 +10,7 @@
 
     <ItemGroup>
         <PackageReference Include="AspNet.Security.OAuth.Feishu" />
-        <PackageReference Include="LinkMore.OAuth.DingTalk" />
+        <PackageReference Include="BeniceSoft.OAuth.DingTalk" />
         <PackageReference Include="Volo.Abp.Core" />
     </ItemGroup>
 

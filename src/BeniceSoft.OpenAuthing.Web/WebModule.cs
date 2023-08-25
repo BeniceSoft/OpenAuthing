@@ -10,12 +10,12 @@ using BeniceSoft.OpenAuthing.OpenIddictExtensions;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions.ClaimDestinations;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.Users;
-using LinkMore.Abp.AspNetCore;
-using LinkMore.Abp.AspNetCore.Localizations;
-using LinkMore.Abp.AspNetCore.Middlewares;
-using LinkMore.Abp.Auth;
-using LinkMore.Abp.Auth.Core;
-using LinkMore.Abp.Auth.Extensions;
+using BeniceSoft.Abp.AspNetCore;
+using BeniceSoft.Abp.AspNetCore.Localizations;
+using BeniceSoft.Abp.AspNetCore.Middlewares;
+using BeniceSoft.Abp.Auth;
+using BeniceSoft.Abp.Auth.Core;
+using BeniceSoft.Abp.Auth.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -35,10 +35,10 @@ using Volo.Abp.Modularity;
 namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
-    typeof(LinkMoreAbpAspNetCoreModule),
+    typeof(BeniceSoftAbpAspNetCoreModule),
     typeof(AbpAutofacModule),
     typeof(AbpBlobStoringFileSystemModule),
-    typeof(LinkMoreAbpAuthModule),
+    typeof(BeniceSoftAbpAuthModule),
     typeof(EntityFrameworkCoreModule),
     typeof(ApplicationModule),
     typeof(RemoteServiceModule),
@@ -106,7 +106,7 @@ public class WebModule : AbpModule
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
 
-        app.UseLinkMoreRequestLocalization();
+        app.UseBeniceSoftRequestLocalization();
 
         app.UseDetection();
 
@@ -120,13 +120,13 @@ public class WebModule : AbpModule
         // 跨域
         app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-        app.UseLinkMoreExceptionHandlingMiddleware();
+        app.UseBeniceSoftExceptionHandlingMiddleware();
 
         // 身份验证
-        app.UseLinkMoreAuthentication();
+        app.UseBeniceSoftAuthentication();
 
         // 认证授权
-        app.UseLinkMoreAuthorization();
+        app.UseBeniceSoftAuthorization();
 
         app.UseAuditing();
         app.UseSwagger();
@@ -188,7 +188,7 @@ public class WebModule : AbpModule
             options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>();
         });
 
-        services.AddLinkMoreAuthentication();
+        services.AddBeniceSoftAuthentication();
 
         services
             .AddIdentity<User, Role>(options =>
@@ -243,8 +243,8 @@ public class WebModule : AbpModule
                     OpenIddictConstants.Claims.Nickname,
                     OpenIddictConstants.Claims.Role,
                     OpenIddictConstants.Claims.PhoneNumber,
-                    LinkMoreAuthConstants.ClaimTypes.Avatar,
-                    LinkMoreAuthConstants.ClaimTypes.RoleId
+                    BeniceSoftAuthConstants.ClaimTypes.Avatar,
+                    BeniceSoftAuthConstants.ClaimTypes.RoleId
                 );
 
                 // register scopes

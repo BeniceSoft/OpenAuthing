@@ -1,5 +1,5 @@
 ﻿using BeniceSoft.OpenAuthing.OpenIddictExtensions;
-using LinkMore.Abp.Core.Attributes;
+using BeniceSoft.Abp.Core.Attributes;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using OpenIddict.Abstractions;

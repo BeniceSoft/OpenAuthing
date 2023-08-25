@@ -1,4 +1,4 @@
-using LinkMore.Abp.Extensions.DynamicQuery.Abstractions.Model;
+using BeniceSoft.Abp.Extensions.DynamicQuery.Abstractions.Model;
 using Volo.Abp.Application.Dtos;
 
 namespace BeniceSoft.OpenAuthing.Dtos;

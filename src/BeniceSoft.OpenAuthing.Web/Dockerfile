@@ -15,27 +15,33 @@ RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.li
 WORKDIR /src
 COPY ["Directory.Packages.props", "Directory.Packages.props"]
 COPY ["NuGet.Config", "NuGet.Config"]
-COPY ["src/LinkMore.KA.AM.Web/LinkMore.KA.AM.Web.csproj", "src/LinkMore.KA.AM.Web/"]
-COPY ["src/LinkMore.KA.AM.Application/LinkMore.KA.AM.Application.csproj", "src/LinkMore.KA.AM.Application/"]
-COPY ["src/LinkMore.KA.AM.Application.Contracts/LinkMore.KA.AM.Application.Contracts.csproj", "src/LinkMore.KA.AM.Application.Contracts/"]
-COPY ["src/LinkMore.KA.AM.Domain.Shared/LinkMore.KA.AM.Domain.Shared.csproj", "src/LinkMore.KA.AM.Domain.Shared/"]
-COPY ["src/LinkMore.KA.AM.Domain/LinkMore.KA.AM.Domain.csproj", "src/LinkMore.KA.AM.Domain/"]
-COPY ["src/LinkMore.KA.AM.EntityFrameworkCore/LinkMore.KA.AM.EntityFrameworkCore.csproj", "src/LinkMore.KA.AM.EntityFrameworkCore/"]
-COPY ["src/LinkMore.KA.AM.RemoteService.Implements/LinkMore.KA.AM.RemoteService.Implements.csproj", "src/LinkMore.KA.AM.RemoteService.Implements/"]
-COPY ["src/LinkMore.KA.AM.RemoteService.Abstractions/LinkMore.KA.AM.RemoteService.Abstractions.csproj", "src/LinkMore.KA.AM.RemoteService.Abstractions/"]
-COPY ["src/LinkMore.KA.AM.OAuth/LinkMore.KA.AM.OAuth.csproj", "src/LinkMore.KA.AM.OAuth/"]
-COPY ["src/LinkMore.KA.AM.Web/ClientApp/package.json", "src/LinkMore.KA.AM.Web/ClientApp/"]
-RUN dotnet restore "src/LinkMore.KA.AM.Web/LinkMore.KA.AM.Web.csproj"
+COPY ["src/BeniceSoft.OpenAuthing.Web/BeniceSoft.OpenAuthing.Web.csproj", "src/BeniceSoft.OpenAuthing.Web/"]
+COPY ["src/BeniceSoft.OpenAuthing.Application/BeniceSoft.OpenAuthing.Application.csproj", "src/BeniceSoft.OpenAuthing.Application/"]
+COPY ["src/BeniceSoft.OpenAuthing.Application.Contracts/BeniceSoft.OpenAuthing.Application.Contracts.csproj", "src/BeniceSoft.OpenAuthing.Application
+.Contracts/"]
+COPY ["src/BeniceSoft.OpenAuthing.Domain.Shared/BeniceSoft.OpenAuthing.Domain.Shared.csproj", "src/BeniceSoft.OpenAuthing.Domain.Shared/"]
+COPY ["src/BeniceSoft.OpenAuthing.Domain/BeniceSoft.OpenAuthing.Domain.csproj", "src/BeniceSoft.OpenAuthing.Domain/"]
+COPY ["src/BeniceSoft.OpenAuthing.EntityFrameworkCore/BeniceSoft.OpenAuthing.EntityFrameworkCore.csproj", "src/BeniceSoft.OpenAuthing
+.EntityFrameworkCore/"]
+COPY ["src/BeniceSoft.OpenAuthing.RemoteService.Implements/BeniceSoft.OpenAuthing.RemoteService.Implements.csproj", "src/BeniceSoft.OpenAuthing
+.RemoteService
+.Implements/"]
+COPY ["src/BeniceSoft.OpenAuthing.RemoteService.Abstractions/BeniceSoft.OpenAuthing.RemoteService.Abstractions.csproj", "src/BeniceSoft.OpenAuthing
+.RemoteService
+.Abstractions/"]
+COPY ["src/BeniceSoft.OpenAuthing.OAuth/BeniceSoft.OpenAuthing.OAuth.csproj", "src/BeniceSoft.OpenAuthing.OAuth/"]
+COPY ["src/BeniceSoft.OpenAuthing.Web/ClientApp/package.json", "src/BeniceSoft.OpenAuthing.Web/ClientApp/"]
+RUN dotnet restore "src/BeniceSoft.OpenAuthing.Web/BeniceSoft.OpenAuthing.Web.csproj"
 COPY . .
-WORKDIR "/src/src/LinkMore.KA.AM.Web"
-RUN dotnet build "LinkMore.KA.AM.Web.csproj" -c Release -o /app/build
+WORKDIR "/src/src/BeniceSoft.OpenAuthing.Web"
+RUN dotnet build "BeniceSoft.OpenAuthing.Web.csproj" -c Release -o /app/build
 
 FROM build AS publish
-RUN dotnet publish "LinkMore.KA.AM.Web.csproj" -c Release -o /app/publish
+RUN dotnet publish "BeniceSoft.OpenAuthing.Web.csproj" -c Release -o /app/publish
 
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
 RUN ln -sf /usr/share/zoneinfo/Asia/Shanghai /etc/localtime
 RUN echo 'Asia/Shanghai' > /etc/timezone
-ENTRYPOINT ["dotnet", "LinkMore.KA.AM.Web.dll"]
+ENTRYPOINT ["dotnet", "BeniceSoft.OpenAuthing.Web.dll"]

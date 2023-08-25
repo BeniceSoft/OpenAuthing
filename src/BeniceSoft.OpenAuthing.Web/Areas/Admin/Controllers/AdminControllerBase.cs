@@ -3,7 +3,7 @@ using BeniceSoft.OpenAuthing.Departments;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.UserGroups;
 using BeniceSoft.OpenAuthing.Users;
-using LinkMore.Abp.Ddd.Domain;
+using BeniceSoft.Abp.Ddd.Domain;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;

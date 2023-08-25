@@ -16,7 +16,7 @@ public class DomainSharedModule : AbpModule
     {
         Configure<AbpVirtualFileSystemOptions>(options =>
         {
-            options.FileSets.AddEmbedded<DomainSharedModule>("LinkMore.KA.AM");
+            options.FileSets.AddEmbedded<DomainSharedModule>("BeniceSoft.OpenAuthing");
         });
 
         Configure<AbpLocalizationOptions>(options =>

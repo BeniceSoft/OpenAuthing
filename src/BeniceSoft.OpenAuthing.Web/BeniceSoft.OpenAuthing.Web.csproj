@@ -19,12 +19,12 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
-    <PropertyGroup Condition=" '$(RunConfiguration)' == 'LinkMore.KA.AM.Web' "/>
+    <PropertyGroup Condition=" '$(RunConfiguration)' == 'BeniceSoft.OpenAuthing.Web' "/>
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy"/>
         <PackageReference Include="AgileConfig.Client"/>
-        <PackageReference Include="LinkMore.Abp.AspNetCore"/>
-        <PackageReference Include="LinkMore.Abp.Auth"/>
+        <PackageReference Include="BeniceSoft.Abp.AspNetCore"/>
+        <PackageReference Include="BeniceSoft.Abp.Auth"/>
         <PackageReference Include="Microsoft.Extensions.PlatformAbstractions"/>
         <PackageReference Include="OpenIddict.Quartz"/>
         <PackageReference Include="OpenIddict.Server.AspNetCore"/>

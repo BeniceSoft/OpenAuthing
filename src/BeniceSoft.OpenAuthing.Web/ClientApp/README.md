@@ -1,4 +1,4 @@
-# LinkMore KA AM Web
+# OpenAuthing
 
 ## How to run?
 1. Install

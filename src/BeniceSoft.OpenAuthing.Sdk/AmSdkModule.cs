@@ -1,11 +1,11 @@
-using LinkMore.Abp.Http.Client;
+using BeniceSoft.Abp.Http.Client;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.Modularity;
 
 namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
-    typeof(LinkMoreAbpHttpClientModule)
+    typeof(BeniceSoftAbpHttpClientModule)
 )]
 public class AmSdkModule : AbpModule
 {

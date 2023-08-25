@@ -1,5 +1,5 @@
 using BeniceSoft.OpenAuthing.Models.Accounts;
-using LinkMore.Abp.Core.Extensions;
+using BeniceSoft.Abp.Core.Extensions;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

@@ -1,4 +1,4 @@
-using LinkMore.Abp.Ddd.Domain;
+using BeniceSoft.Abp.Ddd.Domain;
 
 namespace BeniceSoft.OpenAuthing.Misc;
 

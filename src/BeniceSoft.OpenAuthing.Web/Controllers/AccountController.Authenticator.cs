@@ -2,8 +2,8 @@ using System.Globalization;
 using System.Net;
 using System.Text;
 using BeniceSoft.OpenAuthing.Models.Accounts;
-using LinkMore.Abp.Core.Extensions;
-using LinkMore.Abp.Core.Models;
+using BeniceSoft.Abp.Core.Extensions;
+using BeniceSoft.Abp.Core.Models;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeniceSoft.OpenAuthing.Controllers;
@@ -75,7 +75,7 @@ public partial class AccountController
         return string.Format(
             CultureInfo.InvariantCulture,
             AuthenticatorUriFormat,
-            _urlEncoder.Encode("LinkMore KA AM"),
+            _urlEncoder.Encode("BeniceSoft OpenAuthing"),
             _urlEncoder.Encode(phoneNumber),
             unformattedKey);
     }

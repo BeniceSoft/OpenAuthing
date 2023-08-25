@@ -3,7 +3,7 @@ using BeniceSoft.OpenAuthing.OpenIddict.Applications;
 using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
 using BeniceSoft.OpenAuthing.OpenIddict.Scopes;
 using BeniceSoft.OpenAuthing.OpenIddict.Tokens;
-using LinkMore.Abp.Ddd.Domain;
+using BeniceSoft.Abp.Ddd.Domain;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Options;
 using Volo.Abp;
@@ -15,7 +15,7 @@ using Volo.Abp.Threading;
 namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
-    typeof(LinkMoreAbpDddDomainModule),
+    typeof(BeniceSoftAbpDddDomainModule),
     typeof(DomainSharedModule)
 )]
 public class DomainModule : AbpModule

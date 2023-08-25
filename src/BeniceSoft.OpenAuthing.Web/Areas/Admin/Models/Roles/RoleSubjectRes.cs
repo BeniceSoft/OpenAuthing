@@ -1,5 +1,5 @@
 using BeniceSoft.OpenAuthing.Enums;
-using LinkMore.Abp.Core.Extensions;
+using BeniceSoft.Abp.Core.Extensions;
 using Volo.Abp.Application.Dtos;
 
 namespace BeniceSoft.OpenAuthing.Areas.Admin.Models.Roles;

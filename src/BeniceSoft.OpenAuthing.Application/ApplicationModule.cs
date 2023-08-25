@@ -1,4 +1,4 @@
-using LinkMore.Abp.Ddd.Application;
+using BeniceSoft.Abp.Ddd.Application;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Modularity;
@@ -8,7 +8,7 @@ namespace BeniceSoft.OpenAuthing;
 [DependsOn(
     typeof(AbpAutoMapperModule),
     typeof(AbpBlobStoringModule),
-    typeof(LinkMoreAbpDddApplicationModule),
+    typeof(BeniceSoftAbpDddApplicationModule),
     typeof(DomainModule),
     typeof(ApplicationContractsModule)
 )]
