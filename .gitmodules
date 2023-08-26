@@ -1,0 +1,3 @@
+[submodule "AdminUI"]
+	path = AdminUI
+	url = https://github.com/BeniceSoft/OpenAuthing-AdminUI.git
