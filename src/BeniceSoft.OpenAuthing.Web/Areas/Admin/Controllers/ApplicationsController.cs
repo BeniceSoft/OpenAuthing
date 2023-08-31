@@ -1,46 +1,42 @@
+using BeniceSoft.OpenAuthing.Commands.Applications;
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Requests;
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Responses;
-using BeniceSoft.OpenAuthing.OpenIddict.Applications;
-using Mapster;
 using Microsoft.AspNetCore.Mvc;
-using Volo.Abp.Domain.Repositories;
 
 namespace BeniceSoft.OpenAuthing.Areas.Admin.Controllers;
 
+/// <summary>
+/// 应用
+/// </summary>
 public class ApplicationsController : AdminControllerBase
 {
-    private readonly IRepository<OpenIddictApplication, Guid> _applicationRepository;
-    private readonly IAmApplicationManager _applicationManager;
+    private readonly IApplicationQueries _applicationQueries;
 
-    public ApplicationsController(IRepository<OpenIddictApplication, Guid> applicationRepository,
-        IAmApplicationManager applicationManager)
+    public ApplicationsController(IApplicationQueries applicationQueries)
     {
-        _applicationRepository = applicationRepository;
-        _applicationManager = applicationManager;
+        _applicationQueries = applicationQueries;
     }
 
+    /// <summary>
+    /// 获取列表
+    /// </summary>
+    /// <param name="searchKey"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<List<QueryApplicationRes>> GetAsync(string? searchKey = null)
     {
-        var queryable = await _applicationRepository.GetQueryableAsync();
-        var application = await AsyncExecuter.ToListAsync(queryable
-            .WhereIf(!string.IsNullOrWhiteSpace(searchKey), x => x.DisplayName!.Contains(searchKey!))
-            .OrderByDescending(x => x.CreationTime));
-
-        return application.Adapt<List<QueryApplicationRes>>();
+        return await _applicationQueries.ListQueryAsync(searchKey);
     }
 
+    /// <summary>
+    /// 创建
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<Guid> PostAsync([FromBody] CreateApplicationReq req)
     {
-        var applicationDescriptor = new AmApplicationDescriptor
-        {
-            ClientId = req.ClientId,
-            DisplayName = req.DisplayName,
-            ClientType = req.ClientType
-        };
-        var application = (OpenIddictApplicationModel)await _applicationManager.CreateAsync(applicationDescriptor);
-
-        return application.Id;
+        var command = new CreateApplicationCommand(req.ClientId, req.DisplayName, req.ClientType);
+        return await Mediator.Send(command);
     }
 }

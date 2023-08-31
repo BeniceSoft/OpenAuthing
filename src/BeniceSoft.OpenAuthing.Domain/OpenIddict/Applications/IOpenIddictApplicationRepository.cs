@@ -2,7 +2,7 @@
 
 namespace BeniceSoft.OpenAuthing.OpenIddict.Applications;
 
-public interface IOpenIddictApplicationRepository : IBasicRepository<OpenIddictApplication, Guid>
+public interface IOpenIddictApplicationRepository : IReadOnlyRepository<OpenIddictApplication>, IBasicRepository<OpenIddictApplication, Guid>
 {
     Task<List<OpenIddictApplication>> GetListAsync(string sorting, int skipCount, int maxResultCount, string filter = null, CancellationToken cancellationToken = default);
 

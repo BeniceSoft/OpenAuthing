@@ -4,11 +4,19 @@ namespace BeniceSoft.OpenAuthing.Commands.Users;
 
 public class CreateUserCommand : IRequest<Guid>
 {
-    public string UserName { get; set; }
+    public CreateUserCommand(string userName, string phoneNumber, string password, bool phoneNumberConfirmed)
+    {
+        UserName = userName;
+        PhoneNumber = phoneNumber;
+        Password = password;
+        PhoneNumberConfirmed = phoneNumberConfirmed;
+    }
 
-    public string PhoneNumber { get; set; }
+    public string UserName { get; private set; }
 
-    public string Password { get; set; }
+    public string PhoneNumber { get; private set; }
 
-    public bool PhoneNumberConfirmed { get; set; }
+    public string Password { get; private set; }
+
+    public bool PhoneNumberConfirmed { get; private set; }
 }

@@ -1,9 +1,15 @@
 using MediatR;
-using Microsoft.AspNetCore.Http;
 
 namespace BeniceSoft.OpenAuthing.Commands.Users;
 
-public class UpdateUserAvatarCommand : IRequest<string>
+public class UpdateUserAvatarCommand : IRequest<bool>
 {
-    public IFormFile File { get; set; }
+    public UpdateUserAvatarCommand(Guid userId, string avatarFileUrl)
+    {
+        UserId = userId;
+        AvatarFileUrl = avatarFileUrl;
+    }
+
+    public Guid UserId { get; private set; }
+    public string AvatarFileUrl { get; private set; }
 }

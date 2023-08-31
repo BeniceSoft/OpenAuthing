@@ -1,5 +1,4 @@
-﻿using BeniceSoft.OpenAuthing.Areas.Admin.Models;
-using BeniceSoft.OpenAuthing.Areas.Admin.Models.Users;
+﻿using BeniceSoft.OpenAuthing.Areas.Admin.Models.Users;
 using BeniceSoft.OpenAuthing.Commands.Users;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Dtos.Users;
@@ -58,11 +57,12 @@ public class UsersController : AdminControllerBase
     /// <summary>
     /// 创建用户
     /// </summary>
-    /// <param name="command"></param>
+    /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<Guid> PostAsync([FromBody] CreateUserCommand command)
+    public async Task<Guid> PostAsync([FromBody] CreateUserReq req)
     {
+        var command = new CreateUserCommand(req.UserName, req.PhoneNumber, req.Password, req.PhoneNumberConfirmed);
         return await Mediator.Send(command);
     }
 
@@ -75,19 +75,15 @@ public class UsersController : AdminControllerBase
     [HttpPut("{id}/avatar")]
     public async Task<bool> UploadUserAvatarAsync(Guid id, [FromForm] UpdateUserAvatarReq req)
     {
-        var user = await UserRepository.GetAsync(id);
-
         await using var stream = req.File.OpenReadStream();
-        var fileName = Clock.Now.ToString("yyyyMMddHHmmss") + ".jpg";
-        var fullFileName = $"avatars/{user.Id}/{fileName}";
+        var fileName = GuidGenerator.Create().ToString("N") + ".jpg";
+        var fullFileName = $"avatars/{fileName}";
         await BlobContainer.SaveAsync(fullFileName, stream);
 
-        var avatar = $"/uploadFiles/host/default/{fullFileName}";
-        user.UpdateAvatar(avatar);
+        var avatarFileUrl = $"/uploadFiles/host/default/{fullFileName}";
 
-        await UserManager.UpdateAsync(user);
-
-        return true;
+        var command = new UpdateUserAvatarCommand(id, avatarFileUrl);
+        return await Mediator.Send(command);
     }
 
     /// <summary>

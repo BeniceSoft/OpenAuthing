@@ -1,4 +1,5 @@
-﻿using BeniceSoft.OpenAuthing.Commands.Departments;
+﻿using BeniceSoft.OpenAuthing.Areas.Admin.Models.Departments;
+using BeniceSoft.OpenAuthing.Commands.Departments;
 using BeniceSoft.OpenAuthing.Dtos.Departments;
 using Microsoft.AspNetCore.Mvc;
 
@@ -42,11 +43,12 @@ public partial class DepartmentsController : AdminControllerBase
     /// <summary>
     /// 创建组织/部门
     /// </summary>
-    /// <param name="command"></param>
+    /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
-    public async Task<Guid> PostAsync([FromBody] CreateDepartmentCommand command)
+    public async Task<Guid> PostAsync([FromBody] CreateDepartmentReq req)
     {
+        var command = new CreateDepartmentCommand(req.Code, req.Name, req.ParentId, req.Seq);
         return await Mediator.Send(command);
     }
 }

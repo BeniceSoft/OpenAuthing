@@ -33,21 +33,5 @@ public abstract class AdminControllerBase : AbpController
     
     protected IUserRepository UserRepository => LazyServiceProvider.LazyGetRequiredService<IUserRepository>();
     
-    protected IRoleRepository RoleRepository => LazyServiceProvider.LazyGetRequiredService<IRoleRepository>();
-    
-    protected IRepository<Department, Guid> DepartmentRepository => LazyServiceProvider.LazyGetRequiredService<IRepository<Department, Guid>>();
-    
-    protected IRepository<DepartmentMember> DepartmentMemberRepository => LazyServiceProvider.LazyGetRequiredService<IRepository<DepartmentMember>>();
-
-    protected IRepository<UserGroup, Guid> UserGroupRepository => LazyServiceProvider.LazyGetRequiredService<IRepository<UserGroup, Guid>>();
-
     protected IMediator Mediator => LazyServiceProvider.LazyGetRequiredService<IMediator>();
-    
-    protected void ThrowIfIdentityFailedResult(IdentityResult identityResult)
-    {
-        if (!identityResult.Succeeded)
-        {
-            throw new UserFriendlyException(identityResult.Errors.Select(x => x.Description).JoinAsString(";"));
-        }
-    }
 }

@@ -6,6 +6,9 @@ using Volo.Abp.Application.Dtos;
 
 namespace BeniceSoft.OpenAuthing.Areas.Admin.Controllers;
 
+/// <summary>
+/// 角色
+/// </summary>
 public partial class RolesController : AdminControllerBase
 {
     private readonly IRoleQueries _roleQueries;
@@ -15,6 +18,13 @@ public partial class RolesController : AdminControllerBase
         _roleQueries = roleQueries;
     }
 
+    /// <summary>
+    /// 分页查询
+    /// </summary>
+    /// <param name="searchKey"></param>
+    /// <param name="pageIndex"></param>
+    /// <param name="pageSize"></param>
+    /// <returns></returns>
     [HttpGet]
     public async Task<PagedResultDto<RoleSimpleRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20)
     {
@@ -27,12 +37,22 @@ public partial class RolesController : AdminControllerBase
         return await _roleQueries.PageQueryAsync(req);
     }
 
+    /// <summary>
+    /// 获取详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpGet("{id}")]
     public async Task<RoleDetailRes> GetAsync(Guid id)
     {
         return await _roleQueries.GetDetailAsync(id);
     }
 
+    /// <summary>
+    /// 创建
+    /// </summary>
+    /// <param name="req"></param>
+    /// <returns></returns>
     [HttpPost]
     public async Task<Guid> PostAsync([FromBody] InputRoleReq req)
     {
@@ -40,6 +60,12 @@ public partial class RolesController : AdminControllerBase
         return await Mediator.Send(command);
     }
 
+    /// <summary>
+    /// 更新
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="req"></param>
+    /// <returns></returns>
     [HttpPut("{id}")]
     public async Task<bool> PusAsync(Guid id, [FromBody] InputRoleReq req)
     {
@@ -47,6 +73,11 @@ public partial class RolesController : AdminControllerBase
         return await Mediator.Send(command);
     }
 
+    /// <summary>
+    /// 删除
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
     [HttpDelete("{id}")]
     public async Task<bool> DeleteAsync(Guid id)
     {
@@ -54,6 +85,12 @@ public partial class RolesController : AdminControllerBase
         return await Mediator.Send(command);
     }
 
+    /// <summary>
+    /// 修改启用状态
+    /// </summary>
+    /// <param name="id"></param>
+    /// <param name="enabled"></param>
+    /// <returns></returns>
     [HttpPut("{id}/toggle-enabled")]
     public async Task<bool> ToggleEnabled(Guid id, bool enabled)
     {
