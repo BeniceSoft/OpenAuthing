@@ -1,4 +1,4 @@
-namespace BeniceSoft.OpenAuthing.Areas.Admin.Models.Users;
+namespace BeniceSoft.OpenAuthing.Dtos.Users;
 
 public class UserRoleRes
 {

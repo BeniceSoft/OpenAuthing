@@ -25,8 +25,6 @@
     <ItemGroup>
       <Folder Include="Dtos\Roles\Requests" />
       <Folder Include="Dtos\Roles\Responses" />
-      <Folder Include="Dtos\Users\Requests" />
-      <Folder Include="Dtos\Users\Responses\" />
     </ItemGroup>
 
 </Project>

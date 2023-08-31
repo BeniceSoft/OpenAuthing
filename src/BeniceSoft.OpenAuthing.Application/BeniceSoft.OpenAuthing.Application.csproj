@@ -15,6 +15,7 @@
 
     <ItemGroup>
         <PackageReference Include="BeniceSoft.Abp.Ddd.Application" />
+        <PackageReference Include="FluentValidation.DependencyInjectionExtensions" />
         <PackageReference Include="MediatR" />
         <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" />
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
@@ -30,7 +31,8 @@
 
     <ItemGroup>
         <Folder Include="DomainEventHandlers\" />
-        <Folder Include="Validators\" />
+        <Folder Include="IntegrationEvents\EventHandling\" />
+        <Folder Include="IntegrationEvents\Events\" />
     </ItemGroup>
 
 </Project>

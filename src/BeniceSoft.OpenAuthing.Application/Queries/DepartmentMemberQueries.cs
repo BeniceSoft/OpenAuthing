@@ -1,7 +1,6 @@
 using BeniceSoft.OpenAuthing.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Departments;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
-using BeniceSoft.OpenAuthing.Extensions;
 using BeniceSoft.OpenAuthing.Users;
 using Mapster;
 using Volo.Abp.Application.Dtos;
@@ -95,7 +94,7 @@ public class DepartmentMemberQueries : BaseQueries, IDepartmentMemberQueries
                         IsMain = x.IsMain,
                         IsLeader = x.IsLeader
                     });
-                item.PhoneNumber = user.entity.PhoneNumber?.Mask(3, 4);
+                item.PhoneNumber = user.entity.PhoneNumber;
 
                 items.Add(item);
             }

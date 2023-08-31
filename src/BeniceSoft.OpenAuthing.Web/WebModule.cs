@@ -1,6 +1,5 @@
 using System.Security.Cryptography.X509Certificates;
 using BeniceSoft.OpenAuthing.BackgroundTasks;
-using BeniceSoft.OpenAuthing.Identity;
 using BeniceSoft.OpenAuthing.Localization;
 using BeniceSoft.OpenAuthing.OpenIddict.Applications;
 using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
@@ -24,7 +23,6 @@ using Microsoft.OpenApi.Models;
 using OpenIddict.Abstractions;
 using OpenIddict.Server;
 using Volo.Abp;
-using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.Autofac;
@@ -202,7 +200,6 @@ public class WebModule : AbpModule
 
                 options.SignIn.RequireConfirmedEmail = false;
             })
-            .AddSignInManager<AuditableSignInManager>()
             // asp.net core identity 2FA/MFA support
             // https://learn.microsoft.com/zh-cn/aspnet/core/security/authentication/mfa?view=aspnetcore-7.0#mfa-2fa
             .AddTokenProvider<AuthenticatorTokenProvider<User>>(TokenOptions.DefaultAuthenticatorProvider);

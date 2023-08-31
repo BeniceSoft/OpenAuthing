@@ -1,6 +1,8 @@
-namespace BeniceSoft.OpenAuthing.Areas.Admin.Models.Users;
+using MediatR;
 
-public class CreateUserReq
+namespace BeniceSoft.OpenAuthing.Commands.Users;
+
+public class CreateUserCommand : IRequest<Guid>
 {
     public string UserName { get; set; }
 

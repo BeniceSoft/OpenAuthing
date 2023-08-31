@@ -1,4 +1,6 @@
 using BeniceSoft.Abp.Ddd.Application;
+using BeniceSoft.OpenAuthing.Behaviors;
+using FluentValidation;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BlobStoring;
@@ -19,6 +21,14 @@ public class ApplicationModule : AbpModule
     {
         Configure<AbpAutoMapperOptions>(options => { options.AddMaps<ApplicationModule>(); });
 
-        context.Services.AddMediatR(config => { config.RegisterServicesFromAssemblyContaining<ApplicationModule>(); });
+        context.Services.AddMediatR(config =>
+        {
+            config.RegisterServicesFromAssemblyContaining<ApplicationModule>();
+
+            config.AddOpenBehavior(typeof(LoggingBehavior<,>));
+            config.AddOpenBehavior(typeof(ValidationBehavior<,>));
+        });
+
+        context.Services.AddValidatorsFromAssemblyContaining<ApplicationModule>();
     }
 }
