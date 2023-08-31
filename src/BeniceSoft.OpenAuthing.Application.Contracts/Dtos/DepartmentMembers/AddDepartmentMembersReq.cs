@@ -1,4 +1,4 @@
-namespace BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Requests;
+namespace BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 
 public class AddDepartmentMembersReq
 {

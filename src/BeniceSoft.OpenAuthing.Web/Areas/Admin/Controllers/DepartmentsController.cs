@@ -1,19 +1,20 @@
-﻿using BeniceSoft.OpenAuthing.Dtos.Departments.Requests;
+﻿using BeniceSoft.OpenAuthing.Commands.Departments;
+using BeniceSoft.OpenAuthing.Dtos.Departments;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeniceSoft.OpenAuthing.Areas.Admin.Controllers;
 
 /// <summary>
-/// 部门
+/// 组织/部门
 /// </summary>
 public partial class DepartmentsController : AdminControllerBase
 {
-    private readonly IDepartmentAppService _departmentAppService;
+    private readonly IDepartmentQueries _departmentQueries;
 
-    public DepartmentsController(IDepartmentAppService departmentAppService, IDepartmentMemberAppService departmentMemberAppService)
+    public DepartmentsController(IDepartmentQueries departmentQueries, IDepartmentMemberQueries departmentMemberQueries)
     {
-        _departmentAppService = departmentAppService;
-        _departmentMemberAppService = departmentMemberAppService;
+        _departmentQueries = departmentQueries;
+        _departmentMemberQueries = departmentMemberQueries;
     }
 
     /// <summary>
@@ -24,7 +25,7 @@ public partial class DepartmentsController : AdminControllerBase
     [HttpGet]
     public async Task<List<DepartmentDto>> GetAsync(Guid? parentId = null)
     {
-        return await _departmentAppService.GetByParentIdAsync(parentId);
+        return await _departmentQueries.GetByParentIdAsync(parentId);
     }
 
     /// <summary>
@@ -35,6 +36,17 @@ public partial class DepartmentsController : AdminControllerBase
     [HttpGet("{id}")]
     public async Task<DepartmentDto> GetAsync(Guid id)
     {
-        return await _departmentAppService.GetByIdAsync(id);
+        return await _departmentQueries.GetByIdAsync(id);
+    }
+
+    /// <summary>
+    /// 创建组织/部门
+    /// </summary>
+    /// <param name="command"></param>
+    /// <returns></returns>
+    [HttpPost]
+    public async Task<Guid> PostAsync([FromBody] CreateDepartmentCommand command)
+    {
+        return await Mediator.Send(command);
     }
 }

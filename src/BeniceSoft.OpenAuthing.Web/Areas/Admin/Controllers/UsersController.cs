@@ -1,5 +1,5 @@
 ﻿using BeniceSoft.OpenAuthing.Areas.Admin.Models.Users;
-using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Responses;
+using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Extensions;
 using BeniceSoft.OpenAuthing.Misc;
 using BeniceSoft.OpenAuthing.Users;

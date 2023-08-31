@@ -1,18 +1,14 @@
-﻿using BeniceSoft.OpenAuthing.Departments;
-using BeniceSoft.OpenAuthing.Dtos.Departments.Requests;
-using Volo.Abp;
+using BeniceSoft.OpenAuthing.Departments;
+using BeniceSoft.OpenAuthing.Dtos.Departments;
+using Volo.Abp.DependencyInjection;
 
-namespace BeniceSoft.OpenAuthing.Services.Departments;
+namespace BeniceSoft.OpenAuthing.Queries;
 
-/// <summary>
-/// 部门
-/// </summary>
-[RemoteService(IsMetadataEnabled = false)]
-public class DepartmentAppService : AmAppServiceBase, IDepartmentAppService
+public class DepartmentQueries : BaseQueries, IDepartmentQueries
 {
     private readonly DepartmentStore _departmentStore;
 
-    public DepartmentAppService(DepartmentStore departmentStore)
+    public DepartmentQueries(IAbpLazyServiceProvider lazyServiceProvider, DepartmentStore departmentStore) : base(lazyServiceProvider)
     {
         _departmentStore = departmentStore;
     }

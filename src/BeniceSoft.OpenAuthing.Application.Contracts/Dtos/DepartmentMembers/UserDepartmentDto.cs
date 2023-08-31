@@ -1,4 +1,4 @@
-namespace BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Responses;
+namespace BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 
 public class UserDepartmentDto
 {

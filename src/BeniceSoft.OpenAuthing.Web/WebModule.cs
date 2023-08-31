@@ -70,7 +70,7 @@ public class WebModule : AbpModule
                 container.IsMultiTenant = false;
                 container.UseFileSystem(fileSystem =>
                 {
-                    var filePath = Environment.CurrentDirectory + @"/wwwroot/uploadFiles";
+                    var filePath = Environment.CurrentDirectory + "/wwwroot/uploadFiles";
                     if (!Directory.Exists(filePath))
                     {
                         Directory.CreateDirectory(filePath);
@@ -81,12 +81,12 @@ public class WebModule : AbpModule
             });
         });
 
-        Configure<AbpAspNetCoreMvcOptions>(options =>
-        {
-            options
-                .ConventionalControllers
-                .Create(typeof(ApplicationModule).Assembly);
-        });
+        // Configure<AbpAspNetCoreMvcOptions>(options =>
+        // {
+        //     options
+        //         .ConventionalControllers
+        //         .Create(typeof(ApplicationModule).Assembly);
+        // });
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });

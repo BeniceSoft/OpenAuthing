@@ -1,6 +1,6 @@
 using Volo.Abp.Application.Dtos;
 
-namespace BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Responses;
+namespace BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 
 public class QueryDepartmentMembersRes : EntityDto<Guid>
 {

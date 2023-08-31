@@ -1,30 +1,28 @@
 using BeniceSoft.OpenAuthing.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Departments;
-using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Requests;
-using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Responses;
+using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Extensions;
 using BeniceSoft.OpenAuthing.Users;
 using Mapster;
-using Volo.Abp;
 using Volo.Abp.Application.Dtos;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 
-namespace BeniceSoft.OpenAuthing.Services.DepartmentMembers;
+namespace BeniceSoft.OpenAuthing.Queries;
 
-[RemoteService(IsMetadataEnabled = false)]
-public class DepartmentMemberAppService : AmAppServiceBase, IDepartmentMemberAppService
+public class DepartmentMemberQueries : BaseQueries, IDepartmentMemberQueries
 {
-    private readonly IUserRepository _userRepository;
     private readonly IRepository<DepartmentMember> _departmentMemberRepository;
     private readonly IRepository<Department, Guid> _departmentRepository;
+    private readonly IUserRepository _userRepository;
 
-    public DepartmentMemberAppService(IUserRepository userRepository,
-        IRepository<DepartmentMember> departmentMemberRepository,
-        IRepository<Department, Guid> departmentRepository)
+    public DepartmentMemberQueries(IAbpLazyServiceProvider lazyServiceProvider, IRepository<DepartmentMember> departmentMemberRepository,
+        IRepository<Department, Guid> departmentRepository, IUserRepository userRepository) : base(
+        lazyServiceProvider)
     {
-        _userRepository = userRepository;
         _departmentMemberRepository = departmentMemberRepository;
         _departmentRepository = departmentRepository;
+        _userRepository = userRepository;
     }
 
     public async Task<PagedResultDto<QueryDepartmentMembersRes>> QueryDepartmentMembersAsync(Guid departmentId, QueryDepartmentMembersReq req)
@@ -104,45 +102,5 @@ public class DepartmentMemberAppService : AmAppServiceBase, IDepartmentMemberApp
         }
 
         return new(totalCount, items);
-    }
-
-    public async Task<int> AddDepartmentMembersAsync(Guid departmentId, AddDepartmentMembersReq req)
-    {
-        var queryable = await _departmentMemberRepository.GetQueryableAsync();
-        var existedMembers = await QueryableWrapperFactory
-            .CreateWrapper(queryable
-                .Where(x => x.DepartmentId == departmentId)
-                .Where(x => req.UserIds.Contains(x.UserId)))
-            .ToListAsync();
-        var existedMemberIds = existedMembers.Select(x => x.UserId);
-
-        var newMembers = req.UserIds.Except(existedMemberIds)
-            .Select(userId => new DepartmentMember(departmentId, userId))
-            .ToList();
-
-        if (newMembers.Any())
-        {
-            await _departmentMemberRepository.InsertManyAsync(newMembers);
-        }
-
-        return newMembers.Count;
-    }
-
-    public async Task SetLeaderAsync(Guid departmentId, Guid userId, bool isLeader)
-    {
-        var departmentMember = await _departmentMemberRepository.GetAsync(x => x.DepartmentId == departmentId && x.UserId == userId);
-
-        departmentMember.SetLeader(isLeader);
-
-        await _departmentMemberRepository.UpdateAsync(departmentMember);
-    }
-
-    public async Task SetMainDepartmentAsync(Guid departmentId, Guid userId, bool isMain)
-    {
-        var departmentMember = await _departmentMemberRepository.GetAsync(x => x.DepartmentId == departmentId && x.UserId == userId);
-
-        departmentMember.SetMain(isMain);
-
-        await _departmentMemberRepository.UpdateAsync(departmentMember);
     }
 }

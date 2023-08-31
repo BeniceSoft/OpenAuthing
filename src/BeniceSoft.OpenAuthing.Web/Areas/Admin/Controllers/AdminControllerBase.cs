@@ -4,6 +4,7 @@ using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.UserGroups;
 using BeniceSoft.OpenAuthing.Users;
 using BeniceSoft.Abp.Ddd.Domain;
+using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
@@ -39,6 +40,8 @@ public abstract class AdminControllerBase : AbpController
     protected IRepository<DepartmentMember> DepartmentMemberRepository => LazyServiceProvider.LazyGetRequiredService<IRepository<DepartmentMember>>();
 
     protected IRepository<UserGroup, Guid> UserGroupRepository => LazyServiceProvider.LazyGetRequiredService<IRepository<UserGroup, Guid>>();
+
+    protected IMediator Mediator => LazyServiceProvider.LazyGetRequiredService<IMediator>();
     
     protected void ThrowIfIdentityFailedResult(IdentityResult identityResult)
     {

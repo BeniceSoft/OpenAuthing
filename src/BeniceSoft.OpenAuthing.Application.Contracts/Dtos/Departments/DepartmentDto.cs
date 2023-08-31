@@ -1,6 +1,6 @@
 ﻿using Volo.Abp.Application.Dtos;
 
-namespace BeniceSoft.OpenAuthing.Dtos.Departments.Requests;
+namespace BeniceSoft.OpenAuthing.Dtos.Departments;
 
 /// <summary>
 /// 

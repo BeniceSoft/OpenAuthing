@@ -1,5 +1,5 @@
-using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Requests;
-using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers.Responses;
+using BeniceSoft.OpenAuthing.Commands.DepartmentMembers;
+using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
 
@@ -7,7 +7,7 @@ namespace BeniceSoft.OpenAuthing.Areas.Admin.Controllers;
 
 public partial class DepartmentsController
 {
-    private readonly IDepartmentMemberAppService _departmentMemberAppService;
+    private readonly IDepartmentMemberQueries _departmentMemberQueries;
 
     /// <summary>
     /// 获取部门成员列表
@@ -21,7 +21,7 @@ public partial class DepartmentsController
     public async Task<PagedResultDto<QueryDepartmentMembersRes>> GetMemberAsync(Guid departmentId, bool onlyDirectUsers = false, int pageIndex = 1,
         int pageSize = 20)
     {
-        return await _departmentMemberAppService.QueryDepartmentMembersAsync(departmentId, new()
+        return await _departmentMemberQueries.QueryDepartmentMembersAsync(departmentId, new()
         {
             OnlyDirectUsers = onlyDirectUsers,
             SkipCount = (pageIndex - 1) * pageSize,
@@ -38,11 +38,16 @@ public partial class DepartmentsController
     [HttpPost("{departmentId}/members")]
     public async Task<int> PostMemberAsync(Guid departmentId, [FromBody] AddDepartmentMembersReq req)
     {
-        return await _departmentMemberAppService.AddDepartmentMembersAsync(departmentId, req);
+        var command = new AddDepartmentMembersCommand
+        {
+            DepartmentId = departmentId,
+            UserIds = req.UserIds
+        };
+        return await Mediator.Send(command);
     }
 
     /// <summary>
-    /// 设置部门成员为负责人
+    /// 设置/取消部门成员负责人
     /// </summary>
     /// <param name="departmentId"></param>
     /// <param name="userId"></param>
@@ -51,12 +56,17 @@ public partial class DepartmentsController
     [HttpPut("{departmentId}/members/{userId}/leader")]
     public async Task<bool> SetLeaderAsync(Guid departmentId, Guid userId, [FromQuery] bool isLeader)
     {
-        await _departmentMemberAppService.SetLeaderAsync(departmentId, userId, isLeader);
-        return true;
+        var command = new SetLeaderCommand
+        {
+            DepartmentId = departmentId,
+            UserId = userId,
+            IsLeader = isLeader
+        };
+        return await Mediator.Send(command);
     }
 
     /// <summary>
-    /// 设置部门成员主部门
+    /// 设置/取消部门成员主部门
     /// </summary>
     /// <param name="departmentId"></param>
     /// <param name="userId"></param>
@@ -65,7 +75,13 @@ public partial class DepartmentsController
     [HttpPut("{departmentId}/members/{userId}/main")]
     public async Task<bool> SetMainAsync(Guid departmentId, Guid userId, [FromQuery] bool isMain)
     {
-        await _departmentMemberAppService.SetMainDepartmentAsync(departmentId, userId, isMain);
-        return true;
+        var command = new SetMainDepartmentCommand
+        {
+            DepartmentId = departmentId,
+            UserId = userId,
+            IsMain = isMain
+        };
+
+        return await Mediator.Send(command);
     }
 }

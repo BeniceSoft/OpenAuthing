@@ -1,8 +1,8 @@
 ﻿using AutoMapper;
 using BeniceSoft.OpenAuthing.Departments;
-using BeniceSoft.OpenAuthing.Dtos.Departments.Requests;
+using BeniceSoft.OpenAuthing.Dtos.Departments;
 
-namespace BeniceSoft.OpenAuthing.Services.Departments;
+namespace BeniceSoft.OpenAuthing.Profiles;
 
 public class DepartmentAutoMapperProfile : Profile
 {
