@@ -1,8 +1,8 @@
-using BeniceSoft.OpenAuthing.Enums;
 using BeniceSoft.Abp.Core.Extensions;
+using BeniceSoft.OpenAuthing.Enums;
 using Volo.Abp.Application.Dtos;
 
-namespace BeniceSoft.OpenAuthing.Areas.Admin.Models.Roles;
+namespace BeniceSoft.OpenAuthing.Dtos.Roles;
 
 public class RoleSubjectRes : EntityDto<Guid>
 {

@@ -1,9 +1,8 @@
 using Volo.Abp.Application.Dtos;
-using Volo.Abp.Domain.Entities;
 
-namespace BeniceSoft.OpenAuthing.Areas.Admin.Models.UserGroups;
+namespace BeniceSoft.OpenAuthing.Dtos.UserGroups;
 
-public class GetUserGroupRes : Entity<Guid>
+public class GetUserGroupRes : EntityDto<Guid>
 {
     public string Name { get; set; }
 

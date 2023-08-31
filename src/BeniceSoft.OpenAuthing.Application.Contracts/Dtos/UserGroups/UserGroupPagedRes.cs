@@ -1,6 +1,6 @@
 using Volo.Abp.Application.Dtos;
 
-namespace BeniceSoft.OpenAuthing.Areas.Admin.Models.UserGroups;
+namespace BeniceSoft.OpenAuthing.Dtos.UserGroups;
 
 public class UserGroupPagedRes : EntityDto<Guid>
 {

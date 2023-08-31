@@ -1,8 +1,8 @@
-﻿using BeniceSoft.OpenAuthing.Areas.Admin.Models.Users;
+﻿using BeniceSoft.OpenAuthing.Areas.Admin.Models;
+using BeniceSoft.OpenAuthing.Areas.Admin.Models.Users;
 using BeniceSoft.OpenAuthing.Commands.Users;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Dtos.Users;
-using BeniceSoft.OpenAuthing.Users;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
 
@@ -73,7 +73,7 @@ public class UsersController : AdminControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPut("{id}/avatar")]
-    public async Task<bool> UploadUserAvatarAsync(Guid id, [FromForm] UploadUserAvatarReq req)
+    public async Task<bool> UploadUserAvatarAsync(Guid id, [FromForm] UpdateUserAvatarReq req)
     {
         var user = await UserRepository.GetAsync(id);
 

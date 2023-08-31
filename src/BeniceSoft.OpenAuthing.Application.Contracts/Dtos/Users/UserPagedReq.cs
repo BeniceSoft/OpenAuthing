@@ -1,12 +1,7 @@
 namespace BeniceSoft.OpenAuthing.Dtos.Users;
 
-public class UserPagedReq
+public class UserPagedReq : BaseQueryReq
 {
-    public string? SearchKey { get; set; }
-
-    public int PageIndex { get; set; }
-
-    public int PageSize { get; set; }
 
     public Guid? ExcludeDepartmentId { get; set; }
 

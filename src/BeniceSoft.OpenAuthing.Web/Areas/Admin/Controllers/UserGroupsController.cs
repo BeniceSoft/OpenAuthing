@@ -1,6 +1,4 @@
-using BeniceSoft.OpenAuthing.Areas.Admin.Models.UserGroups;
-using BeniceSoft.OpenAuthing.Misc;
-using Mapster;
+using BeniceSoft.OpenAuthing.Dtos.UserGroups;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
 
@@ -11,6 +9,13 @@ namespace BeniceSoft.OpenAuthing.Areas.Admin.Controllers;
 /// </summary>
 public class UserGroupsController : AdminControllerBase
 {
+    private readonly IUserGroupQueries _userGroupQueries;
+
+    public UserGroupsController(IUserGroupQueries userGroupQueries)
+    {
+        _userGroupQueries = userGroupQueries;
+    }
+
     /// <summary>
     /// 获取列表
     /// </summary>
@@ -21,25 +26,13 @@ public class UserGroupsController : AdminControllerBase
     [HttpGet]
     public async Task<PagedResultDto<UserGroupPagedRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20)
     {
-        var queryable = await UserGroupRepository.GetQueryableAsync();
-        var queryableWrapper = QueryableWrapperFactory.CreateWrapper(queryable)
-            .SearchByKey(searchKey, x => x.Name)
-            .AsNoTracking();
-
-        var totalCount = await queryableWrapper.CountAsync();
-        var items = new List<UserGroupPagedRes>();
-
-        if (totalCount > 0)
+        var req = new UserGroupPagedReq
         {
-            var userGroups = await queryableWrapper
-                .OrderByDescending(x => x.CreationTime)
-                .PagedBy(pageIndex, pageSize)
-                .ToListAsync();
-
-            items = userGroups.Adapt<List<UserGroupPagedRes>>();
-        }
-
-        return new(totalCount, items);
+            PageIndex = pageIndex,
+            PageSize = pageSize,
+            SearchKey = searchKey
+        };
+        return await _userGroupQueries.PageQueryAsync(req);
     }
 
     /// <summary>
@@ -50,24 +43,6 @@ public class UserGroupsController : AdminControllerBase
     [HttpGet("{id}")]
     public async Task<GetUserGroupRes> GetAsync(Guid id)
     {
-        var userGroup = await UserGroupRepository.GetAsync(id);
-        var userIds = userGroup.Members.Select(x => x.UserId).ToList();
-
-        var result = userGroup.Adapt<GetUserGroupRes>();
-
-        if (userIds.Any())
-        {
-            var userQueryable = await UserRepository.GetQueryableAsync();
-            result.Members = userQueryable
-                .Where(x => userIds.Contains(x.Id))
-                .Select(x => new UserGroupMemberRes
-                {
-                    Id = x.Id, Avatar = x.Avatar, UserName = x.UserName, Nickname = x.Nickname
-                })
-                .ToList();
-        }
-
-        return result;
+        return await _userGroupQueries.GetDetailAsync(id);
     }
-    
 }

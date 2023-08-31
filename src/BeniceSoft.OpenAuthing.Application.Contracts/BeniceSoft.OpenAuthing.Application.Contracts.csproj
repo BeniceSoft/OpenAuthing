@@ -22,9 +22,6 @@
         <PackageReference Include="System.ComponentModel.Annotations" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Dtos\Roles\Requests" />
-      <Folder Include="Dtos\Roles\Responses" />
-    </ItemGroup>
+
 
 </Project>

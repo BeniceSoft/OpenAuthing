@@ -1,6 +1,6 @@
 using Volo.Abp.Application.Dtos;
 
-namespace BeniceSoft.OpenAuthing.Areas.Admin.Models.Roles;
+namespace BeniceSoft.OpenAuthing.Dtos.Roles;
 
 public class RoleSimpleRes : EntityDto<Guid>
 {
