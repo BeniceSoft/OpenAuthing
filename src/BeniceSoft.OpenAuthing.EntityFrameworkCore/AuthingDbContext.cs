@@ -8,6 +8,7 @@ using BeniceSoft.OpenAuthing.OpenIddict.Applications;
 using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
 using BeniceSoft.OpenAuthing.OpenIddict.Scopes;
 using BeniceSoft.OpenAuthing.OpenIddict.Tokens;
+using BeniceSoft.OpenAuthing.PermissionSpaces;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.UserGroups;
 using BeniceSoft.OpenAuthing.Users;
@@ -18,9 +19,9 @@ using Volo.Abp.EntityFrameworkCore;
 namespace BeniceSoft.OpenAuthing;
 
 [ConnectionStringName("Default")]
-public class AmDbContext : AbpDbContext<AmDbContext>
+public class AuthingDbContext : AbpDbContext<AuthingDbContext>
 {
-    public AmDbContext(DbContextOptions<AmDbContext> options) : base(options)
+    public AuthingDbContext(DbContextOptions<AuthingDbContext> options) : base(options)
     {
     }
 
@@ -55,6 +56,8 @@ public class AmDbContext : AbpDbContext<AmDbContext>
 
     public virtual DbSet<ExternalIdentityProviderTemplate> ExternalIdentityProviderTemplates { get; set; }
     public virtual DbSet<ExternalIdentityProviderTemplateField> ExternalIdentityProviderTemplateFields { get; set; }
+    
+    public virtual DbSet<PermissionSpace> PermissionSpaces { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
@@ -68,5 +71,6 @@ public class AmDbContext : AbpDbContext<AmDbContext>
         modelBuilder.ConfigureDepartmentMemberAggregate();
         modelBuilder.ConfigureExternalIdentityProviderAggregate();
         modelBuilder.ConfigureExternalIdentityProviderTemplateAggregate();
+        modelBuilder.ConfigurePermissionSpaceAggregate();
     }
 }

@@ -7,7 +7,7 @@ using OpenIddict.Abstractions;
 
 namespace BeniceSoft.OpenAuthing.Controllers;
 
-public abstract class AmOpenIddictControllerBase : AmControllerBase
+public abstract class AuthOpenIddictControllerBase : AuthControllerBase
 {
     protected IOpenIddictApplicationManager ApplicationManager => LazyServiceProvider.LazyGetRequiredService<IOpenIddictApplicationManager>();
     protected IOpenIddictAuthorizationManager AuthorizationManager => LazyServiceProvider.LazyGetRequiredService<IOpenIddictAuthorizationManager>();

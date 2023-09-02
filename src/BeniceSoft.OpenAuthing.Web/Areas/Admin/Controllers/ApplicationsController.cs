@@ -1,6 +1,7 @@
 using BeniceSoft.OpenAuthing.Commands.Applications;
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Requests;
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Responses;
+using BeniceSoft.OpenAuthing.Queries;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeniceSoft.OpenAuthing.Areas.Admin.Controllers;

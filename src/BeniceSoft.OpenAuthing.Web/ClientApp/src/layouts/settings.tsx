@@ -41,7 +41,9 @@ const Header = ({
 
     return (
         <div className="w-full h-[64px] border-b bg-white text-black flex items-center justify-between px-4 lg:px-8">
-            <Link className="text-base font-bold tracking-wide text-blue-600 dark:text-gray-100" to="/">LinkMore AM</Link>
+            <Link className="text-base font-bold tracking-wide text-blue-600 dark:text-gray-100" to="/">
+                OpenAuthing
+            </Link>
             <div className="flex items-center text-gray-600 hover:text-gray-800 transition-colors gap-x-6 text-sm">
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild={true}>

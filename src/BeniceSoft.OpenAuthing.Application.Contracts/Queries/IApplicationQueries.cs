@@ -1,7 +1,7 @@
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Responses;
 using Volo.Abp.DependencyInjection;
 
-namespace BeniceSoft.OpenAuthing;
+namespace BeniceSoft.OpenAuthing.Queries;
 
 public interface IApplicationQueries : ITransientDependency
 {

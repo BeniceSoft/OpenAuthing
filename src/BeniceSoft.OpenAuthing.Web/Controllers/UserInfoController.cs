@@ -12,7 +12,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 [IgnoreAntiforgeryToken]
 [Authorize(AuthenticationSchemes = OpenIddictServerAspNetCoreDefaults.AuthenticationScheme)]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class UserInfoController : AmOpenIddictControllerBase
+public class UserInfoController : AuthOpenIddictControllerBase
 {
     [HttpGet, HttpPost, Produces("application/json"), IgnoreJsonFormat]
     public virtual async Task<IActionResult> Userinfo()

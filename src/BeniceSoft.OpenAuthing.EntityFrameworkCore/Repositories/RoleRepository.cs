@@ -6,9 +6,9 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace BeniceSoft.OpenAuthing.Repositories;
 
-public class RoleRepository : EfCoreRepository<AmDbContext, Role, Guid>, IRoleRepository
+public class RoleRepository : EfCoreRepository<AuthingDbContext, Role, Guid>, IRoleRepository
 {
-    public RoleRepository(IDbContextProvider<AmDbContext> dbContextProvider) : base(dbContextProvider)
+    public RoleRepository(IDbContextProvider<AuthingDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
 

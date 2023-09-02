@@ -1,6 +1,7 @@
 using BeniceSoft.OpenAuthing.Areas.Admin.Models.Roles;
 using BeniceSoft.OpenAuthing.Commands.Roles;
 using BeniceSoft.OpenAuthing.Dtos.Roles;
+using BeniceSoft.OpenAuthing.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
 

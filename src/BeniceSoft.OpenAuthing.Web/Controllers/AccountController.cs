@@ -12,7 +12,7 @@ using Volo.Abp.Domain.Repositories;
 namespace BeniceSoft.OpenAuthing.Controllers;
 
 [Authorize]
-public partial class AccountController : AmControllerBase
+public partial class AccountController : AuthControllerBase
 {
     private readonly ILogger<AccountController> _logger;
     private readonly UrlEncoder _urlEncoder;

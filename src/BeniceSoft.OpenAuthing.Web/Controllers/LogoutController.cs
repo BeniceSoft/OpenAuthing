@@ -6,7 +6,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 
 [Route("connect/logout")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class LogoutController : AmOpenIddictControllerBase
+public class LogoutController : AuthOpenIddictControllerBase
 {
     [HttpGet]
     public virtual async Task<IActionResult> GetAsync()

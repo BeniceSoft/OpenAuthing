@@ -11,7 +11,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 
 [Route("connect/authorize")]
 [ApiExplorerSettings(IgnoreApi = true)]
-public class AuthorizeController : AmOpenIddictControllerBase
+public class AuthorizeController : AuthOpenIddictControllerBase
 {
     [HttpGet, HttpPost]
     [IgnoreAntiforgeryToken]

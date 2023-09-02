@@ -20,7 +20,10 @@
     <ItemGroup>
         <PackageReference Include="BeniceSoft.Abp.Ddd.Application.Contracts" />
         <PackageReference Include="System.ComponentModel.Annotations" />
+
+
     </ItemGroup>
+
 
 
 

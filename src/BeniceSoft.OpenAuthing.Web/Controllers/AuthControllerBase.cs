@@ -6,13 +6,14 @@ using Volo.Abp.AspNetCore.Mvc;
 
 namespace BeniceSoft.OpenAuthing.Controllers;
 
+[ApiExplorerSettings(GroupName = "auth")]
 [Route("api/[controller]/[action]")]
-public abstract class AmControllerBase : AbpController
+public abstract class AuthControllerBase : AbpController
 {
     protected SignInManager<User> SignInManager => LazyServiceProvider.LazyGetRequiredService<SignInManager<User>>();
     protected UserManager UserManager => LazyServiceProvider.LazyGetRequiredService<UserManager>();
 
-    protected AmControllerBase()
+    protected AuthControllerBase()
     {
         LocalizationResource = typeof(AMResource);
     }

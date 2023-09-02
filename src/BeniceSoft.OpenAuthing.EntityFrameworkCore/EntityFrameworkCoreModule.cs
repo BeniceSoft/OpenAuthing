@@ -24,7 +24,7 @@ public class EntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddAbpDbContext<AmDbContext>(options =>
+        context.Services.AddAbpDbContext<AuthingDbContext>(options =>
         {
             /* Remove "includeAllEntities: true" to create
              * default repositories only for aggregate roots */
@@ -38,7 +38,7 @@ public class EntityFrameworkCoreModule : AbpModule
 
         Configure<AbpDbContextOptions>(options =>
         {
-            options.Configure<AmDbContext>(ctx =>
+            options.Configure<AuthingDbContext>(ctx =>
             {
                 ctx.UseNpgsql();
 #if DEBUG

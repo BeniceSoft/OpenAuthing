@@ -1,7 +1,7 @@
 using BeniceSoft.OpenAuthing.Dtos.Departments;
 using Volo.Abp.DependencyInjection;
 
-namespace BeniceSoft.OpenAuthing;
+namespace BeniceSoft.OpenAuthing.Queries;
 
 public interface IDepartmentQueries : ITransientDependency
 {

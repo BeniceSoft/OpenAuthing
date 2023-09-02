@@ -1,4 +1,5 @@
 using BeniceSoft.OpenAuthing.Dtos.UserGroups;
+using BeniceSoft.OpenAuthing.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
 

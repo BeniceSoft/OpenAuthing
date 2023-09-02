@@ -1,5 +1,6 @@
 using BeniceSoft.OpenAuthing.Commands.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
+using BeniceSoft.OpenAuthing.Queries;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Application.Dtos;
 

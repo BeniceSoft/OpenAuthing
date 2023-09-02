@@ -6,9 +6,9 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace BeniceSoft.OpenAuthing.Repositories;
 
-public class EfCoreOpenIddictAuthorizationRepository : EfCoreRepository<AmDbContext, OpenIddictAuthorization, Guid>, IOpenIddictAuthorizationRepository
+public class EfCoreOpenIddictAuthorizationRepository : EfCoreRepository<AuthingDbContext, OpenIddictAuthorization, Guid>, IOpenIddictAuthorizationRepository
 {
-    public EfCoreOpenIddictAuthorizationRepository(IDbContextProvider<AmDbContext> dbContextProvider)
+    public EfCoreOpenIddictAuthorizationRepository(IDbContextProvider<AuthingDbContext> dbContextProvider)
         : base(dbContextProvider)
     {
 

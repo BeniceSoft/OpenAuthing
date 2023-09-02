@@ -3,7 +3,7 @@ using BeniceSoft.OpenAuthing.Dtos.Users;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
 
-namespace BeniceSoft.OpenAuthing;
+namespace BeniceSoft.OpenAuthing.Queries;
 
 public interface IUserQueries : ITransientDependency
 {

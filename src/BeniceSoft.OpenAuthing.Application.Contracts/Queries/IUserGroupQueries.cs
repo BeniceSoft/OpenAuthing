@@ -2,7 +2,7 @@ using BeniceSoft.OpenAuthing.Dtos.UserGroups;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
 
-namespace BeniceSoft.OpenAuthing;
+namespace BeniceSoft.OpenAuthing.Queries;
 
 public interface IUserGroupQueries : ITransientDependency
 {

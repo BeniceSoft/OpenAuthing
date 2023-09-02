@@ -10,7 +10,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 [Route("connect/token")]
 [IgnoreAntiforgeryToken]
 [ApiExplorerSettings(IgnoreApi = true)]
-public partial class TokenController : AmOpenIddictControllerBase
+public partial class TokenController : AuthOpenIddictControllerBase
 {
     [HttpGet, HttpPost, Produces("application/json"), IgnoreJsonFormat]
     public virtual async Task<IActionResult> HandleAsync()

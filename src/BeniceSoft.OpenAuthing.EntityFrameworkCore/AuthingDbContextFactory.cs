@@ -4,16 +4,16 @@ using Microsoft.Extensions.Configuration;
 
 namespace BeniceSoft.OpenAuthing;
 
-public class AmDbContextFactory : IDesignTimeDbContextFactory<AmDbContext>
+public class AuthingDbContextFactory : IDesignTimeDbContextFactory<AuthingDbContext>
 {
-    public AmDbContext CreateDbContext(string[] args)
+    public AuthingDbContext CreateDbContext(string[] args)
     {
         var configuration = BuildConfiguration();
 
-        var builder = new DbContextOptionsBuilder<AmDbContext>()
+        var builder = new DbContextOptionsBuilder<AuthingDbContext>()
             .UseNpgsql(configuration.GetConnectionString("Default"));
 
-        return new AmDbContext(builder.Options);
+        return new AuthingDbContext(builder.Options);
     }
 
     private static IConfigurationRoot BuildConfiguration()

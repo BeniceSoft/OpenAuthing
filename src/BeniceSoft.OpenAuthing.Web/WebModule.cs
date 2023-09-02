@@ -78,6 +78,11 @@ public class WebModule : AbpModule
                 });
             });
         });
+        
+        Configure<RouteOptions>(options =>
+        {
+            options.LowercaseUrls = true;
+        });
 
         // Configure<AbpAspNetCoreMvcOptions>(options =>
         // {
@@ -128,7 +133,11 @@ public class WebModule : AbpModule
 
         app.UseAuditing();
         app.UseSwagger();
-        app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1/swagger.json", "YaYa BMS AM API"); });
+        app.UseSwaggerUI(options =>
+        {
+            options.SwaggerEndpoint("/swagger/admin/swagger.json", "OpenAuthing Admin API");
+            options.SwaggerEndpoint("/swagger/auth/swagger.json", "OpenAuthing Auth API");
+        });
 
         // 路由映射
         app.UseConfiguredEndpoints(builder =>
@@ -146,8 +155,9 @@ public class WebModule : AbpModule
     {
         services.AddSwaggerGen(options =>
         {
-            options.SwaggerDoc("v1", new OpenApiInfo { Title = "AM API", Version = "0.1" });
-            options.DocInclusionPredicate((doc, description) => true);
+            options.SwaggerDoc("auth", new OpenApiInfo { Title = "OpenAuthing Auth API", Version = "1.0" });
+            options.SwaggerDoc("admin", new OpenApiInfo { Title = "OpenAuthing Admin API", Version = "1.0" });
+            // options.DocInclusionPredicate((doc, description) => true);
             options.CustomSchemaIds(type => type.FullName);
             foreach (var item in GetXmlCommentsFilePath())
             {

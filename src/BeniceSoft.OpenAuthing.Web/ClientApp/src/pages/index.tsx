@@ -23,7 +23,7 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                         <div className="flex items-center md:gap-x-12">
                             <Link aria-label="Home" to="/#">
                                 <h1 className="text-center text-lg font-bold tracking-wide text-blue-600 dark:text-gray-100">
-                                    LinkMore AM
+                                    OpenAuthing
                                 </h1>
                             </Link>
                             <div className="hidden md:flex md:gap-x-6">
@@ -98,7 +98,7 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
             <footer className="border-t py-8">
                 <div className="mx-auto container">
                     <p className="flex items-center justify-center text-sm text-gray-400 gap-x-2">
-                        <Copyright className="w-4 h-4" />LinkMore AM
+                        <Copyright className="w-4 h-4" />BeniceSoft
                     </p>
                 </div>
             </footer>

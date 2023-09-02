@@ -6,9 +6,9 @@ using Volo.Abp.EntityFrameworkCore;
 
 namespace BeniceSoft.OpenAuthing.Repositories;
 
-public class UserRepository : EfCoreRepository<AmDbContext, User, Guid>, IUserRepository
+public class UserRepository : EfCoreRepository<AuthingDbContext, User, Guid>, IUserRepository
 {
-    public UserRepository(IDbContextProvider<AmDbContext> dbContextProvider) : base(dbContextProvider)
+    public UserRepository(IDbContextProvider<AuthingDbContext> dbContextProvider) : base(dbContextProvider)
     {
     }
 
