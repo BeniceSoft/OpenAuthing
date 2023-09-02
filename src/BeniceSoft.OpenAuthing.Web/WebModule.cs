@@ -1,5 +1,4 @@
 using System.Security.Cryptography.X509Certificates;
-using BeniceSoft.OpenAuthing.BackgroundTasks;
 using BeniceSoft.OpenAuthing.Localization;
 using BeniceSoft.OpenAuthing.OpenIddict.Applications;
 using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
@@ -97,11 +96,6 @@ public class WebModule : AbpModule
         ConfigureOpenIddict(context.Services);
 
         context.Services.AddDetection();
-
-        context.Services
-            .AddHostedService<InitOpenIddictConfigurationBackgroundTask>()
-            .AddHostedService<InitIdentityConfigurationBackgroundTask>()
-            .AddHostedService<InitializeConfiguredExternalIdPsBackgroundTask>();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)

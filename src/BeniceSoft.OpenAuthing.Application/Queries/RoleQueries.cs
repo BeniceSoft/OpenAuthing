@@ -1,6 +1,7 @@
 using BeniceSoft.OpenAuthing.Dtos.Roles;
 using BeniceSoft.OpenAuthing.Enums;
 using BeniceSoft.OpenAuthing.Misc;
+using BeniceSoft.OpenAuthing.PermissionSpaces;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.UserGroups;
 using BeniceSoft.OpenAuthing.Users;
@@ -17,20 +18,31 @@ public class RoleQueries : BaseQueries, IRoleQueries
     private readonly IRepository<RoleSubject, Guid> _roleSubjectRepository;
     private readonly IUserRepository _userRepository;
     private readonly IRepository<UserGroup, Guid> _userGroupRepository;
+    private readonly IRepository<PermissionSpace, Guid> _spaceRepository;
 
     public RoleQueries(IAbpLazyServiceProvider lazyServiceProvider, IRoleRepository roleRepository,
-        IRepository<RoleSubject, Guid> roleSubjectRepository, IUserRepository userRepository, IRepository<UserGroup, Guid> userGroupRepository)
+        IRepository<RoleSubject, Guid> roleSubjectRepository, IUserRepository userRepository, IRepository<UserGroup, Guid> userGroupRepository, IRepository<PermissionSpace, Guid> spaceRepository)
         : base(lazyServiceProvider)
     {
         _roleRepository = roleRepository;
         _roleSubjectRepository = roleSubjectRepository;
         _userRepository = userRepository;
         _userGroupRepository = userGroupRepository;
+        _spaceRepository = spaceRepository;
     }
 
     public async Task<PagedResultDto<RoleSimpleRes>> PageQueryAsync(RolePageQueryReq req)
     {
-        var queryable = await _roleRepository.GetQueryableAsync();
+        var roleQueryable = await _roleRepository.GetQueryableAsync();
+        var spaceQueryable = await _spaceRepository.GetQueryableAsync();
+        var queryable =
+            from role in roleQueryable
+            join space in spaceQueryable on role.PermissionSpaceId equals space.Id
+            select new
+            {
+                role.Id, role.Name, role.DisplayName, role.Description, role.CreationTime, role.Enabled, role.IsSystemBuiltIn,
+                PermissionSpaceName = space.DisplayName
+            };
         var queryableWrapper = QueryableWrapperFactory.CreateWrapper(queryable)
             .SearchByKey(req.SearchKey, x => x.Name, x => x.DisplayName)
             .AsNoTracking();

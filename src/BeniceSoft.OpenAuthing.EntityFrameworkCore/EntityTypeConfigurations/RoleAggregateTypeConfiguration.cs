@@ -65,7 +65,12 @@ internal static class RoleAggregateTypeConfiguration
             .IsRequired()
             .HasDefaultValue(false)
             .HasComment("是否系统内置");
+        builder.Property(x => x.PermissionSpaceId)
+            .IsRequired()
+            .HasComment("所属权限空间");
 
         builder.Metadata.FindNavigation(nameof(Role.Subjects))?.SetPropertyAccessMode(PropertyAccessMode.Field);
+
+        builder.HasIndex(x => x.PermissionSpaceId);
     }
 }

@@ -57,7 +57,7 @@ public partial class RolesController : AdminControllerBase
     [HttpPost]
     public async Task<Guid> PostAsync([FromBody] InputRoleReq req)
     {
-        var command = new CreateRoleCommand(req.Name, req.DisplayName, req.Description ?? string.Empty);
+        var command = new CreateRoleCommand(req.Name, req.DisplayName, req.Description ?? string.Empty, req.PermissionSpaceId);
         return await Mediator.Send(command);
     }
 

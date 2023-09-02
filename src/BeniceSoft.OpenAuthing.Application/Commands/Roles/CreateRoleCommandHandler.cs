@@ -20,7 +20,7 @@ public class CreateRoleCommandHandler
 
     public async Task<Guid> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = new Role(_guidGenerator.Create(), request.Name, request.DisplayName, request.Description);
+        var role = new Role(_guidGenerator.Create(), request.Name, request.DisplayName, request.Description, request.PermissionSpaceId);
         var result = await _roleManager.CreateAsync(role);
         
         if (!result.Succeeded)

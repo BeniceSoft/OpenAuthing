@@ -13,4 +13,6 @@ public class RoleSimpleRes : EntityDto<Guid>
     public bool Enabled { get; set; }
 
     public bool IsSystemBuiltIn { get; set; }
+    
+    public string PermissionSpaceName { get; set; }
 }

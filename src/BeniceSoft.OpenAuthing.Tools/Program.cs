@@ -36,21 +36,21 @@ public class Program
 
     static int RunCertificateAndReturnExitCode(CertificateOptions options)
     {
-        GenerateCertificatePfxFile(new X500DistinguishedName("CN=Fabrikam Encryption Certificate"), "encryption-certificate.pfx");
+        GenerateCertificatePfxFile(new X500DistinguishedName("CN=Fabrikam Encryption Certificate"),X509KeyUsageFlags.KeyEncipherment, "encryption-certificate.pfx");
         Console.WriteLine("encryption-certificate.pfx generated!");
 
-        GenerateCertificatePfxFile(new X500DistinguishedName("CN=Fabrikam Signing Certificate"), "signing-certificate.pfx");
+        GenerateCertificatePfxFile(new X500DistinguishedName("CN=Fabrikam Signing Certificate"), X509KeyUsageFlags.DigitalSignature,"signing-certificate.pfx");
         Console.WriteLine("signing-certificate.pfx generated!");
 
         return 0;
     }
 
-    static void GenerateCertificatePfxFile(X500DistinguishedName subjectName, string path)
+    static void GenerateCertificatePfxFile(X500DistinguishedName subjectName, X509KeyUsageFlags keyUsage, string path)
     {
         using var algorithm = RSA.Create(keySizeInBits: 2048);
 
         var request = new CertificateRequest(subjectName, algorithm, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
-        request.CertificateExtensions.Add(new X509KeyUsageExtension(X509KeyUsageFlags.KeyEncipherment, critical: true));
+        request.CertificateExtensions.Add(new X509KeyUsageExtension(keyUsage, critical: true));
 
         var certificate = request.CreateSelfSigned(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddYears(2));
 

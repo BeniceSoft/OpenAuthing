@@ -40,6 +40,11 @@ public class Role : FullAuditedAggregateRoot<Guid>
     public bool IsSystemBuiltIn { get; private set; }
 
     /// <summary>
+    /// 所属权限空间
+    /// </summary>
+    public Guid PermissionSpaceId { get; private set; }
+
+    /// <summary>
     /// 主体
     /// </summary>
     public IReadOnlyCollection<RoleSubject> Subjects => _subjects;
@@ -51,12 +56,13 @@ public class Role : FullAuditedAggregateRoot<Guid>
         _subjects = new();
     }
 
-    public Role(Guid id, string name, string displayName, string description, bool enabled = true, bool isSystemBuiltIn = false)
+    public Role(Guid id, string name, string displayName, string description, Guid permissionSpaceId, bool enabled = true, bool isSystemBuiltIn = false)
         : this(id)
     {
         Name = name;
         DisplayName = displayName;
         Description = description;
+        PermissionSpaceId = permissionSpaceId;
         Enabled = enabled;
         IsSystemBuiltIn = isSystemBuiltIn;
     }

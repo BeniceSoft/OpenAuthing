@@ -871,7 +871,13 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .HasColumnType("character varying(200)")
                         .HasComment("归一化后的角色名");
 
+                    b.Property<Guid>("PermissionSpaceId")
+                        .HasColumnType("uuid")
+                        .HasComment("所属权限空间");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("PermissionSpaceId");
 
                     b.ToTable("AM_Roles", null, t =>
                         {

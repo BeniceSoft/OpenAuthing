@@ -76,7 +76,7 @@ const Login: React.FC<LoginProps> = (props: LoginProps) => {
                 </div>
                 <div className="w-full h-full px-8">
                     <div className="text-center p-10 pt-14">
-                        <h1 className="text-3xl">LinkMore AM</h1>
+                        <h1 className="text-3xl">OpenAuthing</h1>
                     </div>
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <label className="block">
