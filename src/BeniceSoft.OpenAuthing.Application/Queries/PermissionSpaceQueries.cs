@@ -1,7 +1,6 @@
 using BeniceSoft.OpenAuthing.Dtos.PermissionSpaces;
-using BeniceSoft.OpenAuthing.Misc;
 using BeniceSoft.OpenAuthing.PermissionSpaces;
-using Volo.Abp.Application.Dtos;
+using Mapster;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 
@@ -17,30 +16,28 @@ public class PermissionSpaceQueries : BaseQueries, IPermissionSpaceQueries
         _spaceRepository = spaceRepository;
     }
 
-    public async Task<PagedResultDto<PagedPermissionSpaceRes>> PagedListAsync(PagedPermissionSpaceReq req)
+    public async Task<List<ListPermissionSpaceRes>> ListAllAsync(ListPermissionSpaceReq req)
     {
         var queryable =
             from space in await _spaceRepository.GetQueryableAsync()
             orderby space.CreationTime descending
-            select new PagedPermissionSpaceRes
+            select new ListPermissionSpaceRes
             {
                 Id = space.Id,
                 Name = space.Name,
                 DisplayName = space.DisplayName,
-                Description = space.Description
+                Description = space.Description,
+                IsSystemBuiltIn = space.IsSystemBuiltIn
             };
         var queryableWrapper = QueryableWrapperFactory.CreateWrapper(queryable)
             .SearchByKey(req.SearchKey, x => x.DisplayName);
 
-        var totalCount = await queryableWrapper.CountAsync();
-        var items = new List<PagedPermissionSpaceRes>(req.PageSize);
-        if (totalCount > 0)
-        {
-            items = await queryableWrapper
-                .PagedBy(req.PageIndex, req.PageSize)
-                .ToListAsync();
-        }
+        return await queryableWrapper.ToListAsync();
+    }
 
-        return new(totalCount, items);
+    public async Task<GetPermissionSpaceRes> GetDetailAsync(Guid id)
+    {
+        var space = await _spaceRepository.GetAsync(id);
+        return space.Adapt<GetPermissionSpaceRes>();
     }
 }

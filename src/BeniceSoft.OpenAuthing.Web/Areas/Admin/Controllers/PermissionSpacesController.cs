@@ -20,19 +20,28 @@ public class PermissionSpacesController : AdminControllerBase
     }
 
     /// <summary>
-    /// 分页查询
+    /// 列表查询
     /// </summary>
     /// <returns></returns>
     [HttpGet]
-    public async Task<PagedResultDto<PagedPermissionSpaceRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20)
+    public async Task<List<ListPermissionSpaceRes>> GetAsync(string? searchKey = null)
     {
-        var req = new PagedPermissionSpaceReq
+        var req = new ListPermissionSpaceReq
         {
-            PageIndex = pageIndex,
-            PageSize = pageSize,
             SearchKey = searchKey
         };
-        return await _queries.PagedListAsync(req);
+        return await _queries.ListAllAsync(req);
+    }
+
+    /// <summary>
+    /// 获取详情
+    /// </summary>
+    /// <param name="id"></param>
+    /// <returns></returns>
+    [HttpGet("{id}")]
+    public async Task<GetPermissionSpaceRes> GetAsync(Guid id)
+    {
+        return await _queries.GetDetailAsync(id);
     }
 
     /// <summary>

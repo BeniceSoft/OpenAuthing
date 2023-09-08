@@ -8,6 +8,7 @@ using BeniceSoft.OpenAuthing.Users;
 using Mapster;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Entities;
 using Volo.Abp.Domain.Repositories;
 
 namespace BeniceSoft.OpenAuthing.Queries;
@@ -64,9 +65,31 @@ public class RoleQueries : BaseQueries, IRoleQueries
 
     public async Task<RoleDetailRes> GetDetailAsync(Guid roleId)
     {
-        var role = await _roleRepository.GetAsync(roleId, false);
+        var roleQueryable = await _roleRepository.GetQueryableAsync();
+        var spaceQueryable = await _spaceRepository.GetQueryableAsync();
+        var queryable =
+            from role in roleQueryable
+            join space in spaceQueryable on role.PermissionSpaceId equals space.Id
+            where role.Id == roleId
+            select new RoleDetailRes
+            {
+                Id = role.Id,
+                Name = role.Name, 
+                DisplayName = role.DisplayName,
+                Description = role.Description,
+                Enabled = role.Enabled, 
+                IsSystemBuiltIn = role.IsSystemBuiltIn,
+                PermissionSpaceId = role.PermissionSpaceId, 
+                PermissionSpaceName = space.DisplayName
+            };
 
-        return role.Adapt<RoleDetailRes>();
+        var entity = await AsyncExecuter.FirstOrDefaultAsync(queryable);
+        if (entity is null)
+        {
+            throw new EntityNotFoundException();
+        }
+
+        return entity;
     }
 
     public async Task<List<RoleSubjectRes>> ListRoleSubjectsAsync(Guid roleId)
