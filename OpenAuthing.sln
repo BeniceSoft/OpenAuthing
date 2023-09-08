@@ -15,7 +15,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.Enti
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.Domain.Shared", "src\BeniceSoft.OpenAuthing.Domain.Shared\BeniceSoft.OpenAuthing.Domain.Shared.csproj", "{9966E2D2-F490-4E45-A386-D7E68FF4EDB8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.Web", "src\BeniceSoft.OpenAuthing.Web\BeniceSoft.OpenAuthing.Web.csproj", "{9D0F0064-6554-4FC2-86A4-7EEDFAAE5CEE}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.SSO", "src\BeniceSoft.OpenAuthing.SSO\BeniceSoft.OpenAuthing.SSO.csproj", "{9D0F0064-6554-4FC2-86A4-7EEDFAAE5CEE}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.RemoteService.Abstractions", "src\BeniceSoft.OpenAuthing.RemoteService.Abstractions\BeniceSoft.OpenAuthing.RemoteService.Abstractions.csproj", "{1F463E05-05E2-42F3-8FB2-480DAAA7DECF}"
 EndProject
@@ -33,6 +33,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.OAuth", "src\BeniceSoft.OpenAuthing.OAuth\BeniceSoft.OpenAuthing.OAuth.csproj", "{5E5E4420-93A7-40EB-ADB2-B27EBDA72C35}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.Tools", "src\BeniceSoft.OpenAuthing.Tools\BeniceSoft.OpenAuthing.Tools.csproj", "{5F3AED06-C866-4EE3-ACFD-2C4DA4B64D2E}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.API", "src\BeniceSoft.OpenAuthing.API\BeniceSoft.OpenAuthing.API.csproj", "{7288F222-5A7C-46F8-9957-E09976143DA4}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -83,6 +85,10 @@ Global
 		{5F3AED06-C866-4EE3-ACFD-2C4DA4B64D2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5F3AED06-C866-4EE3-ACFD-2C4DA4B64D2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5F3AED06-C866-4EE3-ACFD-2C4DA4B64D2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7288F222-5A7C-46F8-9957-E09976143DA4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7288F222-5A7C-46F8-9957-E09976143DA4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7288F222-5A7C-46F8-9957-E09976143DA4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7288F222-5A7C-46F8-9957-E09976143DA4}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{E05A1941-B8E3-4F3C-BFDC-A6A27BBB8F4D} = {B7EEAD3C-BE04-4067-927F-467BECA3BB93}
@@ -97,5 +103,6 @@ Global
 		{76243579-8589-4E1D-94A4-10174186E1D8} = {B7EEAD3C-BE04-4067-927F-467BECA3BB93}
 		{5E5E4420-93A7-40EB-ADB2-B27EBDA72C35} = {76243579-8589-4E1D-94A4-10174186E1D8}
 		{5F3AED06-C866-4EE3-ACFD-2C4DA4B64D2E} = {76243579-8589-4E1D-94A4-10174186E1D8}
+		{7288F222-5A7C-46F8-9957-E09976143DA4} = {B7EEAD3C-BE04-4067-927F-467BECA3BB93}
 	EndGlobalSection
 EndGlobal

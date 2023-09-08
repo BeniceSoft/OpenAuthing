@@ -19,7 +19,7 @@ public class AuthingDbContextFactory : IDesignTimeDbContextFactory<AuthingDbCont
     private static IConfigurationRoot BuildConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../BeniceSoft.OpenAuthing.Web/"))
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../BeniceSoft.OpenAuthing.SSO/"))
             .AddJsonFile("appsettings.json", optional: false);
 
         return builder.Build();
