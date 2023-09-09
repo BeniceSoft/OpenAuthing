@@ -11,7 +11,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 身份提供程序
 /// </summary>
-public class IdPsController : AdminControllerBase
+public class IdPsController : AuthingApiControllerBase
 {
     private readonly IDynamicAuthenticationManager _dynamicAuthenticationManager;
     private readonly IRepository<ExternalIdentityProvider, Guid> _idPRepository;

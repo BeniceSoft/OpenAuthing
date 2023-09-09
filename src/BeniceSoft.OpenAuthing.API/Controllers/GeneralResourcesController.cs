@@ -6,7 +6,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 常规资源
 /// </summary>
-public class GeneralResourcesController : AdminControllerBase
+public class GeneralResourcesController : AuthingApiControllerBase
 {
     /// <summary>
     /// 创建

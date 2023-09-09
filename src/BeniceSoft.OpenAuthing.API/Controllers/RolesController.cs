@@ -10,7 +10,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 角色
 /// </summary>
-public partial class RolesController : AdminControllerBase
+public partial class RolesController : AuthingApiControllerBase
 {
     private readonly IRoleQueries _roleQueries;
 

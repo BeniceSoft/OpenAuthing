@@ -61,13 +61,6 @@ public class ApiModule : AbpModule
 
         Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 
-        // Configure<AbpAspNetCoreMvcOptions>(options =>
-        // {
-        //     options
-        //         .ConventionalControllers
-        //         .Create(typeof(ApplicationModule).Assembly);
-        // });
-
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
         ConfigureSwaggerServices(context.Services);

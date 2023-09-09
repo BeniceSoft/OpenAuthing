@@ -13,7 +13,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 [ApiController]
 [Route("api/[controller]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = AmConstants.AdminRoleName)]
-public abstract class AdminControllerBase : AbpController
+public abstract class AuthingApiControllerBase : AbpController
 {
     protected IAsyncQueryableExecuter AsyncExecuter => LazyServiceProvider.LazyGetRequiredService<IAsyncQueryableExecuter>();
 

@@ -9,7 +9,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 应用
 /// </summary>
-public class ApplicationsController : AdminControllerBase
+public class ApplicationsController : AuthingApiControllerBase
 {
     private readonly IApplicationQueries _applicationQueries;
 

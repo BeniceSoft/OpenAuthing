@@ -10,7 +10,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 组织/部门
 /// </summary>
-public partial class DepartmentsController : AdminControllerBase
+public partial class DepartmentsController : AuthingApiControllerBase
 {
     private readonly IDepartmentQueries _departmentQueries;
 

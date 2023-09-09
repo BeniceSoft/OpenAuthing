@@ -11,7 +11,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 用户
 /// </summary>
-public class UsersController : AdminControllerBase
+public class UsersController : AuthingApiControllerBase
 {
     private readonly IUserQueries _userQueries;
 

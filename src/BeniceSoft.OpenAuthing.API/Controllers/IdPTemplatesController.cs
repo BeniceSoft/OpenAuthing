@@ -11,7 +11,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 身份提供程序模板
 /// </summary>
-public class IdPTemplatesController : AdminControllerBase
+public class IdPTemplatesController : AuthingApiControllerBase
 {
     private readonly IRepository<ExternalIdentityProviderTemplate, Guid> _idpTemplateRepository;
 

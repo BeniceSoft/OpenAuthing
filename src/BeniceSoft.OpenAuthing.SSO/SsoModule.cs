@@ -18,7 +18,6 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Logging;
-using Microsoft.OpenApi.Models;
 using OpenIddict.Abstractions;
 using OpenIddict.Server;
 using Volo.Abp;
@@ -92,7 +91,6 @@ public class SsoModule : AbpModule
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
-        ConfigureSwaggerServices(context.Services);
         ConfigureOpenIddict(context.Services);
 
         context.Services.AddDetection();
@@ -126,12 +124,6 @@ public class SsoModule : AbpModule
         app.UseBeniceSoftAuthorization();
 
         app.UseAuditing();
-        app.UseSwagger();
-        app.UseSwaggerUI(options =>
-        {
-            options.SwaggerEndpoint("/swagger/admin/swagger.json", "OpenAuthing Admin API");
-            options.SwaggerEndpoint("/swagger/auth/swagger.json", "OpenAuthing Auth API");
-        });
 
         // 路由映射
         app.UseConfiguredEndpoints(builder =>
@@ -142,41 +134,6 @@ public class SsoModule : AbpModule
             //     pattern: "{area:exists}/{controller=Console}/{action=Index}/{id?}");
             // builder.MapFallbackToFile("index.html");
             builder.MapFallbackToFile("/", "index.html");
-        });
-    }
-
-    private void ConfigureSwaggerServices(IServiceCollection services)
-    {
-        services.AddSwaggerGen(options =>
-        {
-            options.SwaggerDoc("auth", new OpenApiInfo { Title = "OpenAuthing Auth API", Version = "1.0" });
-            options.SwaggerDoc("admin", new OpenApiInfo { Title = "OpenAuthing Admin API", Version = "1.0" });
-            // options.DocInclusionPredicate((doc, description) => true);
-            options.CustomSchemaIds(type => type.FullName);
-            foreach (var item in GetXmlCommentsFilePath())
-            {
-                options.IncludeXmlComments(item, true);
-            }
-
-            options.AddSecurityDefinition("Bearer", new OpenApiSecurityScheme()
-            {
-                Name = "Authorization",
-                Scheme = "Bearer",
-                Description = "Specify the authorization token.",
-                In = ParameterLocation.Header,
-                Type = SecuritySchemeType.ApiKey,
-            });
-
-            options.AddSecurityRequirement(new OpenApiSecurityRequirement()
-            {
-                {
-                    new OpenApiSecurityScheme
-                    {
-                        Reference = new OpenApiReference { Type = ReferenceType.SecurityScheme, Id = "Bearer" }
-                    },
-                    Array.Empty<string>()
-                },
-            });
         });
     }
 

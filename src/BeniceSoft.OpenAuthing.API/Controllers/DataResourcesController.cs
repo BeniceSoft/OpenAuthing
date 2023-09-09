@@ -7,7 +7,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 数据资源
 /// </summary>
-public class DataResourcesController : AdminControllerBase
+public class DataResourcesController : AuthingApiControllerBase
 {
     /// <summary>
     /// 分页查询

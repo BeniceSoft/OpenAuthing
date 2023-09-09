@@ -8,7 +8,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 用户组
 /// </summary>
-public class UserGroupsController : AdminControllerBase
+public class UserGroupsController : AuthingApiControllerBase
 {
     private readonly IUserGroupQueries _userGroupQueries;
 

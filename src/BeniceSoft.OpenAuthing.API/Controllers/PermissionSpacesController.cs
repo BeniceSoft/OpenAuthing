@@ -9,7 +9,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 权限空间
 /// </summary>
-public class PermissionSpacesController : AdminControllerBase
+public class PermissionSpacesController : AuthingApiControllerBase
 {
     private readonly IPermissionSpaceQueries _queries;
 
