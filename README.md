@@ -6,8 +6,6 @@
   ✨ 开源身份云平台
 </h4>
 
----
-
 <p align="center">
     <img src="https://img.shields.io/github/stars/BeniceSoft/OpenAuthing"
          alt="starts">
