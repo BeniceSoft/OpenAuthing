@@ -50,7 +50,11 @@ public class ExternalIdentityProvider : FullAuditedAggregateRoot<Guid>
         DisplayName = displayName;
         _options = options;
     }
-
-
+    
     public IReadOnlyDictionary<string, string> OptionsDictionary => _options.ToDictionary(x => x.Key, x => x.Value);
+
+    public void SetEnabled(bool enabled)
+    {
+        Enabled = enabled;
+    }
 }

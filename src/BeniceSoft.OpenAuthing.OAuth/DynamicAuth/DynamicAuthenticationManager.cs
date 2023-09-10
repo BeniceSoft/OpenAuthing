@@ -29,8 +29,7 @@ public class DynamicAuthenticationManager : IDynamicAuthenticationManager
         _wrapperFactory = wrapperFactory;
         ManagedHandlerType = managedHandlerType;
     }
-
-
+    
     public virtual void Add(string schemeName, string name, string displayName, IReadOnlyDictionary<string, string> optionsDictionary)
     {
         var handlerType = ManagedHandlerType.GetValueOrDefault(schemeName);

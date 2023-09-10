@@ -1,6 +1,5 @@
 using BeniceSoft.OpenAuthing.Dtos.IdPs.Requests;
 using BeniceSoft.OpenAuthing.Dtos.IdPs.Responses;
-using BeniceSoft.OpenAuthing.DynamicAuth;
 using BeniceSoft.OpenAuthing.IdentityProviders;
 using BeniceSoft.OpenAuthing.IdentityProviderTemplates;
 using Microsoft.AspNetCore.Mvc;
@@ -13,14 +12,12 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// </summary>
 public class IdPsController : AuthingApiControllerBase
 {
-    private readonly IDynamicAuthenticationManager _dynamicAuthenticationManager;
     private readonly IRepository<ExternalIdentityProvider, Guid> _idPRepository;
     private readonly IRepository<ExternalIdentityProviderTemplate, Guid> _idPTemplateRepository;
 
-    public IdPsController(IDynamicAuthenticationManager dynamicAuthenticationManager, IRepository<ExternalIdentityProvider, Guid> idPRepository,
+    public IdPsController(IRepository<ExternalIdentityProvider, Guid> idPRepository,
         IRepository<ExternalIdentityProviderTemplate, Guid> idPTemplateRepository)
     {
-        _dynamicAuthenticationManager = dynamicAuthenticationManager;
         _idPRepository = idPRepository;
         _idPTemplateRepository = idPTemplateRepository;
     }
@@ -64,9 +61,7 @@ public class IdPsController : AuthingApiControllerBase
             .ToList();
         var idp = new ExternalIdentityProvider(GuidGenerator.Create(), req.ProviderName, req.Name, req.DisplayName, options);
         await _idPRepository.InsertAsync(idp);
-
-        _dynamicAuthenticationManager.Add(req.ProviderName, req.Name, req.DisplayName, req.Options);
-
+        
         return idp.Id;
     }
 
@@ -79,6 +74,11 @@ public class IdPsController : AuthingApiControllerBase
     [HttpPut("{id}/toggle-enabled")]
     public async Task<bool> ToggleEnabledAsync(Guid id, bool enabled)
     {
-        throw new NotImplementedException();
+        var idp = await _idPRepository.GetAsync(id);
+        
+        idp.SetEnabled(enabled);
+        await _idPRepository.UpdateAsync(idp);
+
+        return true;
     }
 }

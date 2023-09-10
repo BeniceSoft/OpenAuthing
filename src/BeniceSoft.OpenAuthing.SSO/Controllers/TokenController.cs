@@ -16,7 +16,7 @@ public partial class TokenController : AuthOpenIddictControllerBase
     public virtual async Task<IActionResult> HandleAsync()
     {
         var request = await GetOpenIddictServerRequestAsync(HttpContext);
-
+        
         if (request.IsAuthorizationCodeGrantType())
         {
             return await HandleAuthorizationCodeAsync(request);

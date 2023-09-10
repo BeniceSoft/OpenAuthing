@@ -6,6 +6,7 @@ using BeniceSoft.OpenAuthing.Repositories;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.UserGroups;
 using BeniceSoft.Abp.EntityFrameworkCore;
+using BeniceSoft.OpenAuthing.IdentityProviders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
@@ -54,6 +55,8 @@ public class EntityFrameworkCoreModule : AbpModule
                 queryable => queryable.Include(x => x.Subjects));
             options.Entity<UserGroup>(opts => opts.DefaultWithDetailsFunc =
                 queryable => queryable.Include(x => x.Members));
+            options.Entity<ExternalIdentityProvider>(opts => opts.DefaultWithDetailsFunc =
+                queryable => queryable.Include(x => x.Options));
         });
     }
 }

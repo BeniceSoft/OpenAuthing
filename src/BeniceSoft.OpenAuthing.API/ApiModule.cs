@@ -30,8 +30,7 @@ namespace BeniceSoft.OpenAuthing;
     typeof(BeniceSoftAbpAuthModule),
     typeof(EntityFrameworkCoreModule),
     typeof(ApplicationModule),
-    typeof(RemoteServiceModule),
-    typeof(OAuthModule)
+    typeof(RemoteServiceModule)
 )]
 public class ApiModule : AbpModule
 {

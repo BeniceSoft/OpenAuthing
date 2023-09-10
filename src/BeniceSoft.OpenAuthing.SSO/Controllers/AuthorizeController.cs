@@ -72,7 +72,7 @@ public class AuthorizeController : AuthOpenIddictControllerBase
 
         // Retrieve the profile of the logged in user.
         var user = await UserManager.GetUserAsync(result.Principal) ??
-                   throw new InvalidOperationException(L["TheUserDetailsCannotBbeRetrieved"]);
+                   throw new InvalidOperationException(L["TheUserDetailsCannotBeRetrieved"]);
 
         // Retrieve the application details from the database.
         var application = await ApplicationManager.FindByClientIdAsync(request.ClientId) ??

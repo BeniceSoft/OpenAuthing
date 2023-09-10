@@ -14,6 +14,7 @@ using BeniceSoft.Abp.AspNetCore.Middlewares;
 using BeniceSoft.Abp.Auth;
 using BeniceSoft.Abp.Auth.Core;
 using BeniceSoft.Abp.Auth.Extensions;
+using BeniceSoft.OpenAuthing.BackgroundTasks;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.PlatformAbstractions;
@@ -81,19 +82,14 @@ public class SsoModule : AbpModule
         {
             options.LowercaseUrls = true;
         });
-
-        // Configure<AbpAspNetCoreMvcOptions>(options =>
-        // {
-        //     options
-        //         .ConventionalControllers
-        //         .Create(typeof(ApplicationModule).Assembly);
-        // });
-
+        
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
         ConfigureOpenIddict(context.Services);
 
         context.Services.AddDetection();
+        context.Services
+            .AddHostedService<LoadEnabledExternalIdentityProvidersBackgroundTask>();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -139,8 +135,6 @@ public class SsoModule : AbpModule
 
     private void ConfigureOpenIddict(IServiceCollection services)
     {
-        var configuration = services.GetConfiguration();
-
         // see: https://documentation.openiddict.com/configuration/claim-destinations.html
         Configure<OpenIddictClaimDestinationsOptions>(options =>
         {
@@ -212,8 +206,7 @@ public class SsoModule : AbpModule
                     OpenIddictConstants.Scopes.Profile,
                     OpenIddictConstants.Scopes.Phone,
                     OpenIddictConstants.Scopes.Roles,
-                    OpenIddictConstants.Scopes.Address,
-                    OpenIddictConstants.Scopes.OfflineAccess
+                    OpenIddictConstants.Scopes.Address
                 );
 
                 builder

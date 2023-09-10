@@ -50,7 +50,6 @@ public class OAuthOptionsMonitorCacheWrapper<TOptions> : IOptionsMonitorCache<Au
     /// <returns>
     /// The options instance.
     /// </returns>
-    /// <exception cref="System.NotImplementedException"></exception>
     /// <remarks>This method is not implemented.</remarks>
     public AuthenticationSchemeOptions GetOrAdd(string? name, Func<AuthenticationSchemeOptions> createOptions)
     {
@@ -91,7 +90,7 @@ public class OAuthOptionsMonitorCacheWrapper<TOptions> : IOptionsMonitorCache<Au
     }
 }
 
-public class OAuthOptionsMonitorCacheWrapperFactory: ISingletonDependency
+public class OAuthOptionsMonitorCacheWrapperFactory : ISingletonDependency
 {
     private readonly IServiceProvider _serviceProvider;
 
