@@ -21,9 +21,9 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](./screenshots/dashboard.png)
+![screenshot](./screenshots/home.png)
 
-## 关键特性
+## ✨ 关键特性
 
 * **SSO**
 * **动态第三方登录**
@@ -33,7 +33,7 @@
 * **用户&角色**
 * **现代UI**
 
-## 如何使用
+## 🔧 如何使用
 
 To clone and run this application, you'll need [Git](https://git-scm.com)、[.NET](https://dot.net) and [Node.js](https://nodejs.org/en/download/) 
 (which comes
@@ -61,7 +61,7 @@ $ npm start
 > Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node`
 > from the command prompt.
 
-## License
+## 🪪 License
 
 MIT
 
