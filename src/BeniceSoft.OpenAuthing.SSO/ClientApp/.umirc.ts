@@ -6,11 +6,12 @@ export default defineConfig({
     esbuildMinifyIIFE: true,
     proxy: {
         '/api': {
-            'target': 'http://localhost:5129/',
-            'changeOrigin': true
+            'target': 'http://127.0.0.1:5129/',
+            'changeOrigin': true,
+            'pathRewrite': { '^/api' : '/api' },
         },
         '/uploadFiles': {
-            'target': 'http://localhost:5129/',
+            'target': 'http://127.0.0.1:5129/',
             'changeOrigin': true
         },
     },

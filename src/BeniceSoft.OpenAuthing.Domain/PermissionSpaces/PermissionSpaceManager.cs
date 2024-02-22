@@ -20,15 +20,25 @@ public class PermissionSpaceManager : IScopedDependency
         _repository = repository;
     }
 
+    public async Task<PermissionSpace?> FindByNameAsync(string name)
+    {
+        return await _repository.FirstOrDefaultAsync(x => x.NormalizedName == _normalizer.NormalizeName(name));
+    }
+
+    public async Task<Guid> CreateAsync(PermissionSpace permissionSpace)
+    {
+        await ThrowIfDuplicateNameAsync(permissionSpace.Name);
+
+        permissionSpace.SetNormalizedName(_normalizer.NormalizeName(permissionSpace.Name));
+        await _repository.InsertAsync(permissionSpace);
+
+        return permissionSpace.Id;
+    }
+
     public async Task<Guid> CreateAsync(string name, string displayName, string description, bool isSystemBuiltIn = false)
     {
-        await ThrowIfDuplicateNameAsync(name);
-
         var space = new PermissionSpace(_guidGenerator.Create(), name, displayName, description, isSystemBuiltIn);
-        space.SetNormalizedName(_normalizer.NormalizeName(name));
-        await _repository.InsertAsync(space);
-
-        return space.Id;
+        return await CreateAsync(space);
     }
 
     private async Task ThrowIfDuplicateNameAsync(string name, Guid? excludeId = null)

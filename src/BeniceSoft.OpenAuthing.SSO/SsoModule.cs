@@ -77,12 +77,9 @@ public class SsoModule : AbpModule
                 });
             });
         });
-        
-        Configure<RouteOptions>(options =>
-        {
-            options.LowercaseUrls = true;
-        });
-        
+
+        Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
+
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
         ConfigureOpenIddict(context.Services);
@@ -136,10 +133,7 @@ public class SsoModule : AbpModule
     private void ConfigureOpenIddict(IServiceCollection services)
     {
         // see: https://documentation.openiddict.com/configuration/claim-destinations.html
-        Configure<OpenIddictClaimDestinationsOptions>(options =>
-        {
-            options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>();
-        });
+        Configure<OpenIddictClaimDestinationsOptions>(options => { options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>(); });
 
         services.AddBeniceSoftAuthentication();
 
@@ -234,10 +228,14 @@ public class SsoModule : AbpModule
                     .EnableStatusCodePagesIntegration()
                     .DisableTransportSecurityRequirement();
 
+#if DEBUG
+                builder.AddDevelopmentEncryptionCertificate()
+                    .AddDevelopmentSigningCertificate();
+#else
                 // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
                 builder.AddSigningCertificate(new X509Certificate2("signing-certificate.pfx"))
                     .AddEncryptionCertificate(new X509Certificate2("encryption-certificate.pfx"));
-
+#endif
 
                 builder.DisableAccessTokenEncryption();
 

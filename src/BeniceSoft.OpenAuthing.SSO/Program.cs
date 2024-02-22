@@ -33,13 +33,11 @@ public class Program
             Log.Information("Starting web host.");
             var builder = WebApplication.CreateBuilder(args);
             builder.Host
-                // .UseAgileConfig(e => Log.Logger.Debug($"configs {e.Action}"))
                 .AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
             await builder.AddApplicationAsync<SsoModule>();
             var app = builder.Build();
-            AppContext.SetSwitch("Npgsql.EnableLegacyTimestampBehavior", true);
             await app.InitializeApplicationAsync();
             await app.RunAsync();
         }

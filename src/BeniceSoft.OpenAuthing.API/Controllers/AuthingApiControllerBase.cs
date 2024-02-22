@@ -11,7 +11,7 @@ using Volo.Abp.Linq;
 namespace BeniceSoft.OpenAuthing.Controllers;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/admin/[controller]")]
 [Authorize(AuthenticationSchemes = JwtBearerDefaults.AuthenticationScheme, Roles = AmConstants.AdminRoleName)]
 public abstract class AuthingApiControllerBase : AbpController
 {

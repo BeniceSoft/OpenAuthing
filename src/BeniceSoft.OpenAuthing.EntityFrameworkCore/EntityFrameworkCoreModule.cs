@@ -11,13 +11,13 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.DependencyInjection;
-using Volo.Abp.EntityFrameworkCore.PostgreSql;
+using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.Modularity;
 
 namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
-    typeof(AbpEntityFrameworkCorePostgreSqlModule),
+    typeof(AbpEntityFrameworkCoreMySQLModule),
     typeof(BeniceSoftAbpEntityFrameworkCoreModule),
     typeof(DomainModule)
 )]
@@ -41,7 +41,7 @@ public class EntityFrameworkCoreModule : AbpModule
         {
             options.Configure<AuthingDbContext>(ctx =>
             {
-                ctx.UseNpgsql();
+                ctx.UseMySQL();
 #if DEBUG
                 ctx.DbContextOptions.EnableSensitiveDataLogging();
 #endif

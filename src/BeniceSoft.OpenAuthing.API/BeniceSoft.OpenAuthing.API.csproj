@@ -9,7 +9,6 @@
 
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
-        <PackageReference Include="AgileConfig.Client" />
         <PackageReference Include="BeniceSoft.Abp.AspNetCore" />
         <PackageReference Include="BeniceSoft.Abp.Auth" />
         <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" />

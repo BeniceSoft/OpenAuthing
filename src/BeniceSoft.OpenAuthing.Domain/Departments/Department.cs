@@ -40,7 +40,7 @@ public class Department : FullAuditedAggregateRoot<Guid>, ITreeWithCode<Guid>
     /// <summary>
     /// 路径
     /// </summary>
-    public string Paths { get; private set; } = string.Empty;
+    public string Path { get; private set; } = string.Empty;
 
     public Department? Parent { get; set; }
 
@@ -48,9 +48,9 @@ public class Department : FullAuditedAggregateRoot<Guid>, ITreeWithCode<Guid>
 
     private readonly List<Department> _children;
 
-    public void SavePaths(string paths)
+    public void SavePaths(string path)
     {
-        Paths = paths;
+        Path = path;
     }
 
     public void Update(string code, string name, int seq)

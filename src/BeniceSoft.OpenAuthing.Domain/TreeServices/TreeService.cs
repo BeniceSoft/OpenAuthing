@@ -38,7 +38,7 @@ public class TreeService<T, TKey> : ITreeService<T, TKey>
         var lastChild = await GetLastChildOrNullAsync(parentId);
         if (lastChild != null)
         {
-            return CalculateNextCode(lastChild.Paths);
+            return CalculateNextCode(lastChild.Path);
         }
 
         var parentCode = string.Empty;
@@ -60,7 +60,7 @@ public class TreeService<T, TKey> : ITreeService<T, TKey>
     public virtual async Task<T?> GetLastChildOrNullAsync(TKey? parentId)
     {
         var children = await GetChildrenAsync(parentId);
-        return children.MaxBy(c => c.Paths);
+        return children.MaxBy(c => c.Path);
     }
 
     /// <summary>
@@ -71,7 +71,7 @@ public class TreeService<T, TKey> : ITreeService<T, TKey>
     public virtual async Task<string> GetCodeOrDefaultAsync(TKey id)
     {
         var ou = await Repository.GetAsync(id);
-        return ou?.Paths;
+        return ou?.Path;
     }
  
     /// <summary>
@@ -115,7 +115,7 @@ public class TreeService<T, TKey> : ITreeService<T, TKey>
     /// <returns></returns>
     public virtual async Task<List<T>> GetAllChildrenWithParentCodeAsync(string paths, TKey parentId)
     {
-        return await Repository.GetListAsync(s => s.Paths.StartsWith(paths) && !s.Id.Equals(parentId));
+        return await Repository.GetListAsync(s => s.Path.StartsWith(paths) && !s.Id.Equals(parentId));
     }
 
     /// <summary>

@@ -30,7 +30,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Volo.Abp.EntityFrameworkCore.PostgreSql" Version="7.0.1" />
+    <PackageVersion Include="Volo.Abp.EntityFrameworkCore.MySQL" Version="7.0.1" />
     <PackageVersion Include="BeniceSoft.Abp.Ddd.Application.Contracts" Version="0.0.30-dev" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
     <PackageVersion Include="BeniceSoft.Abp.Ddd.Application" Version="0.0.30-dev" />
@@ -40,7 +40,6 @@
     <PackageVersion Include="BeniceSoft.Abp.Http.Client" Version="0.0.30-dev" />
     <PackageVersion Include="AlibabaCloud.SDK.Dingtalk" Version="1.5.16" />
     <PackageVersion Include="dingtalk-sdk-netCore" Version="1.0.4" />
-    <PackageVersion Include="AgileConfig.Client" Version="1.6.11" />
     <PackageVersion Include="BeniceSoft.Abp.AspNetCore" Version="0.0.31-dev" />
     <PackageVersion Include="BeniceSoft.Abp.Auth" Version="0.0.30-dev" />
     <PackageVersion Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />

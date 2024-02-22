@@ -11,5 +11,5 @@ public interface ITree<T>
     /// <summary>
     /// 层级
     /// </summary>
-    public string Paths { get; }
+    public string Path { get; }
 }

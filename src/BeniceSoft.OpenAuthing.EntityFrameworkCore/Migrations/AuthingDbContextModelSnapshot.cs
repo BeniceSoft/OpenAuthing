@@ -4,7 +4,6 @@ using BeniceSoft.OpenAuthing;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Volo.Abp.EntityFrameworkCore;
 
 #nullable disable
@@ -18,63 +17,61 @@ namespace BeniceSoft.OpenAuthing.Migrations
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.PostgreSql)
-                .HasAnnotation("ProductVersion", "7.0.1")
-                .HasAnnotation("Relational:MaxIdentifierLength", 63);
-
-            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
+                .HasAnnotation("_Abp_DatabaseProvider", EfCoreDatabaseProvider.MySql)
+                .HasAnnotation("ProductVersion", "7.0.2")
+                .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
             modelBuilder.Entity("BeniceSoft.OpenAuthing.DepartmentMembers.DepartmentMember", b =>
                 {
                     b.Property<Guid>("DepartmentId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasComment("部门ID");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasComment("用户ID");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsLeader")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasComment("是否负责人");
 
                     b.Property<bool>("IsMain")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasComment("是否主部门");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.HasKey("DepartmentId", "UserId");
 
-                    b.ToTable("AM_DepartmentMembers", null, t =>
+                    b.ToTable("OAuthing_DepartmentMembers", null, t =>
                         {
                             t.HasComment("部门成员");
                         });
@@ -83,79 +80,79 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Departments.Department", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Code")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("编码");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("名称");
 
                     b.Property<Guid?>("ParentId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasComment("父级Id");
 
-                    b.Property<string>("Paths")
+                    b.Property<string>("Path")
                         .IsRequired()
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
+                        .HasColumnType("varchar(1000)")
                         .HasComment("路径");
 
                     b.Property<int>("Seq")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasComment("排序");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ParentId");
 
-                    b.ToTable("AM_Departments", null, t =>
+                    b.ToTable("OAuthing_Departments", null, t =>
                         {
                             t.HasComment("部门");
                         });
@@ -164,38 +161,38 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviderTemplates.ExternalIdentityProviderTemplate", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("描述");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("Logo")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("LOGO");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("名称（唯一）");
 
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("标题");
 
                     b.HasKey("Id");
@@ -204,7 +201,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .IsUnique()
                         .HasDatabaseName("IDX_ExternalIdentityProviderTemplates_Name");
 
-                    b.ToTable("AM_ExternalIdentityProviderTemplates", null, t =>
+                    b.ToTable("OAuthing_ExternalIdentityProviderTemplates", null, t =>
                         {
                             t.HasComment("外部身份提供者模板");
                         });
@@ -213,55 +210,55 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviderTemplates.ExternalIdentityProviderTemplateField", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid?>("ExternalIdentityProviderTemplateId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ExtraData")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasComment("扩展数据");
 
                     b.Property<string>("HelpText")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("帮助文本");
 
                     b.Property<string>("Label")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("显示文本");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("字段名");
 
                     b.Property<int>("Order")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasComment("排序（正序）");
 
                     b.Property<string>("Placeholder")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("站位文本");
 
                     b.Property<bool>("Required")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasComment("是否必填");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("类型");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ExternalIdentityProviderTemplateId");
 
-                    b.ToTable("AM_ExternalIdentityProviderTemplateFields", null, t =>
+                    b.ToTable("OAuthing_ExternalIdentityProviderTemplateFields", null, t =>
                         {
                             t.HasComment("外部身份提供者模板字段");
                         });
@@ -270,73 +267,73 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviders.ExternalIdentityProvider", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("显示名称");
 
                     b.Property<bool>("Enabled")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasComment("是否启用");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("名称（唯一）");
 
                     b.Property<string>("ProviderName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("提供者名称");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AM_ExternalIdentityProviders", null, t =>
+                    b.ToTable("OAuthing_ExternalIdentityProviders", null, t =>
                         {
                             t.HasComment("外部身份提供者");
                         });
@@ -345,26 +342,26 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviders.ExternalIdentityProviderOption", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid?>("ExternalIdentityProviderId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("Key")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("键");
 
                     b.Property<string>("Value")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasComment("值");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ExternalIdentityProviderId");
 
-                    b.ToTable("AM_ExternalIdentityProviderOptions", null, t =>
+                    b.ToTable("OAuthing_ExternalIdentityProviderOptions", null, t =>
                         {
                             t.HasComment("外部身份提供者配置");
                         });
@@ -373,330 +370,330 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.OpenIddict.Applications.OpenIddictApplication", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ClientId")
                         .IsRequired()
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("ClientSecret")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ClientUri")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<string>("ConsentType")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DisplayNames")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("LogoUri")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Permissions")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("PostLogoutRedirectUris")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Properties")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("RedirectUris")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Requirements")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Type")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ClientId");
 
-                    b.ToTable("AM_OpenIddict_Applications", (string)null);
+                    b.ToTable("OAuthing_OpenIddict_Applications", (string)null);
                 });
 
             modelBuilder.Entity("BeniceSoft.OpenAuthing.OpenIddict.Authorizations.OpenIddictAuthorization", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid?>("ApplicationId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Properties")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Scopes")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Status")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Subject")
                         .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
+                        .HasColumnType("varchar(400)");
 
                     b.Property<string>("Type")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
-                    b.ToTable("AM_OpenIddict_Authorizations", (string)null);
+                    b.ToTable("OAuthing_OpenIddict_Authorizations", (string)null);
                 });
 
             modelBuilder.Entity("BeniceSoft.OpenAuthing.OpenIddict.Scopes.OpenIddictScope", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Descriptions")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DisplayName")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("DisplayNames")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("Properties")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Resources")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
                     b.HasIndex("Name");
 
-                    b.ToTable("AM_OpenIddict_Scopes", (string)null);
+                    b.ToTable("OAuthing_OpenIddict_Scopes", (string)null);
                 });
 
             modelBuilder.Entity("BeniceSoft.OpenAuthing.OpenIddict.Tokens.OpenIddictToken", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid?>("ApplicationId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid?>("AuthorizationId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime?>("CreationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<DateTime?>("ExpirationDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Payload")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<string>("Properties")
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.Property<DateTime?>("RedemptionDate")
-                        .HasColumnType("timestamp with time zone");
+                        .HasColumnType("datetime(6)");
 
                     b.Property<string>("ReferenceId")
                         .HasMaxLength(100)
-                        .HasColumnType("character varying(100)");
+                        .HasColumnType("varchar(100)");
 
                     b.Property<string>("Status")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.Property<string>("Subject")
                         .HasMaxLength(400)
-                        .HasColumnType("character varying(400)");
+                        .HasColumnType("varchar(400)");
 
                     b.Property<string>("Type")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)");
+                        .HasColumnType("varchar(50)");
 
                     b.HasKey("Id");
 
@@ -706,86 +703,86 @@ namespace BeniceSoft.OpenAuthing.Migrations
 
                     b.HasIndex("ApplicationId", "Status", "Subject", "Type");
 
-                    b.ToTable("AM_OpenIddict_Tokens", (string)null);
+                    b.ToTable("OAuthing_OpenIddict_Tokens", (string)null);
                 });
 
             modelBuilder.Entity("BeniceSoft.OpenAuthing.PermissionSpaces.PermissionSpace", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("描述");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("现实名称");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<bool>("IsSystemBuiltIn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasComment("是否系统内置");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("名称");
 
                     b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("标准化名称");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AM_PermissionSpaces", null, t =>
+                    b.ToTable("OAuthing_PermissionSpaces", null, t =>
                         {
                             t.HasComment("权限空间");
                         });
@@ -794,92 +791,92 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("描述");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("显示名");
 
                     b.Property<bool>("Enabled")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(true)
                         .HasComment("是否启用");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<bool>("IsSystemBuiltIn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasComment("是否系统内置");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("角色名");
 
                     b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("归一化后的角色名");
 
                     b.Property<Guid>("PermissionSpaceId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasComment("所属权限空间");
 
                     b.HasKey("Id");
 
                     b.HasIndex("PermissionSpaceId");
 
-                    b.ToTable("AM_Roles", null, t =>
+                    b.ToTable("OAuthing_Roles", null, t =>
                         {
                             t.HasComment("角色");
                         });
@@ -888,26 +885,26 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Roles.RoleSubject", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasComment("角色id");
 
                     b.Property<Guid>("SubjectId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasComment("主体id");
 
                     b.Property<int>("SubjectType")
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasComment("主体类型(0:用户 1:用户组)");
 
                     b.HasKey("Id");
@@ -917,7 +914,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.HasIndex("SubjectType", "SubjectId", "RoleId")
                         .IsUnique();
 
-                    b.ToTable("AM_RoleSubjects", null, t =>
+                    b.ToTable("OAuthing_RoleSubjects", null, t =>
                         {
                             t.HasComment("角色主体");
                         });
@@ -926,73 +923,73 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.UserGroups.UserGroup", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("描述");
 
                     b.Property<string>("DisplayName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("显示名称");
 
                     b.Property<bool>("Enabled")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasComment("是否启用");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("名称");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AM_UserGroups", null, t =>
+                    b.ToTable("OAuthing_UserGroups", null, t =>
                         {
                             t.HasComment("用户组");
                         });
@@ -1001,22 +998,22 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.UserGroups.UserGroupMember", b =>
                 {
                     b.Property<Guid>("UserGroupId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.HasKey("UserGroupId", "UserId");
 
-                    b.ToTable("AM_UserGroupMembers", null, t =>
+                    b.ToTable("OAuthing_UserGroupMembers", null, t =>
                         {
                             t.HasComment("用户组成员");
                         });
@@ -1025,133 +1022,133 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("AccessFailedCount")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("integer")
+                        .HasColumnType("int")
                         .HasDefaultValue(0)
                         .HasComment("访问错误次数");
 
                     b.Property<string>("Avatar")
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
+                        .HasColumnType("varchar(1000)")
                         .HasComment("头像");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasMaxLength(40)
-                        .HasColumnType("character varying(40)")
+                        .HasColumnType("varchar(40)")
                         .HasColumnName("ConcurrencyStamp");
 
                     b.Property<DateTime>("CreationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("CreationTime");
 
                     b.Property<Guid?>("CreatorId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid?>("DeleterId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("DeleterId");
 
                     b.Property<DateTime?>("DeletionTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
 
                     b.Property<bool>("Enabled")
-                        .HasColumnType("boolean");
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<string>("ExtraProperties")
-                        .HasColumnType("text")
+                        .HasColumnType("longtext")
                         .HasColumnName("ExtraProperties");
 
                     b.Property<string>("Gender")
                         .HasMaxLength(10)
-                        .HasColumnType("character varying(10)")
+                        .HasColumnType("varchar(10)")
                         .HasComment("性别");
 
                     b.Property<bool>("IsDeleted")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasColumnName("IsDeleted");
 
                     b.Property<bool>("IsSystemBuiltIn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasComment("是否系统内置");
 
                     b.Property<string>("JobTitle")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("职务");
 
                     b.Property<DateTime?>("LastModificationTime")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasColumnName("LastModificationTime");
 
                     b.Property<Guid?>("LastModifierId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasColumnName("LastModifierId");
 
                     b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasComment("锁定状态");
 
                     b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone")
+                        .HasColumnType("datetime(6)")
                         .HasComment("锁定结束时间");
 
                     b.Property<string>("Nickname")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("昵称");
 
                     b.Property<string>("NormalizedUserName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("归一化后的用户名");
 
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("哈希后的密码");
 
                     b.Property<string>("PhoneNumber")
                         .HasMaxLength(50)
-                        .HasColumnType("character varying(50)")
+                        .HasColumnType("varchar(50)")
                         .HasComment("手机号码");
 
                     b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasComment("手机号码是否确认");
 
                     b.Property<string>("SecurityStamp")
                         .HasMaxLength(1000)
-                        .HasColumnType("character varying(1000)")
+                        .HasColumnType("varchar(1000)")
                         .HasComment("安全凭证");
 
                     b.Property<bool>("TwoFactorEnabled")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("boolean")
+                        .HasColumnType("tinyint(1)")
                         .HasDefaultValue(false)
                         .HasComment("是否启用2FA");
 
                     b.Property<string>("UserName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("用户名");
 
                     b.HasKey("Id");
 
-                    b.ToTable("AM_Users", null, t =>
+                    b.ToTable("OAuthing_Users", null, t =>
                         {
                             t.HasComment("用户");
                         });
@@ -1160,28 +1157,28 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.UserLogin", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid")
+                        .HasColumnType("char(36)")
                         .HasComment("用户id");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(200)
-                        .HasColumnType("character varying(200)")
+                        .HasColumnType("varchar(200)")
                         .HasComment("登录提供程序名称");
 
                     b.Property<string>("ProviderDisplayName")
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("此登录程序的显示名");
 
                     b.Property<string>("ProviderKey")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("character varying(500)")
+                        .HasColumnType("varchar(500)")
                         .HasComment("此登录程序的唯一标识");
 
                     b.HasKey("UserId", "LoginProvider");
 
-                    b.ToTable("AM_UserLogins", null, t =>
+                    b.ToTable("OAuthing_UserLogins", null, t =>
                         {
                             t.HasComment("用户第三方登录信息");
                         });
@@ -1190,23 +1187,23 @@ namespace BeniceSoft.OpenAuthing.Migrations
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.UserToken", b =>
                 {
                     b.Property<Guid>("UserId")
-                        .HasColumnType("uuid");
+                        .HasColumnType("char(36)");
 
                     b.Property<string>("LoginProvider")
                         .HasMaxLength(64)
-                        .HasColumnType("character varying(64)");
+                        .HasColumnType("varchar(64)");
 
                     b.Property<string>("Name")
                         .HasMaxLength(128)
-                        .HasColumnType("character varying(128)");
+                        .HasColumnType("varchar(128)");
 
                     b.Property<string>("Value")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasColumnType("longtext");
 
                     b.HasKey("UserId", "LoginProvider", "Name");
 
-                    b.ToTable("AM_UserTokens", null, t =>
+                    b.ToTable("OAuthing_UserTokens", null, t =>
                         {
                             t.HasComment("用户token");
                         });

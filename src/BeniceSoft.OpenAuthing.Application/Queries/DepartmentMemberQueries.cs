@@ -42,7 +42,7 @@ public class DepartmentMemberQueries : BaseQueries, IDepartmentMemberQueries
         else
         {
             matchedDepartmentIds = await AsyncExecuter.ToListAsync(from department in departments
-                where department.Paths.StartsWith(currentDepartment.Paths)
+                where department.Path.StartsWith(currentDepartment.Path)
                 select department.Id);
         }
 

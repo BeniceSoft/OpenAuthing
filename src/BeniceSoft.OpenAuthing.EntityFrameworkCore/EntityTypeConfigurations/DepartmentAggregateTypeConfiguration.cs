@@ -29,7 +29,7 @@ internal static class DepartmentAggregateTypeConfiguration
             .HasComment("父级Id");
         builder.Property(x => x.Seq)
             .HasComment("排序");
-        builder.Property(x => x.Paths)
+        builder.Property(x => x.Path)
             .HasMaxLength(1000)
             .HasComment("路径");
 

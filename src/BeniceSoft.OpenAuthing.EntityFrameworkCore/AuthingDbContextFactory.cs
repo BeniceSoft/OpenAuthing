@@ -9,9 +9,10 @@ public class AuthingDbContextFactory : IDesignTimeDbContextFactory<AuthingDbCont
     public AuthingDbContext CreateDbContext(string[] args)
     {
         var configuration = BuildConfiguration();
+        var connectionString = configuration.GetConnectionString("Default")!;
 
         var builder = new DbContextOptionsBuilder<AuthingDbContext>()
-            .UseNpgsql(configuration.GetConnectionString("Default"));
+            .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));
 
         return new AuthingDbContext(builder.Options);
     }
@@ -19,7 +20,7 @@ public class AuthingDbContextFactory : IDesignTimeDbContextFactory<AuthingDbCont
     private static IConfigurationRoot BuildConfiguration()
     {
         var builder = new ConfigurationBuilder()
-            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../BeniceSoft.OpenAuthing.SSO/"))
+            .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../BeniceSoft.OpenAuthing.API/"))
             .AddJsonFile("appsettings.json", optional: false);
 
         return builder.Build();

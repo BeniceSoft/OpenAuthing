@@ -33,19 +33,31 @@
 
 ## 🔧 如何使用
 
-To clone and run this application, you'll need [Git](https://git-scm.com)、[.NET](https://dot.net) and [Node.js](https://nodejs.org/en/download/) 
+To clone and run this application, you'll need [Git](https://git-scm.com)、[.NET](https://dot.net) and [Node.js](https://nodejs.org/en/download/)
 (which comes
 with [npm](http://npmjs.com)) installed on your computer. From your command line:
 
 ```bash
 # Clone this repository
-$ git clone https://github.com/BeniceSoft/OpenAuthing
+$ git clone https://github.com/BeniceSoft/OpenAuthing --recursive
+```
 
+### 初始化数据库
+
+执行 [建表脚本](./scripts/1初始化建表.sql)、[初始化数据脚本呢](./scripts/2初始化数据.sql)
+
+
+### 运行
+在项目根目录下打开终端
+```bash
 # Go into the repository
 $ cd OpenAuthing
 
 # Install packages
 $ dotnet restore
+
+# Start AdminUI
+$ cd AdminUI
 
 # Install dependencies
 $ npm install
