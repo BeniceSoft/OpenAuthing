@@ -1,7 +1,16 @@
-import { Reducer, Effect, history, useModel } from 'umi';
+import {Reducer, Effect, history, useModel} from 'umi';
 import AuthService from '@/services/auth.service'
-import { ExternalLoginProvider } from "@/@types/auth";
-import { toast } from 'react-hot-toast';
+import {ExternalLoginProvider} from "@/@types/auth";
+import {toast} from 'react-hot-toast';
+
+function redirectReturnUrl(returnUrl: string) {
+    console.log("return url is: ", returnUrl)
+    if (returnUrl) {
+        history.replace(returnUrl)
+    } else {
+        history.replace("/")
+    }
+}
 
 export interface LoginModelState {
     externalLoginProviders?: ExternalLoginProvider,
@@ -24,10 +33,9 @@ export interface LoginModelType {
 
 const Model: LoginModelType = {
     namespace: 'login',
-    state: {
-    },
+    state: {},
     effects: {
-        *logout(_, { call, put }) {
+        * logout(_, {call, put}) {
             yield call(AuthService.logout)
             yield put({
                 type: 'save',
@@ -43,7 +51,7 @@ const Model: LoginModelType = {
                 search: `?returnUrl=${encodeURIComponent(history.location.pathname)}`
             })
         },
-        *fetchLoginProviders({ }, { put, call }): any {
+        * fetchLoginProviders({}, {put, call}): any {
             const externalLoginProviders = yield call(AuthService.getExternalIdPs)
             yield put({
                 type: 'save',
@@ -52,10 +60,10 @@ const Model: LoginModelType = {
                 }
             })
         },
-        *login({ payload }, { call, put }): any {
+        * login({payload}, {call, put}): any {
             const data: any = yield call(AuthService.login, payload)
             if (data) {
-                const { requiresTwoFactor, returnUrl, userInfo } = data
+                const {requiresTwoFactor, returnUrl, userInfo} = data
                 if (requiresTwoFactor) {
                     history.push({
                         pathname: '/account/loginwith2fa',
@@ -64,27 +72,26 @@ const Model: LoginModelType = {
                     return
                 }
 
-                // Message.success('登录成功，正在跳转...', 1000)
                 toast.success('登录成功，正在跳转...')
-                window.location = returnUrl ?? '/'
+                redirectReturnUrl(returnUrl)
             }
         },
-        *loginWith2Fa({ payload }, { call, put }): any {
+        * loginWith2Fa({payload}, {call, put}): any {
             const data: any = yield call(AuthService.loginWith2Fa, payload)
             if (data) {
-                const { returnUrl } = data
+                const {returnUrl} = data
 
                 toast.success('登录成功，正在跳转...')
-                window.location = returnUrl ?? '/'
+                redirectReturnUrl(returnUrl)
             }
         },
-        *loginWithRecoveryCode({ payload }, { put, call }): any {
+        * loginWithRecoveryCode({payload}, {put, call}): any {
             const data: any = yield call(AuthService.loginWithRecoveryCode, payload)
             if (data) {
-                const { returnUrl } = data
+                const {returnUrl} = data
 
                 toast.success('登录成功，正在跳转...')
-                window.location = returnUrl ?? '/'
+                redirectReturnUrl(returnUrl)
             }
         }
     },

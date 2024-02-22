@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigge
 import withAuth from "@/hocs/withAuth";
 import AccountService from "@/services/account.service";
 import { CameraIcon, FingerprintIcon, PowerIcon, ServerIcon, UserIcon, VenetianMaskIcon } from "lucide-react";
-import React from "react";
+import React, {useEffect} from "react";
 import { useState } from "react";
 import { Link, Outlet, useLocation, useModel } from "umi";
 
@@ -68,7 +68,10 @@ const Header = ({
 }
 
 const SettingsLayout = function (props: any) {
-    const { initialState } = useModel('@@initialState')
+    const { initialState, refresh } = useModel('@@initialState')
+    useEffect(()=>{
+        refresh()
+    }, [])
 
     const [avatarCorpDialogOpened, setAvatarCorpDialogOpened] = useState<boolean>()
     const [avatarSrc, setAvatarSrc] = useState<string>()

@@ -1,11 +1,10 @@
-import { Navigate, useLocation, useModel } from 'umi'
+import { Navigate, useLocation } from 'umi'
+import AuthService from "@/services/auth.service";
 
 const withAuth = (Component: any) => () => {
-    const { initialState } = useModel('@@initialState');
-
-    console.log('initialState', initialState)
+    const isAuthenticated = AuthService.isAuthenticated()
     
-    if (!(initialState?.isAuthenticated ?? false)) {
+    if (!isAuthenticated) {
         const { pathname } = useLocation()
         return <Navigate to={`/account/login?returnUrl=${encodeURIComponent(pathname)}`} />;
     }

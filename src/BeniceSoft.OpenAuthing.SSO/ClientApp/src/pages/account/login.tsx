@@ -2,7 +2,7 @@ import Lottie from "lottie-react";
 import AnimationData from '@/assets/animations/secure-login.json'
 import { useForm } from "react-hook-form";
 import React, { useEffect } from "react";
-import { useSearchParams, connect, useDispatch, useModel } from 'umi'
+import { useSearchParams, connect, useDispatch } from 'umi'
 import { LoginModelState } from "@/models/login";
 import { ExternalLoginProvider } from "@/@types/auth";
 import { getSearchParam } from "@/lib/misc";
@@ -51,9 +51,6 @@ const Login: React.FC<LoginProps> = (props: LoginProps) => {
 
     console.log('isLoggingIn', isLoggingIn)
 
-
-    const { refresh } = useModel('@@initialState')
-
     const onSubmit = (data: any) => {
         dispatch({
             type: 'login/login',
@@ -63,8 +60,6 @@ const Login: React.FC<LoginProps> = (props: LoginProps) => {
                 rememberMe: true
             }
         })
-
-        refresh()
     }
 
     return (
