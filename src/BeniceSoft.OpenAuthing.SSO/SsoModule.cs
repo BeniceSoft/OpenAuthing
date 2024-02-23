@@ -1,4 +1,3 @@
-using System.Security.Cryptography.X509Certificates;
 using BeniceSoft.OpenAuthing.Localization;
 using BeniceSoft.OpenAuthing.OpenIddict.Applications;
 using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
@@ -233,8 +232,8 @@ public class SsoModule : AbpModule
                     .AddDevelopmentSigningCertificate();
 #else
                 // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
-                builder.AddSigningCertificate(new X509Certificate2("signing-certificate.pfx"))
-                    .AddEncryptionCertificate(new X509Certificate2("encryption-certificate.pfx"));
+                builder.AddSigningCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2("certs/signing-certificate.pfx"))
+                    .AddEncryptionCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2("certs/encryption-certificate.pfx"));
 #endif
 
                 builder.DisableAccessTokenEncryption();

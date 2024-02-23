@@ -10,7 +10,7 @@ RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.li
     apt-get -qq install -y wget && \
     apt-get -qq install -y gnupg2 && \
     wget -qO- https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get -qq install -y build-essential nodejs npm
+    apt-get -qq install -y build-essential nodejs
 
 WORKDIR /src
 COPY ["Directory.Packages.props", "Directory.Packages.props"]

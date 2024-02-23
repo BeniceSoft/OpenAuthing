@@ -1,0 +1,45 @@
+version: '3.2'
+
+services:
+  sso:
+    image: zengande/openauthing-sso:${SSO_TAG:-latest}
+    ports:
+      - "8081:80"
+    networks:
+      - net
+    environment:
+      ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
+      ConnectionStrings_Default: ${CONNECTION_STRING}
+    volumes:
+      - sso_certs:/app/certs:ro
+    deploy:
+      mode: replicated
+      replicas: 1
+
+  # api:
+  #   image: ghcr.io/benicesoft/openauthing-api:${ADMINUI_TAG:-latest}
+  #   ports:
+  #     - "8082:80"
+  #   networks:
+  #     - net
+  #   deploy:
+  #     mode: replicated
+  #     replicas: 1
+
+  adminui:
+    image: zengande/openauthing-adminui:${ADMINUI_TAG:-latest}
+    ports:
+      - "8080:80"
+    networks:
+      - net
+    deploy:
+      mode: replicated
+      replicas: 1
+
+networks:
+  net:
+    driver: overlay
+    attachable: true
+
+volumes:
+  sso_certs:
