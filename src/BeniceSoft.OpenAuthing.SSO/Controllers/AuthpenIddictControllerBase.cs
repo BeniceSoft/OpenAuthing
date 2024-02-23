@@ -17,7 +17,7 @@ public abstract class AuthOpenIddictControllerBase : AuthControllerBase
     
     protected virtual Task<OpenIddictRequest> GetOpenIddictServerRequestAsync(HttpContext httpContext)
     {
-        var request = HttpContext.GetOpenIddictServerRequest() ??
+        var request = httpContext.GetOpenIddictServerRequest() ??
                       throw new InvalidOperationException(L["TheOpenIDConnectRequestCannotBeRetrieved"]);
 
         return Task.FromResult(request);

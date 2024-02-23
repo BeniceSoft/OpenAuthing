@@ -33,7 +33,7 @@ public partial class TokenController : AuthOpenIddictControllerBase
         }
 
         var extensionGrantsOptions = HttpContext.RequestServices.GetRequiredService<IOptions<AmOpenIddictExtensionGrantsOptions>>();
-        var extensionTokenGrantHandler = extensionGrantsOptions.Value.Find<ITokenExtensionGrantHandler>(request.GrantType);
+        var extensionTokenGrantHandler = extensionGrantsOptions.Value.Find<ITokenExtensionGrantHandler>(request.GrantType!);
         if (extensionTokenGrantHandler is not null)
         {
             return await extensionTokenGrantHandler.HandleAsync(new ExtensionGrantContext(HttpContext, request));

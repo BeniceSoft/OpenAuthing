@@ -186,11 +186,6 @@ public class SsoModule : AbpModule
             // Register the OpenIddict server components.
             .AddServer(builder =>
             {
-                if (!string.IsNullOrWhiteSpace(appUrl))
-                {
-                    builder.SetIssuer(new(appUrl));
-                }
-
                 // register claims
                 builder.RegisterClaims(
                     OpenIddictConstants.Claims.Name,
@@ -212,13 +207,13 @@ public class SsoModule : AbpModule
                 );
 
                 builder
-                    .SetAuthorizationEndpointUris(appUrl + "connect/authorize")
-                    .SetIntrospectionEndpointUris(appUrl + "connect/introspect")
-                    .SetLogoutEndpointUris(appUrl + "connect/logout")
-                    .SetRevocationEndpointUris(appUrl + "connect/revocat")
-                    .SetTokenEndpointUris(appUrl + "connect/token")
-                    .SetUserinfoEndpointUris(appUrl + "connect/userinfo")
-                    .SetVerificationEndpointUris(appUrl + "connect/verify");
+                    .SetAuthorizationEndpointUris("/connect/authorize")
+                    .SetIntrospectionEndpointUris("/connect/introspect")
+                    .SetLogoutEndpointUris("/connect/logout")
+                    .SetRevocationEndpointUris("/connect/revocat")
+                    .SetTokenEndpointUris("/connect/token")
+                    .SetUserinfoEndpointUris("/connect/userinfo")
+                    .SetVerificationEndpointUris("/connect/verify");
 
                 builder
                     .AllowAuthorizationCodeFlow()
@@ -250,6 +245,20 @@ public class SsoModule : AbpModule
                 // token 有效期
                 builder.SetAccessTokenLifetime(TimeSpan.FromHours(2));
                 // builder.SetAccessTokenLifetime(TimeSpan.FromMinutes(3));
+
+                // if (!string.IsNullOrWhiteSpace(appUrl))
+                // {
+                //     builder.AddEventHandler<OpenIddictServerEvents.HandleConfigurationRequestContext>(x =>
+                //     {
+                //         x.UseInlineHandler(ctx =>
+                //         {
+                //             ctx.BaseUri = new Uri(appUrl);
+                //             return ValueTask.CompletedTask;
+                //         });
+                //     });
+                // }
+
+                builder.AddEventHandler(RewriteBaseUriServerHandler.Descriptor);
 
                 // 移除CodeVerifier的验证 使用code模式的时候 因为没有文档解释此数据的生成方式
                 builder.RemoveEventHandler(OpenIddictServerHandlers.Exchange.ValidateCodeVerifier.Descriptor);
