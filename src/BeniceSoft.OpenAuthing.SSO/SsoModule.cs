@@ -186,6 +186,12 @@ public class SsoModule : AbpModule
             // Register the OpenIddict server components.
             .AddServer(builder =>
             {
+                if (!string.IsNullOrWhiteSpace(appUrl))
+                {
+                    builder.SetIssuer(new(appUrl));
+                    builder.AddEventHandler(RewriteBaseUriServerHandler.Descriptor);
+                }
+
                 // register claims
                 builder.RegisterClaims(
                     OpenIddictConstants.Claims.Name,
@@ -257,8 +263,6 @@ public class SsoModule : AbpModule
                 //         });
                 //     });
                 // }
-
-                builder.AddEventHandler(RewriteBaseUriServerHandler.Descriptor);
 
                 // 移除CodeVerifier的验证 使用code模式的时候 因为没有文档解释此数据的生成方式
                 builder.RemoveEventHandler(OpenIddictServerHandlers.Exchange.ValidateCodeVerifier.Descriptor);

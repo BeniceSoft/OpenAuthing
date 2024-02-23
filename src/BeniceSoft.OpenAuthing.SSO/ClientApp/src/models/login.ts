@@ -2,14 +2,12 @@ import {Reducer, Effect, history, useModel} from 'umi';
 import AuthService from '@/services/auth.service'
 import {ExternalLoginProvider} from "@/@types/auth";
 import {toast} from 'react-hot-toast';
+import {Wind} from "lucide-react";
 
 function redirectReturnUrl(returnUrl: string) {
     console.log("return url is: ", returnUrl)
-    if (returnUrl) {
-        history.replace(returnUrl)
-    } else {
-        history.replace("/")
-    }
+    // TODO 这里应该让后端返回一个绝对或相对地址
+    window.location.href = returnUrl ?? '/';
 }
 
 export interface LoginModelState {
