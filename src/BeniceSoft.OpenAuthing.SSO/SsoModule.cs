@@ -57,7 +57,10 @@ public class SsoModule : AbpModule
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+#if DEBUG
         IdentityModelEventSource.ShowPII = true;
+#endif
+        var configuration = context.Services.GetConfiguration();
 
         Configure<AbpBlobStoringOptions>(options =>
         {
@@ -81,7 +84,7 @@ public class SsoModule : AbpModule
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
-        ConfigureOpenIddict(context.Services);
+        ConfigureOpenIddict(context.Services, configuration);
 
         context.Services.AddDetection();
         context.Services
@@ -129,7 +132,7 @@ public class SsoModule : AbpModule
         });
     }
 
-    private void ConfigureOpenIddict(IServiceCollection services)
+    private void ConfigureOpenIddict(IServiceCollection services, IConfiguration configuration)
     {
         // see: https://documentation.openiddict.com/configuration/claim-destinations.html
         Configure<OpenIddictClaimDestinationsOptions>(options => { options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>(); });
@@ -159,6 +162,7 @@ public class SsoModule : AbpModule
             options.Cookie.HttpOnly = false;
         });
 
+        var appUrl = configuration.GetValue<string>("AppUrl")?.EnsureEndsWith('/') ?? string.Empty;
         services.AddOpenIddict()
             // Register the OpenIddict core components.
             .AddCore(builder =>
@@ -182,6 +186,11 @@ public class SsoModule : AbpModule
             // Register the OpenIddict server components.
             .AddServer(builder =>
             {
+                if (!string.IsNullOrWhiteSpace(appUrl))
+                {
+                    builder.SetIssuer(new(appUrl));
+                }
+
                 // register claims
                 builder.RegisterClaims(
                     OpenIddictConstants.Claims.Name,
@@ -203,13 +212,13 @@ public class SsoModule : AbpModule
                 );
 
                 builder
-                    .SetAuthorizationEndpointUris("/connect/authorize")
-                    .SetIntrospectionEndpointUris("/connect/introspect")
-                    .SetLogoutEndpointUris("/connect/logout")
-                    .SetRevocationEndpointUris("/connect/revocat")
-                    .SetTokenEndpointUris("/connect/token")
-                    .SetUserinfoEndpointUris("/connect/userinfo")
-                    .SetVerificationEndpointUris("/connect/verify");
+                    .SetAuthorizationEndpointUris(appUrl + "connect/authorize")
+                    .SetIntrospectionEndpointUris(appUrl + "connect/introspect")
+                    .SetLogoutEndpointUris(appUrl + "connect/logout")
+                    .SetRevocationEndpointUris(appUrl + "connect/revocat")
+                    .SetTokenEndpointUris(appUrl + "connect/token")
+                    .SetUserinfoEndpointUris(appUrl + "connect/userinfo")
+                    .SetVerificationEndpointUris(appUrl + "connect/verify");
 
                 builder
                     .AllowAuthorizationCodeFlow()

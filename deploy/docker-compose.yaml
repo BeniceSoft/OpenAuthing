@@ -9,7 +9,8 @@ services:
       - net
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
-      ConnectionStrings_Default: ${CONNECTION_STRING}
+      ConnectionStrings__Default: ${CONNECTION_STRING}
+      AppUrl: https://110.41.18.47:8433/
     volumes:
       - sso_certs:/app/certs:ro
     deploy:
