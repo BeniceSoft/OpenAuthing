@@ -21,6 +21,10 @@
 
 ![screenshot](./screenshots/home.png)
 
+## Demo
+访问[体验地址](https://110.41.18.47:8443/)开始体验
+> 用户名：`admin` 密码：`123abc!`
+
 ## ✨ 关键特性
 
 * **SSO**
