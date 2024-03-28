@@ -7,8 +7,10 @@
 </h4>
 
 <p align="center">
-    <img src="https://img.shields.io/github/stars/BeniceSoft/OpenAuthing"
-         alt="starts">
+    <a href="https://github.com/BeniceSoft/OpenAuthing">
+        <img src="https://img.shields.io/github/stars/BeniceSoft/OpenAuthing"
+             alt="starts">
+    </a>
     <img src="https://img.shields.io/github/last-commit/BeniceSoft/OpenAuthing/master.svg?logo=github&logoColor=green&label=commit"
         alt="commit"/>
 </p>
@@ -22,6 +24,7 @@
 ![screenshot](./screenshots/home.png)
 
 ## Demo
+
 访问[体验地址](https://110.41.18.47:8443/)开始体验
 > 用户名：`admin` 密码：`123abc!`
 
@@ -50,9 +53,10 @@ $ git clone https://github.com/BeniceSoft/OpenAuthing --recursive
 
 执行 [建表脚本](./scripts/1初始化建表.sql)、[初始化数据脚本呢](./scripts/2初始化数据.sql)
 
-
 ### 运行
+
 在项目根目录下打开终端
+
 ```bash
 # Go into the repository
 $ cd OpenAuthing
