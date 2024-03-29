@@ -15,6 +15,6 @@ public abstract class AuthControllerBase : AbpController
 
     protected AuthControllerBase()
     {
-        LocalizationResource = typeof(AMResource);
+        LocalizationResource = typeof(AuthingResource);
     }
 }

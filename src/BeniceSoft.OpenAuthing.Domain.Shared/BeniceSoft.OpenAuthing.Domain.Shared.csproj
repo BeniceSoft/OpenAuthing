@@ -11,13 +11,18 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="Volo.Abp.Core" />
-        <PackageReference Include="Volo.Abp.Validation" />
+        <PackageReference Include="Volo.Abp.Ddd.Domain.Shared" />
+        <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" />
+        <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" />
     </ItemGroup>
 
     <ItemGroup>
         <EmbeddedResource Include="Localization\AM\*.json" />
         <Content Remove="Localization\AM\*.json" />
+        <None Remove="Localization\Authing\en.json" />
+        <EmbeddedResource Include="Localization\Authing\en.json" />
+        <None Remove="Localization\Authing\zh-CN.json" />
+        <EmbeddedResource Include="Localization\Authing\zh-CN.json" />
     </ItemGroup>
 
     <ItemGroup>

@@ -83,7 +83,7 @@ public sealed class User : FullAuditedAggregateRoot<Guid>
     /// 是否启用 2FA
     /// </summary>
     public bool TwoFactorEnabled { get; protected internal set; }
-    
+
     /// <summary>
     /// 是否系统内置
     /// </summary>
@@ -117,7 +117,7 @@ public sealed class User : FullAuditedAggregateRoot<Guid>
     }
 
     public User(Guid id, string userName, string nickname, string? phoneNumber = null, string? avatar = null, string? gender = null,
-        string? jobTitle = null)
+        string? jobTitle = null, bool isSystemBuiltIn = false)
         : this(id)
     {
         Check.NotNullOrWhiteSpace(userName, nameof(userName));
@@ -129,6 +129,12 @@ public sealed class User : FullAuditedAggregateRoot<Guid>
         Gender = gender;
         JobTitle = jobTitle;
         Enabled = true;
+        IsSystemBuiltIn = isSystemBuiltIn;
+    }
+
+    public void SetNormalizedUserName(string normalizedUserName)
+    {
+        NormalizedUserName = normalizedUserName;
     }
 
     public void Update(string userName, string nickname, string phoneNumber, string avatar, string gender, string jobTitle)

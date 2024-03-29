@@ -1,10 +1,5 @@
 using BeniceSoft.OpenAuthing.Localization;
-using BeniceSoft.OpenAuthing.OpenIddict.Applications;
-using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
-using BeniceSoft.OpenAuthing.OpenIddict.Scopes;
-using BeniceSoft.OpenAuthing.OpenIddict.Tokens;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions;
-using BeniceSoft.OpenAuthing.OpenIddictExtensions.ClaimDestinations;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.Users;
 using BeniceSoft.Abp.AspNetCore;
@@ -15,8 +10,6 @@ using BeniceSoft.Abp.Auth.Core;
 using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.BackgroundTasks;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.IdentityModel.Logging;
 using OpenIddict.Abstractions;
 using OpenIddict.Server;
@@ -26,7 +19,9 @@ using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.Autofac;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
+using Volo.Abp.Security.Claims;
 
 namespace BeniceSoft.OpenAuthing;
 
@@ -44,9 +39,9 @@ public class SsoModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
+        PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
         {
-            options.AddAssemblyResource(typeof(AMResource),
+            options.AddAssemblyResource(typeof(AuthingResource),
                 typeof(DomainModule).Assembly,
                 typeof(DomainSharedModule).Assembly,
                 typeof(ApplicationModule).Assembly,
@@ -84,62 +79,20 @@ public class SsoModule : AbpModule
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
-        ConfigureOpenIddict(context.Services, configuration);
+
+        ConfigureIdentity(context);
+
+        ConfigureOpeniddict(context, configuration);
 
         context.Services.AddDetection();
+        context.Services.AddHostedService<LoadEnabledExternalIdentityProvidersBackgroundTask>();
+    }
+
+    private static void ConfigureIdentity(ServiceConfigurationContext context)
+    {
+        context.Services.AddBeniceSoftAuthentication();
+
         context.Services
-            .AddHostedService<LoadEnabledExternalIdentityProvidersBackgroundTask>();
-    }
-
-    public override void OnApplicationInitialization(ApplicationInitializationContext context)
-    {
-        var app = context.GetApplicationBuilder();
-        var env = context.GetEnvironment();
-
-        app.UseBeniceSoftRequestLocalization();
-
-        app.UseDetection();
-
-        app.UseCorrelationId();
-
-        app.UseStaticFiles();
-
-        // 路由
-        app.UseRouting();
-
-        // 跨域
-        app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-
-        app.UseBeniceSoftExceptionHandlingMiddleware();
-
-        // 身份验证
-        app.UseBeniceSoftAuthentication();
-
-        // 认证授权
-        app.UseBeniceSoftAuthorization();
-
-        app.UseAuditing();
-
-        // 路由映射
-        app.UseConfiguredEndpoints(builder =>
-        {
-            builder.MapDefaultControllerRoute();
-            // builder.MapControllerRoute(
-            //     name: "AdminArea",
-            //     pattern: "{area:exists}/{controller=Console}/{action=Index}/{id?}");
-            // builder.MapFallbackToFile("index.html");
-            builder.MapFallbackToFile("/", "index.html");
-        });
-    }
-
-    private void ConfigureOpenIddict(IServiceCollection services, IConfiguration configuration)
-    {
-        // see: https://documentation.openiddict.com/configuration/claim-destinations.html
-        Configure<OpenIddictClaimDestinationsOptions>(options => { options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>(); });
-
-        services.AddBeniceSoftAuthentication();
-
-        services
             .AddIdentity<User, Role>(options =>
             {
                 options.ClaimsIdentity.UserNameClaimType = OpenIddictConstants.Claims.Username;
@@ -150,45 +103,32 @@ public class SsoModule : AbpModule
                 options.Password.RequiredLength = 6;
 
                 options.SignIn.RequireConfirmedEmail = false;
+
+                options.User.RequireUniqueEmail = false;
+
+                options.Lockout.MaxFailedAccessAttempts = int.MaxValue;
             })
             // asp.net core identity 2FA/MFA support
             // https://learn.microsoft.com/zh-cn/aspnet/core/security/authentication/mfa?view=aspnetcore-7.0#mfa-2fa
             .AddTokenProvider<AuthenticatorTokenProvider<User>>(TokenOptions.DefaultAuthenticatorProvider);
 
-        // HttpOnly = false
-        services.ConfigureApplicationCookie(options =>
+        // HttpOnly = falsec
+        context.Services.ConfigureApplicationCookie(options =>
         {
             // options.LoginPath = "/#/account/login";
             options.Cookie.HttpOnly = false;
         });
+    }
 
+    private static void ConfigureOpeniddict(ServiceConfigurationContext context, IConfiguration configuration)
+    {
         var appUrl = configuration.GetValue<string>("AppUrl")?.EnsureEndsWith('/') ?? string.Empty;
-        services.AddOpenIddict()
-            // Register the OpenIddict core components.
-            .AddCore(builder =>
-            {
-                builder
-                    .SetDefaultApplicationEntity<OpenIddictApplicationModel>()
-                    .SetDefaultAuthorizationEntity<OpenIddictAuthorizationModel>()
-                    .SetDefaultScopeEntity<OpenIddictScopeModel>()
-                    .SetDefaultTokenEntity<OpenIddictTokenModel>();
-
-                builder
-                    .AddApplicationStore<AmOpenIddictApplicationStore>()
-                    .AddAuthorizationStore<AmOpenIddictAuthorizationStore>()
-                    .AddScopeStore<AmOpenIddictScopeStore>()
-                    .AddTokenStore<AmOpenIddictTokenStore>();
-
-                builder.ReplaceApplicationManager(typeof(AmApplicationManger));
-
-                builder.Services.TryAddScoped(provider => (IAmApplicationManager)provider.GetRequiredService<IOpenIddictApplicationManager>());
-            })
-            // Register the OpenIddict server components.
+        context.Services.AddOpenIddict()
             .AddServer(builder =>
             {
                 if (!string.IsNullOrWhiteSpace(appUrl))
                 {
-                    builder.SetIssuer(new(appUrl));
+                    builder.SetIssuer(appUrl);
                     builder.AddEventHandler(RewriteBaseUriServerHandler.Descriptor);
                 }
 
@@ -271,11 +211,40 @@ public class SsoModule : AbpModule
             });
     }
 
-    private List<string> GetXmlCommentsFilePath()
+    public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
-        var basePath = PlatformServices.Default.Application.ApplicationBasePath;
-        DirectoryInfo d = new DirectoryInfo(basePath);
-        FileInfo[] files = d.GetFiles("*.xml");
-        return files.Select(a => Path.Combine(basePath, a.FullName)).ToList();
+        var app = context.GetApplicationBuilder();
+        var env = context.GetEnvironment();
+
+        app.UseBeniceSoftRequestLocalization();
+
+        app.UseDetection();
+
+        app.UseCorrelationId();
+
+        app.UseStaticFiles();
+
+        // 路由
+        app.UseRouting();
+
+        // 跨域
+        app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+
+        app.UseBeniceSoftExceptionHandlingMiddleware();
+
+        // 身份验证
+        app.UseBeniceSoftAuthentication();
+
+        // 认证授权
+        app.UseBeniceSoftAuthorization();
+
+        app.UseAuditing();
+
+        // 路由映射
+        app.UseConfiguredEndpoints(builder =>
+        {
+            builder.MapDefaultControllerRoute();
+            builder.MapFallbackToFile("/", "index.html");
+        });
     }
 }

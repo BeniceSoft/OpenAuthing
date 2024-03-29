@@ -3,14 +3,9 @@ using BeniceSoft.Abp.AspNetCore.Localizations;
 using BeniceSoft.Abp.AspNetCore.Middlewares;
 using BeniceSoft.Abp.Auth;
 using BeniceSoft.Abp.Auth.Extensions;
-using BeniceSoft.OpenAuthing.OpenIddict.Applications;
-using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
-using BeniceSoft.OpenAuthing.OpenIddict.Scopes;
-using BeniceSoft.OpenAuthing.OpenIddict.Tokens;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.Users;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.DependencyInjection.Extensions;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
 using OpenIddict.Abstractions;
@@ -63,7 +58,7 @@ public class ApiModule : AbpModule
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
         ConfigureSwaggerServices(context.Services);
-        ConfigureOpenIddict(context.Services);
+        ConfigureAuth(context.Services);
 
         context.Services.AddDetection();
     }
@@ -143,7 +138,7 @@ public class ApiModule : AbpModule
         });
     }
 
-    private void ConfigureOpenIddict(IServiceCollection services)
+    private void ConfigureAuth(IServiceCollection services)
     {
         services.AddBeniceSoftAuthentication();
 
@@ -169,27 +164,6 @@ public class ApiModule : AbpModule
             // options.LoginPath = "/#/account/login";
             options.Cookie.HttpOnly = false;
         });
-
-        services.AddOpenIddict()
-            // Register the OpenIddict core components.
-            .AddCore(builder =>
-            {
-                builder
-                    .SetDefaultApplicationEntity<OpenIddictApplicationModel>()
-                    .SetDefaultAuthorizationEntity<OpenIddictAuthorizationModel>()
-                    .SetDefaultScopeEntity<OpenIddictScopeModel>()
-                    .SetDefaultTokenEntity<OpenIddictTokenModel>();
-
-                builder
-                    .AddApplicationStore<AmOpenIddictApplicationStore>()
-                    .AddAuthorizationStore<AmOpenIddictAuthorizationStore>()
-                    .AddScopeStore<AmOpenIddictScopeStore>()
-                    .AddTokenStore<AmOpenIddictTokenStore>();
-
-                builder.ReplaceApplicationManager(typeof(AmApplicationManger));
-
-                builder.Services.TryAddScoped(provider => (IAmApplicationManager)provider.GetRequiredService<IOpenIddictApplicationManager>());
-            });
     }
 
     private List<string> GetXmlCommentsFilePath()

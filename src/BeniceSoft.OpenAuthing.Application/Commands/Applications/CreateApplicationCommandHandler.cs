@@ -1,28 +1,28 @@
-using BeniceSoft.OpenAuthing.OpenIddict.Applications;
 using MediatR;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.OpenIddict.Applications;
 
 namespace BeniceSoft.OpenAuthing.Commands.Applications;
 
 public class CreateApplicationCommandHandler
     : IRequestHandler<CreateApplicationCommand, Guid>, ITransientDependency
 {
-    private readonly AmApplicationManger _applicationManager;
+    private readonly IAbpApplicationManager _applicationManager;
 
-    public CreateApplicationCommandHandler(AmApplicationManger applicationManager)
+    public CreateApplicationCommandHandler(IAbpApplicationManager applicationManager)
     {
         _applicationManager = applicationManager;
     }
 
     public async Task<Guid> Handle(CreateApplicationCommand request, CancellationToken cancellationToken)
     {
-        var applicationDescriptor = new AmApplicationDescriptor
+        var applicationDescriptor = new AbpApplicationDescriptor
         {
             ClientId = request.ClientId,
             DisplayName = request.DisplayName,
             ClientType = request.ClientType
         };
-        var application = await _applicationManager.CreateAsync(applicationDescriptor, cancellationToken);
+        var application = (OpenIddictApplicationModel)await _applicationManager.CreateAsync(applicationDescriptor, cancellationToken);
 
         return application.Id;
     }

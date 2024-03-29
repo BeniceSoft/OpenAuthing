@@ -176,7 +176,7 @@ public class RoleStore : IRoleStore<Role>, ITransientDependency
     /// <param name="normalizedName">The normalized role name to look for.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that result of the look up.</returns>
-    public virtual Task<Role> FindByNameAsync([NotNull] string normalizedName, CancellationToken cancellationToken = default)
+    public virtual Task<Role?> FindByNameAsync([NotNull] string normalizedName, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 

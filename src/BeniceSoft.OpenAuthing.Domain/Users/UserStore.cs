@@ -132,7 +132,7 @@ public class UserStore :
         return IdentityResult.Success;
     }
 
-    public virtual async Task<IdentityResult> CreateAsync([NotNull] User user, string password,
+    public virtual async Task<IdentityResult> CreateAsync(User user, string password,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();

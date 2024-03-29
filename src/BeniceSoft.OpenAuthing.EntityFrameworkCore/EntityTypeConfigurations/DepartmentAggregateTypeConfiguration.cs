@@ -14,7 +14,7 @@ internal static class DepartmentAggregateTypeConfiguration
 
     private static void ConfigureDepartment(EntityTypeBuilder<Department> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "Departments", x => x.HasComment("部门"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "Departments", x => x.HasComment("部门"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name)

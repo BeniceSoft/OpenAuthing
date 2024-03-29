@@ -23,10 +23,10 @@ public partial class TokenController
                 }!));
         }
 
-        var client = LazyServiceProvider.LazyGetRequiredService<IAmDingTalkClient>();
+        var client = LazyServiceProvider.LazyGetRequiredService<IAuthingDingTalkClient>();
         var dingTalkUserInfo = await client.GetUserInfoByCodeAsync(code);
 
-        var user = await UserManager.FindByLoginAsync(AmConstants.LoginProviders.DingTalk, dingTalkUserInfo.UnionId);
+        var user = await UserManager.FindByLoginAsync(AuthingConstants.LoginProviders.DingTalk, dingTalkUserInfo.UnionId);
         if (user is null)
         {
             return Forbid(

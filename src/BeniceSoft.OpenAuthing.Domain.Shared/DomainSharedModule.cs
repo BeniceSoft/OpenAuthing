@@ -1,6 +1,9 @@
 using BeniceSoft.OpenAuthing.Localization;
+using Volo.Abp.Domain;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
+using Volo.Abp.OpenIddict;
+using Volo.Abp.SettingManagement;
 using Volo.Abp.Validation;
 using Volo.Abp.Validation.Localization;
 using Volo.Abp.VirtualFileSystem;
@@ -8,25 +11,24 @@ using Volo.Abp.VirtualFileSystem;
 namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
-    typeof(AbpValidationModule)
+    typeof(AbpDddDomainSharedModule),
+    typeof(AbpSettingManagementDomainSharedModule),
+    typeof(AbpOpenIddictDomainSharedModule)
 )]
 public class DomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        Configure<AbpVirtualFileSystemOptions>(options =>
-        {
-            options.FileSets.AddEmbedded<DomainSharedModule>("BeniceSoft.OpenAuthing");
-        });
+        Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<DomainSharedModule>("BeniceSoft.OpenAuthing"); });
 
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources
-                .Add<AMResource>("zh-CN")
+                .Add<AuthingResource>("en")
                 .AddBaseTypes(typeof(AbpValidationResource))
-                .AddVirtualJson("/Localization/AM");
+                .AddVirtualJson("/Localization/Authing");
 
-            options.DefaultResourceType = typeof(AMResource);
+            options.DefaultResourceType = typeof(AuthingResource);
         });
 
         // Configure<AbpExceptionLocalizationOptions>(options => { options.MapCodeNamespace("MyProjectName", typeof(MyProjectNameResource)); });

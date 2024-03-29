@@ -15,7 +15,7 @@ internal static class UserGroupAggregateTypeConfiguration
 
     private static void ConfigureUserGroupMember(EntityTypeBuilder<UserGroupMember> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "UserGroupMembers", x => x.HasComment("用户组成员"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "UserGroupMembers", x => x.HasComment("用户组成员"));
         builder.ConfigureByConvention();
         builder.HasKey(x => new { x.UserGroupId, x.UserId });
         builder.Property(x => x.UserGroupId)
@@ -26,7 +26,7 @@ internal static class UserGroupAggregateTypeConfiguration
 
     private static void ConfigureUserGroup(EntityTypeBuilder<UserGroup> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "UserGroups", x => x.HasComment("用户组"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "UserGroups", x => x.HasComment("用户组"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Name)

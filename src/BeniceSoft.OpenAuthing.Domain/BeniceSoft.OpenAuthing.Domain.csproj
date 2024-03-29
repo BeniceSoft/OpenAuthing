@@ -2,7 +2,7 @@
     <Import Project="..\..\common.props" />
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
@@ -13,9 +13,9 @@
         <PackageReference Include="BeniceSoft.Abp.Auth.Core" />
         <PackageReference Include="BeniceSoft.Abp.Ddd.Domain" />
         <PackageReference Include="Mapster" />
-        <PackageReference Include="Microsoft.Extensions.Identity.Core" />
         <PackageReference Include="OpenIddict.Core" />
-        <PackageReference Include="System.Linq.Async" />
+        <PackageReference Include="Volo.Abp.OpenIddict.Domain" />
+        <PackageReference Include="Volo.Abp.SettingManagement.Domain" />
     </ItemGroup>
 
     <ItemGroup>

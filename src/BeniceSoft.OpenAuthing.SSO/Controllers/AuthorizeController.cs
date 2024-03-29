@@ -1,3 +1,4 @@
+using BeniceSoft.OpenAuthing.Extensions;
 using BeniceSoft.OpenAuthing.Models.Accounts;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
@@ -71,8 +72,18 @@ public class AuthorizeController : AuthOpenIddictControllerBase
         }
 
         // Retrieve the profile of the logged in user.
-        var user = await UserManager.GetUserAsync(result.Principal) ??
-                   throw new InvalidOperationException(L["TheUserDetailsCannotBeRetrieved"]);
+        var dynamicPrincipal = await AbpClaimsPrincipalFactory.CreateDynamicAsync(result.Principal);
+        var user = await UserManager.GetUserAsync(dynamicPrincipal);
+        if (user == null)
+        {
+            return Challenge(
+                authenticationSchemes: IdentityConstants.ApplicationScheme,
+                properties: new AuthenticationProperties
+                {
+                    RedirectUri = Request.PathBase + Request.Path + QueryString.Create(
+                        Request.HasFormContentType ? Request.Form.ToList() : Request.Query.ToList())
+                });
+        }
 
         // Retrieve the application details from the database.
         var application = await ApplicationManager.FindByClientIdAsync(request.ClientId) ??

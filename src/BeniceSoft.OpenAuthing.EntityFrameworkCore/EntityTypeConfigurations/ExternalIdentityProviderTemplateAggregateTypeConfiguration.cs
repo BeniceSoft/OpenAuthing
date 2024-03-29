@@ -15,7 +15,7 @@ internal static class ExternalIdentityProviderTemplateAggregateTypeConfiguration
 
     private static void ConfigureExternalIdentityProviderTemplate(EntityTypeBuilder<ExternalIdentityProviderTemplate> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "ExternalIdentityProviderTemplates", b => b.HasComment("外部身份提供者模板"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "ExternalIdentityProviderTemplates", b => b.HasComment("外部身份提供者模板"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
@@ -44,7 +44,7 @@ internal static class ExternalIdentityProviderTemplateAggregateTypeConfiguration
 
     private static void ConfigureExternalIdentityProviderTemplateField(EntityTypeBuilder<ExternalIdentityProviderTemplateField> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "ExternalIdentityProviderTemplateFields", b => b.HasComment("外部身份提供者模板字段"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "ExternalIdentityProviderTemplateFields", b => b.HasComment("外部身份提供者模板字段"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)

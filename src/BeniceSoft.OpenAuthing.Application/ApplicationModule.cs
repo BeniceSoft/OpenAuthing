@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.AutoMapper;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Modularity;
+using Volo.Abp.SettingManagement;
 
 namespace BeniceSoft.OpenAuthing;
 
@@ -13,7 +14,8 @@ namespace BeniceSoft.OpenAuthing;
     typeof(AbpBlobStoringModule),
     typeof(BeniceSoftAbpDddApplicationModule),
     typeof(DomainModule),
-    typeof(ApplicationContractsModule)
+    typeof(ApplicationContractsModule),
+    typeof(AbpSettingManagementApplicationModule)
 )]
 public class ApplicationModule : AbpModule
 {

@@ -10,7 +10,7 @@ internal static class DepartmentMemberAggregateTypeConfiguration
     {
         var builder = modelBuilder.Entity<DepartmentMember>();
 
-        builder.ToTable(EfConstants.TablePrefix + "DepartmentMembers", x => x.HasComment("部门成员"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "DepartmentMembers", x => x.HasComment("部门成员"));
         builder.ConfigureByConvention();
         builder.HasKey(x => new {x.DepartmentId, x.UserId});
         builder.Property(x => x.DepartmentId)

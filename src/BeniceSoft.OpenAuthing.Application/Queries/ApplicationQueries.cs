@@ -1,15 +1,16 @@
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Responses;
-using BeniceSoft.OpenAuthing.OpenIddict.Applications;
 using Mapster;
 using Volo.Abp.DependencyInjection;
+using Volo.Abp.Domain.Repositories;
+using Volo.Abp.OpenIddict.Applications;
 
 namespace BeniceSoft.OpenAuthing.Queries;
 
 public class ApplicationQueries : BaseQueries, IApplicationQueries
 {
-    private readonly IOpenIddictApplicationRepository _applicationRepository;
+    private readonly IRepository<OpenIddictApplication> _applicationRepository;
 
-    public ApplicationQueries(IAbpLazyServiceProvider lazyServiceProvider, IOpenIddictApplicationRepository applicationRepository) : base(
+    public ApplicationQueries(IAbpLazyServiceProvider lazyServiceProvider, IRepository<OpenIddictApplication> applicationRepository) : base(
         lazyServiceProvider)
     {
         _applicationRepository = applicationRepository;

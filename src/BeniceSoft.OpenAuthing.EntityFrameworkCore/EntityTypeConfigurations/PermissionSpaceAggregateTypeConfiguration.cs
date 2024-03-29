@@ -14,7 +14,7 @@ internal static class PermissionSpaceAggregateTypeConfiguration
 
     private static void ConfigurePermissionSpace(EntityTypeBuilder<PermissionSpace> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "PermissionSpaces", b => b
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "PermissionSpaces", b => b
             .HasComment("权限空间"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);

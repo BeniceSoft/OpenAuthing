@@ -16,7 +16,7 @@ internal static class UserAggregateTypeConfiguration
 
     private static void ConfigureUserToken(EntityTypeBuilder<UserToken> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "UserTokens", x => x.HasComment("用户token"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "UserTokens", x => x.HasComment("用户token"));
 
         builder.ConfigureByConvention();
 
@@ -34,7 +34,7 @@ internal static class UserAggregateTypeConfiguration
 
     private static void ConfigureUserLogin(EntityTypeBuilder<UserLogin> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "UserLogins", x => x.HasComment("用户第三方登录信息"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "UserLogins", x => x.HasComment("用户第三方登录信息"));
         builder.ConfigureByConvention();
         builder.HasKey(x => new { x.UserId, x.LoginProvider });
         builder.Property(x => x.UserId)
@@ -56,7 +56,7 @@ internal static class UserAggregateTypeConfiguration
 
     private static void ConfigureUser(EntityTypeBuilder<User> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "Users", x => x.HasComment("用户"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "Users", x => x.HasComment("用户"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
         builder.Property(x => x.UserName)

@@ -2,7 +2,7 @@
     <Import Project="..\..\common.props" />
 
     <PropertyGroup>
-        <TargetFramework>net7.0</TargetFramework>
+        <TargetFramework>net8.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
@@ -21,6 +21,7 @@
         <PackageReference Include="System.IdentityModel.Tokens.Jwt" />
         <PackageReference Include="Volo.Abp.AutoMapper" />
         <PackageReference Include="Volo.Abp.BlobStoring" />
+        <PackageReference Include="Volo.Abp.SettingManagement.Application" />
         <PackageReference Include="Wangkanai.Detection" />
     </ItemGroup>
 

@@ -1,11 +1,6 @@
-using BeniceSoft.OpenAuthing.OpenIddict.Applications;
-using BeniceSoft.OpenAuthing.OpenIddict.Authorizations;
-using BeniceSoft.OpenAuthing.OpenIddict.Scopes;
-using BeniceSoft.OpenAuthing.OpenIddict.Tokens;
-using BeniceSoft.OpenAuthing.Repositories;
+using BeniceSoft.Abp.EntityFrameworkCore;
 using BeniceSoft.OpenAuthing.Roles;
 using BeniceSoft.OpenAuthing.UserGroups;
-using BeniceSoft.Abp.EntityFrameworkCore;
 using BeniceSoft.OpenAuthing.IdentityProviders;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
@@ -13,28 +8,38 @@ using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore.MySQL;
 using Volo.Abp.Modularity;
+using Volo.Abp.OpenIddict;
+using Volo.Abp.OpenIddict.EntityFrameworkCore;
+using Volo.Abp.SettingManagement;
+using Volo.Abp.SettingManagement.EntityFrameworkCore;
 
 namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
     typeof(AbpEntityFrameworkCoreMySQLModule),
     typeof(BeniceSoftAbpEntityFrameworkCoreModule),
-    typeof(DomainModule)
+    typeof(DomainModule),
+    typeof(AbpSettingManagementEntityFrameworkCoreModule),
+    typeof(AbpOpenIddictEntityFrameworkCoreModule)
 )]
 public class EntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
+        AbpSettingManagementDbProperties.DbSchema = null;
+        AbpSettingManagementDbProperties.DbTablePrefix = AuthingDbProperties.DbTablePrefix;
+        
+        AbpOpenIddictDbProperties.DbSchema = null;
+        AbpOpenIddictDbProperties.DbTablePrefix = AuthingDbProperties.OpenIddictDbTablePrefix;
+
         context.Services.AddAbpDbContext<AuthingDbContext>(options =>
         {
+            options.ReplaceDbContext<ISettingManagementDbContext>()
+                .ReplaceDbContext<IOpenIddictDbContext>();
+            
             /* Remove "includeAllEntities: true" to create
              * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);
-
-            options.AddRepository<OpenIddictApplication, EfCoreOpenIddictApplicationRepository>();
-            options.AddRepository<OpenIddictAuthorization, EfCoreOpenIddictAuthorizationRepository>();
-            options.AddRepository<OpenIddictScope, EfCoreOpenIddictScopeRepository>();
-            options.AddRepository<OpenIddictToken, EfCoreOpenIddictTokenRepository>();
         });
 
         Configure<AbpDbContextOptions>(options =>
@@ -46,6 +51,7 @@ public class EntityFrameworkCoreModule : AbpModule
                 ctx.DbContextOptions.EnableSensitiveDataLogging();
 #endif
             });
+            
         });
 
 

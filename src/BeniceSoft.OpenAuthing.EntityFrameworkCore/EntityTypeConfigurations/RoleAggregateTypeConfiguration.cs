@@ -15,7 +15,7 @@ internal static class RoleAggregateTypeConfiguration
 
     private static void ConfigureRoleSubject(EntityTypeBuilder<RoleSubject> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "RoleSubjects", x => x.HasComment("角色主体"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "RoleSubjects", x => x.HasComment("角色主体"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)
@@ -36,7 +36,7 @@ internal static class RoleAggregateTypeConfiguration
 
     private static void ConfigureRole(EntityTypeBuilder<Role> builder)
     {
-        builder.ToTable(EfConstants.TablePrefix + "Roles", x => x.HasComment("角色"));
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "Roles", x => x.HasComment("角色"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
         builder.Property(x => x.Id)

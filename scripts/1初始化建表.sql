@@ -1,5 +1,3 @@
-USE openauthing;
-
 ALTER DATABASE CHARACTER SET utf8mb4;
 
 CREATE TABLE `OAuthing_DepartmentMembers` (
@@ -7,8 +5,8 @@ CREATE TABLE `OAuthing_DepartmentMembers` (
                                               `UserId` char(36) COLLATE ascii_general_ci NOT NULL COMMENT '用户ID',
                                               `IsLeader` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '是否负责人',
                                               `IsMain` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '是否主部门',
-                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                               `CreationTime` datetime(6) NOT NULL,
                                               `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                               `LastModificationTime` datetime(6) NULL,
@@ -23,8 +21,8 @@ CREATE TABLE `OAuthing_Departments` (
                                         `ParentId` char(36) COLLATE ascii_general_ci NULL COMMENT '父级Id',
                                         `Seq` int NOT NULL COMMENT '排序',
                                         `Path` varchar(1000) CHARACTER SET utf8mb4 NOT NULL COMMENT '路径',
-                                        `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                        `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                        `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                        `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                         `CreationTime` datetime(6) NOT NULL,
                                         `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                         `LastModificationTime` datetime(6) NULL,
@@ -32,8 +30,7 @@ CREATE TABLE `OAuthing_Departments` (
                                         `IsDeleted` tinyint(1) NOT NULL DEFAULT FALSE,
                                         `DeleterId` char(36) COLLATE ascii_general_ci NULL,
                                         `DeletionTime` datetime(6) NULL,
-                                        CONSTRAINT `PK_OAuthing_Departments` PRIMARY KEY (`Id`),
-                                        CONSTRAINT `FK_OAuthing_Departments_OAuthing_Departments_ParentId` FOREIGN KEY (`ParentId`) REFERENCES `OAuthing_Departments` (`Id`)
+                                        CONSTRAINT `PK_OAuthing_Departments` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4 COMMENT='部门';
 
 CREATE TABLE `OAuthing_ExternalIdentityProviders` (
@@ -42,8 +39,8 @@ CREATE TABLE `OAuthing_ExternalIdentityProviders` (
                                                       `Name` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '名称（唯一）',
                                                       `DisplayName` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '显示名称',
                                                       `Enabled` tinyint(1) NOT NULL COMMENT '是否启用',
-                                                      `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                                      `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                                      `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                                      `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                                       `CreationTime` datetime(6) NOT NULL,
                                                       `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                                       `LastModificationTime` datetime(6) NULL,
@@ -60,28 +57,31 @@ CREATE TABLE `OAuthing_ExternalIdentityProviderTemplates` (
                                                               `Logo` varchar(500) CHARACTER SET utf8mb4 NULL COMMENT 'LOGO',
                                                               `Title` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '标题',
                                                               `Description` varchar(500) CHARACTER SET utf8mb4 NULL COMMENT '描述',
-                                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                                               CONSTRAINT `PK_OAuthing_ExternalIdentityProviderTemplates` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4 COMMENT='外部身份提供者模板';
 
 CREATE TABLE `OAuthing_OpenIddict_Applications` (
                                                     `Id` char(36) COLLATE ascii_general_ci NOT NULL,
-                                                    `ClientId` varchar(100) CHARACTER SET utf8mb4 NOT NULL,
+                                                    `ApplicationType` varchar(50) CHARACTER SET utf8mb4 NULL,
+                                                    `ClientId` varchar(100) CHARACTER SET utf8mb4 NULL,
                                                     `ClientSecret` longtext CHARACTER SET utf8mb4 NULL,
+                                                    `ClientType` varchar(50) CHARACTER SET utf8mb4 NULL,
                                                     `ConsentType` varchar(50) CHARACTER SET utf8mb4 NULL,
                                                     `DisplayName` longtext CHARACTER SET utf8mb4 NULL,
                                                     `DisplayNames` longtext CHARACTER SET utf8mb4 NULL,
+                                                    `JsonWebKeySet` longtext CHARACTER SET utf8mb4 NULL,
                                                     `Permissions` longtext CHARACTER SET utf8mb4 NULL,
                                                     `PostLogoutRedirectUris` longtext CHARACTER SET utf8mb4 NULL,
                                                     `Properties` longtext CHARACTER SET utf8mb4 NULL,
                                                     `RedirectUris` longtext CHARACTER SET utf8mb4 NULL,
                                                     `Requirements` longtext CHARACTER SET utf8mb4 NULL,
-                                                    `Type` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+                                                    `Settings` longtext CHARACTER SET utf8mb4 NULL,
                                                     `ClientUri` longtext CHARACTER SET utf8mb4 NULL,
                                                     `LogoUri` longtext CHARACTER SET utf8mb4 NULL,
-                                                    `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                                    `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                                    `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                                    `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                                     `CreationTime` datetime(6) NOT NULL,
                                                     `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                                     `LastModificationTime` datetime(6) NULL,
@@ -101,8 +101,8 @@ CREATE TABLE `OAuthing_OpenIddict_Scopes` (
                                               `Name` varchar(200) CHARACTER SET utf8mb4 NULL,
                                               `Properties` longtext CHARACTER SET utf8mb4 NULL,
                                               `Resources` longtext CHARACTER SET utf8mb4 NULL,
-                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                               `CreationTime` datetime(6) NOT NULL,
                                               `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                               `LastModificationTime` datetime(6) NULL,
@@ -120,8 +120,8 @@ CREATE TABLE `OAuthing_PermissionSpaces` (
                                              `DisplayName` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '现实名称',
                                              `Description` varchar(500) CHARACTER SET utf8mb4 NULL COMMENT '描述',
                                              `IsSystemBuiltIn` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '是否系统内置',
-                                             `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                             `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                             `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                             `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                              `CreationTime` datetime(6) NOT NULL,
                                              `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                              `LastModificationTime` datetime(6) NULL,
@@ -141,8 +141,8 @@ CREATE TABLE `OAuthing_Roles` (
                                   `Enabled` tinyint(1) NOT NULL DEFAULT TRUE COMMENT '是否启用',
                                   `IsSystemBuiltIn` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '是否系统内置',
                                   `PermissionSpaceId` char(36) COLLATE ascii_general_ci NOT NULL COMMENT '所属权限空间',
-                                  `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                  `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                  `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                  `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                   `CreationTime` datetime(6) NOT NULL,
                                   `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                   `LastModificationTime` datetime(6) NULL,
@@ -153,14 +153,37 @@ CREATE TABLE `OAuthing_Roles` (
                                   CONSTRAINT `PK_OAuthing_Roles` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4 COMMENT='角色';
 
+CREATE TABLE `OAuthing_SettingDefinitions` (
+                                               `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+                                               `Name` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+                                               `DisplayName` varchar(256) CHARACTER SET utf8mb4 NOT NULL,
+                                               `Description` varchar(512) CHARACTER SET utf8mb4 NULL,
+                                               `DefaultValue` varchar(2048) CHARACTER SET utf8mb4 NULL,
+                                               `IsVisibleToClients` tinyint(1) NOT NULL,
+                                               `Providers` varchar(1024) CHARACTER SET utf8mb4 NULL,
+                                               `IsInherited` tinyint(1) NOT NULL,
+                                               `IsEncrypted` tinyint(1) NOT NULL,
+                                               `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
+                                               CONSTRAINT `PK_OAuthing_SettingDefinitions` PRIMARY KEY (`Id`)
+) CHARACTER SET=utf8mb4;
+
+CREATE TABLE `OAuthing_Settings` (
+                                     `Id` char(36) COLLATE ascii_general_ci NOT NULL,
+                                     `Name` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
+                                     `Value` varchar(2048) CHARACTER SET utf8mb4 NOT NULL,
+                                     `ProviderName` varchar(64) CHARACTER SET utf8mb4 NULL,
+                                     `ProviderKey` varchar(64) CHARACTER SET utf8mb4 NULL,
+                                     CONSTRAINT `PK_OAuthing_Settings` PRIMARY KEY (`Id`)
+) CHARACTER SET=utf8mb4;
+
 CREATE TABLE `OAuthing_UserGroups` (
                                        `Id` char(36) COLLATE ascii_general_ci NOT NULL,
                                        `Name` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '名称',
                                        `DisplayName` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '显示名称',
                                        `Description` varchar(500) CHARACTER SET utf8mb4 NOT NULL COMMENT '描述',
                                        `Enabled` tinyint(1) NOT NULL COMMENT '是否启用',
-                                       `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                       `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                       `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                       `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                        `CreationTime` datetime(6) NOT NULL,
                                        `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                        `LastModificationTime` datetime(6) NULL,
@@ -189,8 +212,8 @@ CREATE TABLE `OAuthing_Users` (
                                   `SecurityStamp` varchar(1000) CHARACTER SET utf8mb4 NULL COMMENT '安全凭证',
                                   `TwoFactorEnabled` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '是否启用2FA',
                                   `IsSystemBuiltIn` tinyint(1) NOT NULL DEFAULT FALSE COMMENT '是否系统内置',
-                                  `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                  `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                  `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                  `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                   `CreationTime` datetime(6) NOT NULL,
                                   `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                   `LastModificationTime` datetime(6) NULL,
@@ -206,8 +229,7 @@ CREATE TABLE `OAuthing_ExternalIdentityProviderOptions` (
                                                             `Key` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '键',
                                                             `Value` longtext CHARACTER SET utf8mb4 NULL COMMENT '值',
                                                             `ExternalIdentityProviderId` char(36) COLLATE ascii_general_ci NULL,
-                                                            CONSTRAINT `PK_OAuthing_ExternalIdentityProviderOptions` PRIMARY KEY (`Id`),
-                                                            CONSTRAINT `FK_OAuthing_ExternalIdentityProviderOptions_OAuthing_ExternalId~` FOREIGN KEY (`ExternalIdentityProviderId`) REFERENCES `OAuthing_ExternalIdentityProviders` (`Id`)
+                                                            CONSTRAINT `PK_OAuthing_ExternalIdentityProviderOptions` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4 COMMENT='外部身份提供者配置';
 
 CREATE TABLE `OAuthing_ExternalIdentityProviderTemplateFields` (
@@ -221,8 +243,7 @@ CREATE TABLE `OAuthing_ExternalIdentityProviderTemplateFields` (
                                                                    `ExtraData` longtext CHARACTER SET utf8mb4 NULL COMMENT '扩展数据',
                                                                    `Order` int NOT NULL COMMENT '排序（正序）',
                                                                    `ExternalIdentityProviderTemplateId` char(36) COLLATE ascii_general_ci NULL,
-                                                                   CONSTRAINT `PK_OAuthing_ExternalIdentityProviderTemplateFields` PRIMARY KEY (`Id`),
-                                                                   CONSTRAINT `FK_OAuthing_ExternalIdentityProviderTemplateFields_OAuthing_Ext~` FOREIGN KEY (`ExternalIdentityProviderTemplateId`) REFERENCES `OAuthing_ExternalIdentityProviderTemplates` (`Id`)
+                                                                   CONSTRAINT `PK_OAuthing_ExternalIdentityProviderTemplateFields` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4 COMMENT='外部身份提供者模板字段';
 
 CREATE TABLE `OAuthing_OpenIddict_Authorizations` (
@@ -234,8 +255,8 @@ CREATE TABLE `OAuthing_OpenIddict_Authorizations` (
                                                       `Status` varchar(50) CHARACTER SET utf8mb4 NULL,
                                                       `Subject` varchar(400) CHARACTER SET utf8mb4 NULL,
                                                       `Type` varchar(50) CHARACTER SET utf8mb4 NULL,
-                                                      `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                                      `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                                      `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                                      `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                                       `CreationTime` datetime(6) NOT NULL,
                                                       `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                                       `LastModificationTime` datetime(6) NULL,
@@ -243,8 +264,7 @@ CREATE TABLE `OAuthing_OpenIddict_Authorizations` (
                                                       `IsDeleted` tinyint(1) NOT NULL DEFAULT FALSE,
                                                       `DeleterId` char(36) COLLATE ascii_general_ci NULL,
                                                       `DeletionTime` datetime(6) NULL,
-                                                      CONSTRAINT `PK_OAuthing_OpenIddict_Authorizations` PRIMARY KEY (`Id`),
-                                                      CONSTRAINT `FK_OAuthing_OpenIddict_Authorizations_OAuthing_OpenIddict_Appli~` FOREIGN KEY (`ApplicationId`) REFERENCES `OAuthing_OpenIddict_Applications` (`Id`)
+                                                      CONSTRAINT `PK_OAuthing_OpenIddict_Authorizations` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4;
 
 CREATE TABLE `OAuthing_RoleSubjects` (
@@ -254,8 +274,7 @@ CREATE TABLE `OAuthing_RoleSubjects` (
                                          `SubjectId` char(36) COLLATE ascii_general_ci NOT NULL COMMENT '主体id',
                                          `CreationTime` datetime(6) NOT NULL,
                                          `CreatorId` char(36) COLLATE ascii_general_ci NULL,
-                                         CONSTRAINT `PK_OAuthing_RoleSubjects` PRIMARY KEY (`Id`),
-                                         CONSTRAINT `FK_OAuthing_RoleSubjects_OAuthing_Roles_RoleId` FOREIGN KEY (`RoleId`) REFERENCES `OAuthing_Roles` (`Id`) ON DELETE CASCADE
+                                         CONSTRAINT `PK_OAuthing_RoleSubjects` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4 COMMENT='角色主体';
 
 CREATE TABLE `OAuthing_UserGroupMembers` (
@@ -263,8 +282,7 @@ CREATE TABLE `OAuthing_UserGroupMembers` (
                                              `UserId` char(36) COLLATE ascii_general_ci NOT NULL,
                                              `CreationTime` datetime(6) NOT NULL,
                                              `CreatorId` char(36) COLLATE ascii_general_ci NULL,
-                                             CONSTRAINT `PK_OAuthing_UserGroupMembers` PRIMARY KEY (`UserGroupId`, `UserId`),
-                                             CONSTRAINT `FK_OAuthing_UserGroupMembers_OAuthing_UserGroups_UserGroupId` FOREIGN KEY (`UserGroupId`) REFERENCES `OAuthing_UserGroups` (`Id`) ON DELETE CASCADE
+                                             CONSTRAINT `PK_OAuthing_UserGroupMembers` PRIMARY KEY (`UserGroupId`, `UserId`)
 ) CHARACTER SET=utf8mb4 COMMENT='用户组成员';
 
 CREATE TABLE `OAuthing_UserLogins` (
@@ -272,8 +290,7 @@ CREATE TABLE `OAuthing_UserLogins` (
                                        `LoginProvider` varchar(200) CHARACTER SET utf8mb4 NOT NULL COMMENT '登录提供程序名称',
                                        `ProviderKey` varchar(500) CHARACTER SET utf8mb4 NOT NULL COMMENT '此登录程序的唯一标识',
                                        `ProviderDisplayName` varchar(500) CHARACTER SET utf8mb4 NULL COMMENT '此登录程序的显示名',
-                                       CONSTRAINT `PK_OAuthing_UserLogins` PRIMARY KEY (`UserId`, `LoginProvider`),
-                                       CONSTRAINT `FK_OAuthing_UserLogins_OAuthing_Users_UserId` FOREIGN KEY (`UserId`) REFERENCES `OAuthing_Users` (`Id`) ON DELETE CASCADE
+                                       CONSTRAINT `PK_OAuthing_UserLogins` PRIMARY KEY (`UserId`, `LoginProvider`)
 ) CHARACTER SET=utf8mb4 COMMENT='用户第三方登录信息';
 
 CREATE TABLE `OAuthing_UserTokens` (
@@ -281,8 +298,7 @@ CREATE TABLE `OAuthing_UserTokens` (
                                        `LoginProvider` varchar(64) CHARACTER SET utf8mb4 NOT NULL,
                                        `Name` varchar(128) CHARACTER SET utf8mb4 NOT NULL,
                                        `Value` longtext CHARACTER SET utf8mb4 NOT NULL,
-                                       CONSTRAINT `PK_OAuthing_UserTokens` PRIMARY KEY (`UserId`, `LoginProvider`, `Name`),
-                                       CONSTRAINT `FK_OAuthing_UserTokens_OAuthing_Users_UserId` FOREIGN KEY (`UserId`) REFERENCES `OAuthing_Users` (`Id`) ON DELETE CASCADE
+                                       CONSTRAINT `PK_OAuthing_UserTokens` PRIMARY KEY (`UserId`, `LoginProvider`, `Name`)
 ) CHARACTER SET=utf8mb4 COMMENT='用户token';
 
 CREATE TABLE `OAuthing_OpenIddict_Tokens` (
@@ -298,8 +314,8 @@ CREATE TABLE `OAuthing_OpenIddict_Tokens` (
                                               `Status` varchar(50) CHARACTER SET utf8mb4 NULL,
                                               `Subject` varchar(400) CHARACTER SET utf8mb4 NULL,
                                               `Type` varchar(50) CHARACTER SET utf8mb4 NULL,
-                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NULL,
-                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NULL,
+                                              `ExtraProperties` longtext CHARACTER SET utf8mb4 NOT NULL,
+                                              `ConcurrencyStamp` varchar(40) CHARACTER SET utf8mb4 NOT NULL,
                                               `CreationTime` datetime(6) NOT NULL,
                                               `CreatorId` char(36) COLLATE ascii_general_ci NULL,
                                               `LastModificationTime` datetime(6) NULL,
@@ -307,9 +323,7 @@ CREATE TABLE `OAuthing_OpenIddict_Tokens` (
                                               `IsDeleted` tinyint(1) NOT NULL DEFAULT FALSE,
                                               `DeleterId` char(36) COLLATE ascii_general_ci NULL,
                                               `DeletionTime` datetime(6) NULL,
-                                              CONSTRAINT `PK_OAuthing_OpenIddict_Tokens` PRIMARY KEY (`Id`),
-                                              CONSTRAINT `FK_OAuthing_OpenIddict_Tokens_OAuthing_OpenIddict_Applications_~` FOREIGN KEY (`ApplicationId`) REFERENCES `OAuthing_OpenIddict_Applications` (`Id`),
-                                              CONSTRAINT `FK_OAuthing_OpenIddict_Tokens_OAuthing_OpenIddict_Authorization~` FOREIGN KEY (`AuthorizationId`) REFERENCES `OAuthing_OpenIddict_Authorizations` (`Id`)
+                                              CONSTRAINT `PK_OAuthing_OpenIddict_Tokens` PRIMARY KEY (`Id`)
 ) CHARACTER SET=utf8mb4;
 
 CREATE INDEX `IX_OAuthing_Departments_ParentId` ON `OAuthing_Departments` (`ParentId`);
@@ -337,3 +351,7 @@ CREATE INDEX `IX_OAuthing_Roles_PermissionSpaceId` ON `OAuthing_Roles` (`Permiss
 CREATE INDEX `IX_OAuthing_RoleSubjects_RoleId` ON `OAuthing_RoleSubjects` (`RoleId`);
 
 CREATE UNIQUE INDEX `IX_OAuthing_RoleSubjects_SubjectType_SubjectId_RoleId` ON `OAuthing_RoleSubjects` (`SubjectType`, `SubjectId`, `RoleId`);
+
+CREATE UNIQUE INDEX `IX_OAuthing_SettingDefinitions_Name` ON `OAuthing_SettingDefinitions` (`Name`);
+
+CREATE UNIQUE INDEX `IX_OAuthing_Settings_Name_ProviderName_ProviderKey` ON `OAuthing_Settings` (`Name`, `ProviderName`, `ProviderKey`);
