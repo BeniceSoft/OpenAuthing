@@ -1,21 +1,21 @@
-import { RequestConfig, AxiosResponse, getDvaApp } from 'umi';
+import {RequestConfig, AxiosResponse, getDvaApp} from 'umi';
 import AuthService from '@/services/auth.service'
-import { toast } from 'react-hot-toast';
-import { ResponseResult } from '@/@types';
+import {toast} from 'react-hot-toast';
+import {ResponseResult} from '@/@types';
 
 export const request: RequestConfig = {
     timeout: 10000,
-    headers: { 'X-Requested-With': 'XMLHttpRequest' },
+    headers: {'X-Requested-With': 'XMLHttpRequest'},
     // other axios options you want
     errorConfig: {
         // 错误抛出
         errorThrower: (res: ResponseResult) => {
-            const { success, data, errorCode, errorMessage } = res;
+            const {success, data, errorCode, errorMessage} = res;
             console.log('success: ', success)
             if (!success) {
                 const error: any = new Error(errorMessage);
                 error.name = 'BizError';
-                error.info = { errorCode, errorMessage, data };
+                error.info = {errorCode, errorMessage, data};
                 throw error; // 抛出自制的错误
             }
         },
@@ -26,7 +26,7 @@ export const request: RequestConfig = {
             if (error.name === 'BizError') {
                 const errorInfo: ResponseResult | undefined = error.info;
                 if (errorInfo) {
-                    const { errorCode, errorMessage } = errorInfo;
+                    const {errorCode, errorMessage} = errorInfo;
                     if (errorCode === 401) {
                         toast.error('登录状态已失效，正在跳转到登录...')
                         getDvaApp()._store.dispatch({
@@ -34,7 +34,7 @@ export const request: RequestConfig = {
                         })
                         return;
                     }
-                    toast.error(errorMessage);
+                    errorMessage && toast.error(errorMessage);
                 }
             } else if (error.response) {
                 // Axios 的错误
@@ -51,12 +51,11 @@ export const request: RequestConfig = {
             }
         },
     },
-    requestInterceptors: [
-    ],
+    requestInterceptors: [],
     responseInterceptors: [
         (response: AxiosResponse) => {
-            console.log('response data: ',response.data)
-            const { code: errorCode, message: errorMessage, data } = response.data;
+
+            const {code: errorCode, message: errorMessage, data} = response.data;
             response.data = {
                 errorCode,
                 errorMessage,
@@ -76,4 +75,8 @@ export async function getInitialState() {
         isAuthenticated,
         currentUser: user
     })
+}
+
+String.prototype.ensureStartsWith = function (prefix: string): string {
+    return this.startsWith(prefix) ? this.toString() : prefix + this;
 }

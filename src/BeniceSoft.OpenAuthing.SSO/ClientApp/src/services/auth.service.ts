@@ -1,7 +1,7 @@
 import { request } from '@/lib/request'
 import { CurrentUserInfo, LoginWith2FaModel, LoginWithPasswordModel, LoginWithRecoveryCode } from "@/@types/auth";
 
-const UserStoreName = '.AM.User'
+const UserStoreName = '__OA_USERINFO'
 
 class AuthService {
 
@@ -14,9 +14,9 @@ class AuthService {
         return data ?? []
     }
 
-    public logout() {
+    public async logout() {
         if (service.isAuthenticated()) {
-            // todo call logout endpoint
+            await request('/connect/logout')
         }
 
         localStorage.removeItem(UserStoreName)

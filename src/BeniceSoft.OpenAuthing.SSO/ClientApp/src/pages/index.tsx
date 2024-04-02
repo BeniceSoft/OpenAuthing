@@ -1,9 +1,9 @@
-import { CurrentUserInfo } from '@/@types/auth';
+import {CurrentUserInfo} from '@/@types/auth';
 import React from 'react';
-import { Link, history, useModel } from 'umi';
-import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { Copyright, LogOut, Server, User, UserSquare } from 'lucide-react';
+import {Link, history, useModel, useDispatch} from 'umi';
+import {Button} from '@/components/ui/button';
+import {DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
+import {Copyright, LogOut, Server, User, UserSquare} from 'lucide-react';
 
 
 export interface HomePageProps {
@@ -12,11 +12,18 @@ export interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
-    const { initialState } = useModel('@@initialState')
-    const { currentUser } = initialState ?? {}
+    const {initialState} = useModel('@@initialState')
+    const {currentUser} = initialState ?? {}
+    const dispatch = useDispatch()
+    
+    const handleLogOut = ()=>{
+        dispatch({
+            type: "login/logout"
+        })
+    }
 
     return (
-        <div className="w-screen">
+        <div className="w-full">
             <header className="py-4 fixed top-0 w-full px-4 sm:px-6 lg:px-8">
                 <div className="container mx-auto">
                     <nav className="relative z-50 flex justify-between">
@@ -28,13 +35,13 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                             </Link>
                             <div className="hidden md:flex md:gap-x-6">
                                 <Link className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                                    to="/#features">
+                                      to="/#features">
                                     Features
                                 </Link>
                                 <Link className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                                    to="/#testimonials">Testimonials</Link>
+                                      to="/#testimonials">Testimonials</Link>
                                 <Link className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                                    to="/#pricing">Pricing</Link>
+                                      to="/#pricing">Pricing</Link>
                             </div>
                         </div>
                         <div className="flex items-center gap-x-5 md:gap-x-8">
@@ -48,17 +55,20 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem>
                                                     <Link to="/settings/profile"
-                                                        className="flex items-center gap-x-2">
-                                                        <UserSquare className="w-4 h-4" />
+                                                          className="flex items-center gap-x-2">
+                                                        <UserSquare className="w-4 h-4"/>
                                                         <span>个人信息</span>
                                                     </Link>
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
-                                            <DropdownMenuSeparator />
+                                            <DropdownMenuSeparator/>
                                             <DropdownMenuGroup>
                                                 <DropdownMenuItem className="flex items-center gap-x-2">
-                                                    <LogOut className="w-4 h-4" />
-                                                    <span>退出登录</span>
+                                                    <div onClick={handleLogOut}
+                                                         className="flex items-center gap-x-2">
+                                                        <LogOut className="w-4 h-4"/>
+                                                        <span>退出登录</span>
+                                                    </div>
                                                 </DropdownMenuItem>
                                             </DropdownMenuGroup>
                                         </DropdownMenuContent>
@@ -74,7 +84,7 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                                         aria-label="Toggle Navigation" type="button" aria-expanded="false" data-headlessui-state=""
                                         id="headlessui-popover-button-:R3p6:">
                                         <svg aria-hidden="true" className="h-3.5 w-3.5 overflow-visible stroke-slate-700" fill="none" strokeWidth="2"
-                                            strokeLinecap="round">
+                                             strokeLinecap="round">
                                             <path d="M0 1H14M0 7H14M0 13H14" className="origin-center transition"></path>
                                             <path d="M2 2L12 12M12 2L2 12" className="origin-center transition scale-90 opacity-0"></path>
                                         </svg>
@@ -98,7 +108,7 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
             <footer className="border-t py-8">
                 <div className="mx-auto container">
                     <p className="flex items-center justify-center text-sm text-gray-400 gap-x-2">
-                        <Copyright className="w-4 h-4" />BeniceSoft
+                        OpenAuthing<Copyright className="w-4 h-4"/>BeniceSoft
                     </p>
                 </div>
             </footer>

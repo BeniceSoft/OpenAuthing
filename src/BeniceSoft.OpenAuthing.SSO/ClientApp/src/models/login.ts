@@ -7,7 +7,7 @@ import {Wind} from "lucide-react";
 function redirectReturnUrl(returnUrl: string) {
     console.log("return url is: ", returnUrl)
     // TODO 这里应该让后端返回一个绝对或相对地址
-    window.location.href = returnUrl ?? '/';
+    window.location.href = (returnUrl ?? '/').ensureStartsWith("#");
 }
 
 export interface LoginModelState {
@@ -43,7 +43,6 @@ const Model: LoginModelType = {
                 }
             })
 
-            console.log('跳转登录')
             history.push({
                 pathname: '/account/login',
                 search: `?returnUrl=${encodeURIComponent(history.location.pathname)}`

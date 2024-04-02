@@ -11,7 +11,6 @@ public class LoadEnabledExternalIdentityProvidersBackgroundTask : BackgroundServ
     private readonly ILogger<LoadEnabledExternalIdentityProvidersBackgroundTask> _logger;
     private readonly IServiceProvider _serviceProvider;
 
-
     public LoadEnabledExternalIdentityProvidersBackgroundTask(ILogger<LoadEnabledExternalIdentityProvidersBackgroundTask> logger,
         IServiceProvider serviceProvider)
     {
@@ -21,7 +20,7 @@ public class LoadEnabledExternalIdentityProvidersBackgroundTask : BackgroundServ
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
     {
-        _logger.LogInformation("加载已启用的身份提供者");
+        _logger.LogDebug("加载已启用的身份提供者");
 
         using var scope = _serviceProvider.CreateScope();
         var dynamicAuthenticationManager = scope.ServiceProvider.GetRequiredService<IDynamicAuthenticationManager>();
@@ -37,7 +36,7 @@ public class LoadEnabledExternalIdentityProvidersBackgroundTask : BackgroundServ
         {
             dynamicAuthenticationManager.Add(idp.ProviderName, idp.Name, idp.DisplayName, idp.OptionsDictionary);
 
-            _logger.LogInformation("已加载身份提供者 {0}({1})", idp.ProviderName, idp.Name);
+            _logger.LogDebug("已加载身份提供者 {0}({1})", idp.ProviderName, idp.Name);
         }
     }
 }

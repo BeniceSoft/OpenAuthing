@@ -6,7 +6,7 @@ import AccountService from "@/services/account.service";
 import { CameraIcon, FingerprintIcon, PowerIcon, ServerIcon, UserIcon, VenetianMaskIcon } from "lucide-react";
 import React, {useEffect} from "react";
 import { useState } from "react";
-import { Link, Outlet, useLocation, useModel } from "umi";
+import {Link, Outlet, useDispatch, useLocation, useModel} from "umi";
 
 interface NavMenuItemProps {
     selected?: boolean
@@ -33,10 +33,11 @@ const NavMenuItem = React.forwardRef<HTMLAnchorElement, NavMenuItemProps>(({
 
 interface HeaderProps {
     avatar?: string
+    onLogOut?: () => void
 }
 
 const Header = ({
-    avatar
+    avatar, onLogOut
 }: HeaderProps) => {
 
     return (
@@ -56,7 +57,7 @@ const Header = ({
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent align="end">
-                        <DropdownMenuItem className="flex gap-x-2 text-xs items-center">
+                        <DropdownMenuItem className="flex gap-x-2 text-xs items-center" onClick={onLogOut}>
                             <PowerIcon className="w-3 h-3" />
                             <span>退出登录</span>
                         </DropdownMenuItem>
@@ -73,6 +74,7 @@ const SettingsLayout = function (props: any) {
         refresh()
     }, [])
 
+    const dispatch = useDispatch()
     const [avatarCorpDialogOpened, setAvatarCorpDialogOpened] = useState<boolean>()
     const [avatarSrc, setAvatarSrc] = useState<string>()
 
@@ -80,19 +82,6 @@ const SettingsLayout = function (props: any) {
 
     const { pathname } = useLocation()
     const normalizedPathname = pathname.toLocaleLowerCase()
-
-    if (normalizedPathname.startsWith('/settings/2fa')) {
-        return (
-            <div className="w-screen">
-                <Header avatar={initialState?.currentUser?.avatar} />
-                <div className="flex-1 overflow-auto pb-6">
-                    <main className="lg:container mx-4 lg:mx-auto">
-                        <Outlet />
-                    </main>
-                </div>
-            </div>
-        )
-    }
 
     const isSelected = (key: string): boolean => {
         return normalizedPathname === key
@@ -126,10 +115,29 @@ const SettingsLayout = function (props: any) {
             await AccountService.uploadAvatar(croppedBlob)
         }
     }
+    
+    const handleLogOut = ()=>{
+        dispatch({
+            type: "login/logout"
+        })
+    }
+
+    if (normalizedPathname.startsWith('/settings/2fa')) {
+        return (
+            <div className="w-screen">
+                <Header avatar={initialState?.currentUser?.avatar} onLogOut={handleLogOut}/>
+                <div className="flex-1 overflow-auto pb-6">
+                    <main className="lg:container mx-4 lg:mx-auto">
+                        <Outlet />
+                    </main>
+                </div>
+            </div>
+        )
+    }
 
     return (
         <div className="w-screen min-w-[800px] h-screen flex flex-col overflow-hidden bg-gray-50">
-            <Header avatar={initialState?.currentUser?.avatar} />
+            <Header avatar={initialState?.currentUser?.avatar} onLogOut={handleLogOut}/>
             <div className="flex-1 overflow-auto pb-8">
                 <main className="lg:container mx-4 lg:mx-auto flex justinfy-between pt-4 gap-x-4 items-start">
                     <nav className="w-72 text-sm gap-y-4 grid">
