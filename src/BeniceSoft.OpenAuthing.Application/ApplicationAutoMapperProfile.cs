@@ -1,6 +1,6 @@
 using AutoMapper;
-using BeniceSoft.OpenAuthing.Departments;
 using BeniceSoft.OpenAuthing.Dtos.Departments;
+using BeniceSoft.OpenAuthing.Entities.Departments;
 
 namespace BeniceSoft.OpenAuthing;
 

@@ -1,5 +1,5 @@
+using BeniceSoft.OpenAuthing.Entities.Users;
 using BeniceSoft.OpenAuthing.Localization;
-using BeniceSoft.OpenAuthing.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.AspNetCore.Mvc;

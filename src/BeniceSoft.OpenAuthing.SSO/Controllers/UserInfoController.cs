@@ -1,5 +1,5 @@
-﻿using BeniceSoft.OpenAuthing.Roles;
-using BeniceSoft.Abp.Core.Attributes;
+﻿using BeniceSoft.Abp.Core.Attributes;
+using BeniceSoft.OpenAuthing.Entities.Roles;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;

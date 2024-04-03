@@ -1,5 +1,5 @@
+using BeniceSoft.OpenAuthing.Entities.Users;
 using BeniceSoft.OpenAuthing.Extensions;
-using BeniceSoft.OpenAuthing.Users;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;

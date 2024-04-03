@@ -1,5 +1,5 @@
-﻿using BeniceSoft.OpenAuthing.Enums;
-using BeniceSoft.OpenAuthing.Roles;
+﻿using BeniceSoft.OpenAuthing.Entities.Roles;
+using BeniceSoft.OpenAuthing.Enums;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Domain.Repositories.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;

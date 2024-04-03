@@ -1,5 +1,5 @@
-using BeniceSoft.OpenAuthing.Roles;
-using BeniceSoft.OpenAuthing.Users;
+using BeniceSoft.OpenAuthing.Entities.Roles;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using Microsoft.EntityFrameworkCore;
 
 namespace BeniceSoft.OpenAuthing.Extensions;

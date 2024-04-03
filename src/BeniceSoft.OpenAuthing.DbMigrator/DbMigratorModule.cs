@@ -1,7 +1,7 @@
-using BeniceSoft.OpenAuthing.OpenIddict;
-using BeniceSoft.OpenAuthing.PermissionSpaces;
-using BeniceSoft.OpenAuthing.Roles;
-using BeniceSoft.OpenAuthing.Users;
+using BeniceSoft.OpenAuthing.Entities.OpenIddict;
+using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
+using BeniceSoft.OpenAuthing.Entities.Roles;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.DependencyInjection.Extensions;

@@ -40,8 +40,8 @@ public class DynamicAuthenticationBuilder : AuthenticationBuilder
     /// <returns>
     /// The builder.
     /// </returns>
-    public override AuthenticationBuilder AddScheme<TOptions, THandler>(string authenticationScheme, string displayName,
-        Action<TOptions> configureOptions)
+    public override AuthenticationBuilder AddScheme<TOptions, THandler>(string authenticationScheme, string? displayName,
+        Action<TOptions>? configureOptions)
     {
         _handlerTypes.Add(authenticationScheme, typeof(THandler));
         Services.AddSingleton(provider =>

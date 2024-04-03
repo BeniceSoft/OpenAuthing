@@ -1,4 +1,4 @@
-using BeniceSoft.OpenAuthing.DepartmentMembers;
+using BeniceSoft.OpenAuthing.Entities.DepartmentMembers;
 using MediatR;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;

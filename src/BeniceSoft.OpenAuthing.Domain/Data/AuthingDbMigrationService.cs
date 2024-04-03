@@ -1,8 +1,8 @@
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using BeniceSoft.OpenAuthing.PermissionSpaces;
-using BeniceSoft.OpenAuthing.Roles;
-using BeniceSoft.OpenAuthing.Users;
+using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
+using BeniceSoft.OpenAuthing.Entities.Roles;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using Microsoft.Extensions.Logging;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;

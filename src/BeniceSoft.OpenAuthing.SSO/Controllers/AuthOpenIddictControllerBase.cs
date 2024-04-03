@@ -1,7 +1,7 @@
 using System.Collections.Immutable;
 using System.Security.Claims;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions.ClaimDestinations;
-using BeniceSoft.OpenAuthing.Users;
 using Microsoft.AspNetCore;
 using OpenIddict.Abstractions;
 using Volo.Abp.Security.Claims;

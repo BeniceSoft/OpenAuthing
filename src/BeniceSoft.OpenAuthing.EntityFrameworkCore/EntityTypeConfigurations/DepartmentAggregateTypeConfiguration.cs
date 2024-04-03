@@ -1,4 +1,4 @@
-﻿using BeniceSoft.OpenAuthing.Departments;
+﻿using BeniceSoft.OpenAuthing.Entities.Departments;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Volo.Abp.EntityFrameworkCore.Modeling;

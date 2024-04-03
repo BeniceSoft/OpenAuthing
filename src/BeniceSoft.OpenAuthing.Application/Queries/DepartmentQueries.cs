@@ -1,5 +1,5 @@
-using BeniceSoft.OpenAuthing.Departments;
 using BeniceSoft.OpenAuthing.Dtos.Departments;
+using BeniceSoft.OpenAuthing.Entities.Departments;
 using Volo.Abp.DependencyInjection;
 
 namespace BeniceSoft.OpenAuthing.Queries;

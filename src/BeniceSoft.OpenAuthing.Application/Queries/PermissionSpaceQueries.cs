@@ -1,5 +1,5 @@
 using BeniceSoft.OpenAuthing.Dtos.PermissionSpaces;
-using BeniceSoft.OpenAuthing.PermissionSpaces;
+using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
 using Mapster;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;

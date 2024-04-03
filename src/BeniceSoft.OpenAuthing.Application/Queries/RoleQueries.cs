@@ -1,10 +1,10 @@
 using BeniceSoft.OpenAuthing.Dtos.Roles;
+using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
+using BeniceSoft.OpenAuthing.Entities.Roles;
+using BeniceSoft.OpenAuthing.Entities.UserGroups;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using BeniceSoft.OpenAuthing.Enums;
 using BeniceSoft.OpenAuthing.Misc;
-using BeniceSoft.OpenAuthing.PermissionSpaces;
-using BeniceSoft.OpenAuthing.Roles;
-using BeniceSoft.OpenAuthing.UserGroups;
-using BeniceSoft.OpenAuthing.Users;
 using Mapster;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;

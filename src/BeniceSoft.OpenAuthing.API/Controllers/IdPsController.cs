@@ -1,7 +1,7 @@
 using BeniceSoft.OpenAuthing.Dtos.IdPs.Requests;
 using BeniceSoft.OpenAuthing.Dtos.IdPs.Responses;
-using BeniceSoft.OpenAuthing.IdentityProviders;
-using BeniceSoft.OpenAuthing.IdentityProviderTemplates;
+using BeniceSoft.OpenAuthing.Entities.IdentityProviders;
+using BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.Domain.Repositories;
 

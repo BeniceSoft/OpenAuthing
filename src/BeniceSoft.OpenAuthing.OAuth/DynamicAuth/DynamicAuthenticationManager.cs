@@ -6,7 +6,7 @@ using Volo.Abp;
 namespace BeniceSoft.OpenAuthing.DynamicAuth;
 
 /// <summary>
-/// TODO 待处理分布式部署的问题
+/// TODO 待处理分布式部署的问题 (Add、Remove)
 /// </summary>
 public class DynamicAuthenticationManager : IDynamicAuthenticationManager
 {

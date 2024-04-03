@@ -1,4 +1,4 @@
-using BeniceSoft.OpenAuthing.PermissionSpaces;
+using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Volo.Abp.EntityFrameworkCore.Modeling;

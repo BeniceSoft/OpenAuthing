@@ -1,4 +1,4 @@
-using BeniceSoft.OpenAuthing.PermissionSpaces;
+using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
 using MediatR;
 using Volo.Abp.DependencyInjection;
 

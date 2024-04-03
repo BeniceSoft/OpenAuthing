@@ -1,7 +1,7 @@
 using BeniceSoft.Abp.EntityFrameworkCore;
-using BeniceSoft.OpenAuthing.Roles;
-using BeniceSoft.OpenAuthing.UserGroups;
-using BeniceSoft.OpenAuthing.IdentityProviders;
+using BeniceSoft.OpenAuthing.Entities.IdentityProviders;
+using BeniceSoft.OpenAuthing.Entities.Roles;
+using BeniceSoft.OpenAuthing.Entities.UserGroups;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;

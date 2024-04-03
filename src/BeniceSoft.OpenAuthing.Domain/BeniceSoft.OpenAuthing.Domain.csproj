@@ -22,6 +22,11 @@
         <ProjectReference Include="..\BeniceSoft.OpenAuthing.Domain.Shared\BeniceSoft.OpenAuthing.Domain.Shared.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Events\" />
+      <Folder Include="Features\" />
+    </ItemGroup>
+
 
 
 

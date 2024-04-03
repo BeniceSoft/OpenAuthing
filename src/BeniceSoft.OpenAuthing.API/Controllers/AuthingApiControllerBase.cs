@@ -1,5 +1,5 @@
 using BeniceSoft.Abp.Ddd.Domain;
-using BeniceSoft.OpenAuthing.Users;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using MediatR;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Authorization;

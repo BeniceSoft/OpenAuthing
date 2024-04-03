@@ -1,7 +1,7 @@
-using BeniceSoft.OpenAuthing.DepartmentMembers;
-using BeniceSoft.OpenAuthing.Departments;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
-using BeniceSoft.OpenAuthing.Users;
+using BeniceSoft.OpenAuthing.Entities.DepartmentMembers;
+using BeniceSoft.OpenAuthing.Entities.Departments;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using Mapster;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.DependencyInjection;

@@ -1,5 +1,5 @@
 using BeniceSoft.OpenAuthing.Dtos.IdPTemplates.Responses;
-using BeniceSoft.OpenAuthing.IdentityProviderTemplates;
+using BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates;
 using Mapster;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;

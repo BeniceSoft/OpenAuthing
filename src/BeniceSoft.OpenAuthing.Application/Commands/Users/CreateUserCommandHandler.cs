@@ -1,4 +1,4 @@
-using BeniceSoft.OpenAuthing.Users;
+using BeniceSoft.OpenAuthing.Entities.Users;
 using MediatR;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;

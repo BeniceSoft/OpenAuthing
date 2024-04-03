@@ -1,4 +1,4 @@
-using BeniceSoft.OpenAuthing.Users;
+using BeniceSoft.OpenAuthing.Entities.Users;
 
 namespace BeniceSoft.OpenAuthing.Models.Accounts;
 

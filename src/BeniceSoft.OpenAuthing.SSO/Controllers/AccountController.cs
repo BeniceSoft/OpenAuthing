@@ -1,9 +1,9 @@
 using System.Net;
 using System.Text.Encodings.Web;
-using BeniceSoft.OpenAuthing.IdentityProviders;
 using BeniceSoft.OpenAuthing.Models.Accounts;
 using BeniceSoft.Abp.Core.Extensions;
 using BeniceSoft.Abp.Core.Models;
+using BeniceSoft.OpenAuthing.Entities.IdentityProviders;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.BlobStoring;
