@@ -9,18 +9,18 @@ public class CreateDepartmentCommandHandler
     : IRequestHandler<CreateDepartmentCommand, Guid>, ITransientDependency
 {
     private readonly IGuidGenerator _guidGenerator;
-    private readonly DepartmentStore _departmentStore;
+    private readonly DepartmentManager _departmentManager;
 
-    public CreateDepartmentCommandHandler(IGuidGenerator guidGenerator, DepartmentStore departmentStore)
+    public CreateDepartmentCommandHandler(IGuidGenerator guidGenerator, DepartmentManager departmentManager)
     {
         _guidGenerator = guidGenerator;
-        _departmentStore = departmentStore;
+        _departmentManager = departmentManager;
     }
 
     public async Task<Guid> Handle(CreateDepartmentCommand request, CancellationToken cancellationToken)
     {
         var department = new Department(_guidGenerator.Create(), request.Code, request.Name, request.ParentId, request.Seq);
-        await _departmentStore.CreateAsync(department);
+        await _departmentManager.CreateAsync(department);
 
         return department.Id;
     }

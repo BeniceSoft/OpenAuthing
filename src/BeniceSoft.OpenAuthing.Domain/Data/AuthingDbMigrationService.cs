@@ -7,11 +7,11 @@ using Microsoft.Extensions.Logging;
 using Volo.Abp.Data;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Guids;
-using Volo.Abp.Identity;
 
 namespace BeniceSoft.OpenAuthing.Data;
 
-public class AuthingDbMigrationService(ILogger<AuthingDbMigrationService> logger,
+public class AuthingDbMigrationService(
+    ILogger<AuthingDbMigrationService> logger,
     IDataSeeder dataSeeder,
     IEnumerable<IAuthingDbSchemaMigrator> dbSchemaMigrators,
     IGuidGenerator guidGenerator) : ITransientDependency
@@ -30,12 +30,7 @@ public class AuthingDbMigrationService(ILogger<AuthingDbMigrationService> logger
         await MigrateDatabaseSchemaAsync();
         await SeedDataAsync();
 
-        logger.LogInformation("Successfully completed host database migrations.");
-
-        await SeedDataAsync();
-
-        logger.LogInformation($"Successfully completed database migrations.");
-
+        logger.LogInformation("Successfully completed database migrations.");
 
         logger.LogInformation("You can safely end this process...");
     }

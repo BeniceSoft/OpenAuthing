@@ -1,3 +1,4 @@
+using BeniceSoft.OpenAuthing.Entities.Departments;
 using BeniceSoft.OpenAuthing.Entities.OpenIddict;
 using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
 using BeniceSoft.OpenAuthing.Entities.Roles;
@@ -27,6 +28,7 @@ public class DbMigratorModule : AbpModule
             opts.Contributors.Add<PermissionSpaceDataSeedContributor>();
             opts.Contributors.Add<RoleDataSeedContributor>();
             opts.Contributors.Add<UserDataSeedContributor>();
+            opts.Contributors.Add<DepartmentDataSeederContributor>();
         });
     }
     

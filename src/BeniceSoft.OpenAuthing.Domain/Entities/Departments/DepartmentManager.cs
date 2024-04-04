@@ -1,19 +1,16 @@
 ﻿using BeniceSoft.OpenAuthing.Entities.TreeServices;
-using BeniceSoft.OpenAuthing.Entities.UserGroups;
-using BeniceSoft.OpenAuthing.Entities.Users;
 using Volo.Abp.DependencyInjection;
 using Volo.Abp.Domain.Repositories;
 using Volo.Abp.Uow;
 
 namespace BeniceSoft.OpenAuthing.Entities.Departments;
 
-public class DepartmentStore : ITransientDependency
+public class DepartmentManager : ITransientDependency
 {
     private readonly IRepository<Department, Guid> _departmentRepository;
     private readonly ITreeWithCodeService<Department, Guid> _treeService;
 
-    public DepartmentStore(IRepository<UserGroup, Guid> userGroupRepository,
-        IRepository<Department, Guid> departmentRepository, IRepository<User, Guid> userRepository)
+    public DepartmentManager(IRepository<Department, Guid> departmentRepository)
     {
         _departmentRepository = departmentRepository;
         _treeService = new TreeWithCodeService<Department, Guid>(departmentRepository);
@@ -60,5 +57,10 @@ public class DepartmentStore : ITransientDependency
     public Task<Department> GetAsync(Guid id)
     {
         return _departmentRepository.GetAsync(id);
+    }
+
+    public Task<bool> ExistedAsync(string code)
+    {
+        return _departmentRepository.AnyAsync(x => x.Code == code);
     }
 }

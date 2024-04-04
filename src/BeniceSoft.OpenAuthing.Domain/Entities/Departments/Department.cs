@@ -8,7 +8,7 @@ namespace BeniceSoft.OpenAuthing.Entities.Departments;
 /// </summary>
 public class Department : FullAuditedAggregateRoot<Guid>, ITreeWithCode<Guid>
 {
-    public Department(Guid id, string code, string name, Guid? parentId, int seq) : base(id)
+    public Department(Guid id, string code, string name, Guid? parentId = null, int seq = 0) : base(id)
     {
         Code = code;
         Name = name;

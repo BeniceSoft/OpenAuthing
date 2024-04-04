@@ -69,9 +69,10 @@ public class SsoModule : AbpModule
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
+        
+        context.Services.AddBeniceSoftAuthentication();
 
         context.Services.ConfigureIdentity();
-
         context.Services.ConfigureOpeniddict(configuration);
 
         context.Services.AddDetection();

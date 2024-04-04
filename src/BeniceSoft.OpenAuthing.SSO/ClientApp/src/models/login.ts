@@ -6,8 +6,10 @@ import {Wind} from "lucide-react";
 
 function redirectReturnUrl(returnUrl: string) {
     console.log("return url is: ", returnUrl)
-    // TODO 这里应该让后端返回一个绝对或相对地址
-    window.location.href = (returnUrl ?? '/').ensureStartsWith("#");
+    if(!returnUrl.startsWith("/connect")){
+        returnUrl = returnUrl.ensureStartsWith("#")
+    }
+    window.location.href = returnUrl
 }
 
 export interface LoginModelState {

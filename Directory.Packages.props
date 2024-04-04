@@ -38,7 +38,7 @@
     <PackageVersion Include="Volo.Abp.SettingManagement.Domain.Shared" Version="8.1.0-rc.3" />
     <PackageVersion Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="8.1.0-rc.3" />
     <PackageVersion Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.3" />
-    <PackageVersion Include="BeniceSoft.Abp.Auth.Core" Version="8.1.0-rc.3" />
+    <PackageVersion Include="BeniceSoft.Abp.Auth.Core" Version="8.1.0-rc.3.2" />
     <PackageVersion Include="BeniceSoft.Abp.Ddd.Domain" Version="8.1.0-rc.3" />
     <PackageVersion Include="Mapster" Version="7.4.0" />
     <PackageVersion Include="Volo.Abp.EntityFrameworkCore.MySQL" Version="8.1.0-rc.3" />
@@ -51,8 +51,8 @@
     <PackageVersion Include="BeniceSoft.Abp.Http.Client" Version="0.0.30-dev" />
     <PackageVersion Include="AlibabaCloud.SDK.Dingtalk" Version="2.0.95" />
     <PackageVersion Include="dingtalk-sdk-netCore" Version="1.0.4" />
-    <PackageVersion Include="BeniceSoft.Abp.AspNetCore" Version="8.1.0-rc.3" />
-    <PackageVersion Include="BeniceSoft.Abp.Auth" Version="8.1.0-rc.3" />
+    <PackageVersion Include="BeniceSoft.Abp.AspNetCore" Version="8.1.0-rc.3.2" />
+    <PackageVersion Include="BeniceSoft.Abp.Auth" Version="8.1.0-rc.3.2" />
     <PackageVersion Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageVersion Include="OpenIddict.Quartz" Version="5.4.0" />
     <PackageVersion Include="OpenIddict.Server.AspNetCore" Version="5.4.0" />

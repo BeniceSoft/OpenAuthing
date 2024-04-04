@@ -3,6 +3,7 @@ using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.Entities.Roles;
 using BeniceSoft.OpenAuthing.Entities.Users;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions;
+using BeniceSoft.OpenAuthing.OpenIddictExtensions.ClaimDestinations;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using OpenIddict.Server;
@@ -13,8 +14,6 @@ internal static class ServiceCollectionExtensions
 {
     internal static void ConfigureIdentity(this IServiceCollection services)
     {
-        services.AddBeniceSoftAuthentication();
-
         services
             .AddIdentity<User, Role>(options =>
             {
@@ -31,6 +30,8 @@ internal static class ServiceCollectionExtensions
 
                 options.Lockout.MaxFailedAccessAttempts = int.MaxValue;
             })
+            .AddUserStore<UserStore>()
+            .AddRoleStore<RoleStore>()
             // asp.net core identity 2FA/MFA support
             // https://learn.microsoft.com/zh-cn/aspnet/core/security/authentication/mfa?view=aspnetcore-8.0#mfa-2fa
             .AddTokenProvider<AuthenticatorTokenProvider<User>>(TokenOptions.DefaultAuthenticatorProvider);
@@ -45,6 +46,11 @@ internal static class ServiceCollectionExtensions
     
     internal static void ConfigureOpeniddict(this IServiceCollection services, IConfiguration configuration)
     {
+        services.Configure<OpenIddictClaimDestinationsOptions>(options =>
+        {
+            options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>();
+        });
+        
         var appUrl = configuration.GetValue<string>("AppUrl")?.EnsureEndsWith('/') ?? string.Empty;
         services.AddOpenIddict()
             .AddServer(builder =>

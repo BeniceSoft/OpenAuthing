@@ -6,16 +6,16 @@ namespace BeniceSoft.OpenAuthing.Queries;
 
 public class DepartmentQueries : BaseQueries, IDepartmentQueries
 {
-    private readonly DepartmentStore _departmentStore;
+    private readonly DepartmentManager _departmentManager;
 
-    public DepartmentQueries(IAbpLazyServiceProvider lazyServiceProvider, DepartmentStore departmentStore) : base(lazyServiceProvider)
+    public DepartmentQueries(IAbpLazyServiceProvider lazyServiceProvider, DepartmentManager departmentManager) : base(lazyServiceProvider)
     {
-        _departmentStore = departmentStore;
+        _departmentManager = departmentManager;
     }
 
     public async Task<List<DepartmentDto>> GetByParentIdAsync(Guid? parentId = null)
     {
-        var queryable = await _departmentStore.GetQueryableAsync();
+        var queryable = await _departmentManager.GetQueryableAsync();
         var departments = await QueryableWrapperFactory.CreateWrapper(queryable
                 .Where(x => x.ParentId == parentId))
             .OrderBy(x => x.Seq)
@@ -27,7 +27,7 @@ public class DepartmentQueries : BaseQueries, IDepartmentQueries
 
     public async Task<DepartmentDto> GetByIdAsync(Guid id)
     {
-        var department = await _departmentStore.GetAsync(id);
+        var department = await _departmentManager.GetAsync(id);
         return ObjectMapper.Map<Department, DepartmentDto>(department);
     }
 }

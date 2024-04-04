@@ -3,17 +3,15 @@ using BeniceSoft.Abp.AspNetCore.Localizations;
 using BeniceSoft.Abp.AspNetCore.Middlewares;
 using BeniceSoft.Abp.Auth;
 using BeniceSoft.Abp.Auth.Extensions;
-using BeniceSoft.OpenAuthing.Entities.Roles;
-using BeniceSoft.OpenAuthing.Entities.Users;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.PlatformAbstractions;
 using Microsoft.OpenApi.Models;
-using OpenIddict.Abstractions;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.Autofac;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
+using Volo.Abp.IO;
 using Volo.Abp.Modularity;
 
 namespace BeniceSoft.OpenAuthing;
@@ -43,10 +41,7 @@ public class ApiModule : AbpModule
                 container.UseFileSystem(fileSystem =>
                 {
                     var filePath = Environment.CurrentDirectory + "/wwwroot/uploadFiles";
-                    if (!Directory.Exists(filePath))
-                    {
-                        Directory.CreateDirectory(filePath);
-                    }
+                    DirectoryHelper.CreateIfNotExists(filePath);
 
                     fileSystem.BasePath = filePath;
                 });
@@ -58,7 +53,8 @@ public class ApiModule : AbpModule
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
         ConfigureSwaggerServices(context.Services);
-        ConfigureAuth(context.Services);
+        
+        context.Services.AddBeniceSoftAuthentication();
 
         context.Services.AddDetection();
     }
@@ -135,34 +131,6 @@ public class ApiModule : AbpModule
                     Array.Empty<string>()
                 },
             });
-        });
-    }
-
-    private void ConfigureAuth(IServiceCollection services)
-    {
-        services.AddBeniceSoftAuthentication();
-
-        services
-            .AddIdentity<User, Role>(options =>
-            {
-                options.ClaimsIdentity.UserNameClaimType = OpenIddictConstants.Claims.Username;
-                options.ClaimsIdentity.UserIdClaimType = OpenIddictConstants.Claims.Subject;
-                options.ClaimsIdentity.RoleClaimType = OpenIddictConstants.Claims.Role;
-
-                options.Password.RequireUppercase = false;
-                options.Password.RequiredLength = 6;
-
-                options.SignIn.RequireConfirmedEmail = false;
-            })
-            // asp.net core identity 2FA/MFA support
-            // https://learn.microsoft.com/zh-cn/aspnet/core/security/authentication/mfa?view=aspnetcore-7.0#mfa-2fa
-            .AddTokenProvider<AuthenticatorTokenProvider<User>>(TokenOptions.DefaultAuthenticatorProvider);
-
-        // HttpOnly = false
-        services.ConfigureApplicationCookie(options =>
-        {
-            // options.LoginPath = "/#/account/login";
-            options.Cookie.HttpOnly = false;
         });
     }
 
