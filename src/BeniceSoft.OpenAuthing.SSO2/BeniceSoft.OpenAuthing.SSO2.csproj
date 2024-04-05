@@ -1,0 +1,50 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+    <Import Project="../../common.props"/>
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <PackageReference Include="OpenIddict.Quartz" />
+      <PackageReference Include="OpenIddict.Server.AspNetCore" />
+      <PackageReference Include="Serilog.AspNetCore" />
+      <PackageReference Include="Volo.Abp.AspNetCore.Mvc" />
+      <PackageReference Include="Volo.Abp.Autofac" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BeniceSoft.OpenAuthing.Domain\BeniceSoft.OpenAuthing.Domain.csproj" />
+      <ProjectReference Include="..\BeniceSoft.OpenAuthing.EntityFrameworkCore\BeniceSoft.OpenAuthing.EntityFrameworkCore.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Components\" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <AdditionalFiles Include="Shared\MainLayout.razor" />
+      <AdditionalFiles Include="Shared\NavMenu.razor" />
+      <AdditionalFiles Include="Pages\Account\Login.razor" />
+      <AdditionalFiles Include="Pages\Counter.razor" />
+      <AdditionalFiles Include="Pages\Error.razor" />
+      <AdditionalFiles Include="Pages\Home.razor" />
+      <AdditionalFiles Include="Pages\Weather.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <_ContentIncludedByDefault Remove="Components\Pages\Account\Login.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Counter.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Error.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Home.razor" />
+      <_ContentIncludedByDefault Remove="Components\Pages\Weather.razor" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Remove="Pages\Account\SignIn.razor" />
+    </ItemGroup>
+
+</Project>
