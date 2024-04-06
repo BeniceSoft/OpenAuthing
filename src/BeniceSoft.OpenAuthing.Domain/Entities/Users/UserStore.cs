@@ -644,7 +644,7 @@ public class UserStore :
         return SetTokenAsync(user, InternalLoginProvider, AuthenticatorKeyTokenName, key, cancellationToken);
     }
 
-    public virtual Task<string> GetAuthenticatorKeyAsync(User user, CancellationToken cancellationToken = default)
+    public virtual Task<string?> GetAuthenticatorKeyAsync(User user, CancellationToken cancellationToken = default)
     {
         return GetTokenAsync(user, InternalLoginProvider, AuthenticatorKeyTokenName, cancellationToken);
     }

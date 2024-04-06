@@ -1,7 +1,4 @@
-using BeniceSoft.OpenAuthing.Entities.Users;
-using BeniceSoft.OpenAuthing.Middlewares;
-using BeniceSoft.OpenAuthing.Misc;
-using Microsoft.AspNetCore.Components.Authorization;
+using BeniceSoft.OpenAuthing.Components;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc;
 using Volo.Abp.Autofac;
@@ -24,13 +21,10 @@ public class SsoModule : AbpModule
         context.Services.ConfigureIdentity();
 
         context.Services.ConfigureOpeniddict(configuration);
-        
-        context.Services.AddRazorPages();
-        context.Services.AddServerSideBlazor(options =>
-        {
-            options.DetailedErrors = true;
-        });
-        context.Services.AddScoped<AuthenticationStateProvider, RevalidatingIdentityAuthenticationStateProvider<User>>();
+
+        // Add services to the container.
+        context.Services.AddRazorComponents()
+            .AddInteractiveServerComponents();
         context.Services.AddCascadingAuthenticationState();
     }
 
@@ -50,16 +44,14 @@ public class SsoModule : AbpModule
         app.UseRouting();
 
         app.UseAuthorization();
-        
-        app.UseMiddleware<BlazorCookieLoginMiddleware>();
 
         app.UseStaticFiles();
         app.UseAntiforgery();
 
         app.UseEndpoints(endpoints =>
         {
-            endpoints.MapBlazorHub();
-            endpoints.MapFallbackToPage("/_Host");
+            endpoints.MapRazorComponents<App>()
+                .AddInteractiveServerRenderMode();
         });
     }
 }

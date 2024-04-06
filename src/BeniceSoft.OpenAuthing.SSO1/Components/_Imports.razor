@@ -1,14 +1,15 @@
 ﻿@using System.Net.Http
 @using System.Net.Http.Json
-@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.Forms
 @using Microsoft.AspNetCore.Components.Routing
 @using Microsoft.AspNetCore.Components.Web
-@using Microsoft.AspNetCore.Components.Authorization
 @using static Microsoft.AspNetCore.Components.Web.RenderMode
 @using Microsoft.AspNetCore.Components.Web.Virtualization
 @using Microsoft.JSInterop
 @using BeniceSoft.OpenAuthing
-@using BeniceSoft.OpenAuthing.Shared
-@using Microsoft.AspNetCore.Identity
-@attribute [Authorize]
+@using BeniceSoft.OpenAuthing.Components
+@using BeniceSoft.OpenAuthing.Components.Layout
+
+@*Ensure that all views are protected by default:*@
+@attribute [Microsoft.AspNetCore.Authorization.Authorize]

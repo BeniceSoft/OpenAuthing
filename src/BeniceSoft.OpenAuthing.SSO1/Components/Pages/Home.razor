@@ -1,0 +1,30 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Hello, world!</h1>
+
+Welcome to your new app.
+
+<EditForm Model="Model" FormName="form1" OnSubmit="@HandleSubmitAsync">
+    <InputText @bind-Value="Model.Name"></InputText>
+    <button type="submit">Submit</button>
+</EditForm>
+
+@code {
+
+    [SupplyParameterFromForm] public HomeModel Model { get; set; } = new();
+    
+    
+    
+    public class HomeModel
+    {
+        public string Name { get; set; }
+    }
+
+    private async Task HandleSubmitAsync()
+    {
+        await Task.Delay(3000);
+    }
+
+}
