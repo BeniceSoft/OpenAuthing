@@ -1,5 +1,4 @@
 import { LoginWithRecoveryCode } from "@/@types/auth";
-import { getSearchParam } from "@/lib/misc";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";

@@ -1,12 +1,13 @@
 import AvatarCorpDialog from "@/components/AvatarCorpDialog";
+import Logo from "@/components/Logo";
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import withAuth from "@/hocs/withAuth";
 import AccountService from "@/services/account.service";
 import { CameraIcon, FingerprintIcon, PowerIcon, ServerIcon, UserIcon, VenetianMaskIcon } from "lucide-react";
-import React, {useEffect} from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
-import {Link, Outlet, useDispatch, useLocation, useModel} from "umi";
+import { Link, Outlet, useDispatch, useLocation, useModel } from "umi";
 
 interface NavMenuItemProps {
     selected?: boolean
@@ -42,8 +43,9 @@ const Header = ({
 
     return (
         <div className="w-full h-[64px] border-b bg-white text-black flex items-center justify-between px-4 lg:px-8">
-            <Link className="text-base font-bold tracking-wide text-blue-600 dark:text-gray-100" to="/">
-                OpenAuthing
+            <Link className="text-base font-bold tracking-wide text-blue-600 dark:text-gray-100"
+                to="/settings">
+                <Logo className="w-40" />
             </Link>
             <div className="flex items-center text-gray-600 hover:text-gray-800 transition-colors gap-x-6 text-sm">
                 <DropdownMenu>
@@ -70,7 +72,7 @@ const Header = ({
 
 const SettingsLayout = function (props: any) {
     const { initialState, refresh } = useModel('@@initialState')
-    useEffect(()=>{
+    useEffect(() => {
         refresh()
     }, [])
 
@@ -115,8 +117,8 @@ const SettingsLayout = function (props: any) {
             await AccountService.uploadAvatar(croppedBlob)
         }
     }
-    
-    const handleLogOut = ()=>{
+
+    const handleLogOut = () => {
         dispatch({
             type: "login/logout"
         })
@@ -125,7 +127,7 @@ const SettingsLayout = function (props: any) {
     if (normalizedPathname.startsWith('/settings/2fa')) {
         return (
             <div className="w-screen">
-                <Header avatar={initialState?.currentUser?.avatar} onLogOut={handleLogOut}/>
+                <Header avatar={initialState?.currentUser?.avatar} onLogOut={handleLogOut} />
                 <div className="flex-1 overflow-auto pb-6">
                     <main className="lg:container mx-4 lg:mx-auto">
                         <Outlet />
@@ -137,7 +139,7 @@ const SettingsLayout = function (props: any) {
 
     return (
         <div className="w-screen min-w-[800px] h-screen flex flex-col overflow-hidden bg-gray-50">
-            <Header avatar={initialState?.currentUser?.avatar} onLogOut={handleLogOut}/>
+            <Header avatar={initialState?.currentUser?.avatar} onLogOut={handleLogOut} />
             <div className="flex-1 overflow-auto pb-8">
                 <main className="lg:container mx-4 lg:mx-auto flex justinfy-between pt-4 gap-x-4 items-start">
                     <nav className="w-72 text-sm gap-y-4 grid">

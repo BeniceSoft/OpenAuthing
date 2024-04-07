@@ -38,6 +38,7 @@ export default defineConfig({
                 path: '/settings',
                 component: '@/layouts/settings',
                 routes: [
+                    { path: '/settings', redirect: '/settings/profile' },
                     { path: '/settings/profile', component: 'settings/profile' },
                     { path: '/settings/account', component: 'settings/account' },
                     { path: '/settings/security', component: 'settings/security' },

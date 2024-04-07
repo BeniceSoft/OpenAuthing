@@ -14,5 +14,7 @@ export function redirectReturnUrl(returnUrl: string) {
     if (!returnUrl.startsWith("/connect")) {
         returnUrl = returnUrl.ensureStartsWith("#")
     }
-    window.location.href = returnUrl
+    setTimeout(() => {
+        window.location.href = returnUrl
+    }, 500);
 }

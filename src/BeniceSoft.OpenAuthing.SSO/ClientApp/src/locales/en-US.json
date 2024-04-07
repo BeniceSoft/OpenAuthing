@@ -1,6 +1,9 @@
 {
     "common.or": "Or",
     "common.welcome": "Welcome to use OpenAuthing.",
+    "common.error.title": "Oops, something went wrong.",
+    "common.error.desc": "Sorry, we couldn't find your page.",
+    "common.backtohome": "Go back to the homepage",
     "common.notification.login.success": "Login successful, redirecting...",
     "account.login.title.text": "Log in to your account",
     "account.login.desc.text": "Welcome back! Please enter your details",
