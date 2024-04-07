@@ -1,6 +1,7 @@
 {
     "common.or": "或者",
     "common.welcome": "欢迎使用 OpenAuthing。",
+    "common.notification.login.success": "登录成功，正在跳转...",
     "account.login.title.text": "登录你的账号",
     "account.login.desc.text": "欢迎回来！请输入你的登录信息",
     "account.login.input.username.label": "用户名",
@@ -14,5 +15,10 @@
     "account.loginwith2fa.desc.text": "打开你的两步身份验证器（TOTP）应用或浏览器扩展程序，查看你的身份验证代码。",
     "account.loginwith2fa.button.verify.text": "验证身份验证码",
     "account.loginwith2fa.havingProblems": "有问题？",
-    "account.loginwith2fa.link.useRecoveryCode.text": "使用恢复代码或开始 2FA 帐户恢复"
+    "account.loginwith2fa.link.useRecoveryCode.text": "使用恢复代码或开始 2FA 帐户恢复",
+    "account.loginwithrecoverycode.title.text": "验证恢复代码",
+    "account.loginwithrecoverycode.desc.text": "如果你无法访问你的移动设备，请输入其中一个恢复代码以验证你的身份。",
+    "account.loginwithrecoverycode.button.verify.text": "验证恢复代码",
+    "account.loginwithrecoverycode.norecoverycode.text": "没有恢复代码？",
+    "account.loginwithrecoverycode.link.useAuthenticator.text": "使用你的身份验证器应用"
 }

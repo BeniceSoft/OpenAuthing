@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link, useSearchParams, FormattedMessage, FormattedHTMLMessage, useModel } from 'umi'
 import { Controller, useForm } from "react-hook-form";
 import { LoginWith2FaModel } from "@/@types/auth";
@@ -22,14 +22,14 @@ const AuthenticationCodeInput = ({ value, onChange, invalid = false }: Authentic
             inputType="number"
             numInputs={6}
             shouldAutoFocus={true}
-            containerStyle={"flex gap-x-5"}
+            containerStyle={"flex gap-x-4"}
             value={value}
             renderInput={(props, index) => {
                 const inputProps = {
                     ...props,
                     style: undefined,
                     className: cn(
-                        "block size-12 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600",
+                        "block size-12 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600",
                         invalid && index >= (value?.length ?? -1) ? "focus:ring-red-400 focus:border-red-400" : "focus:ring-blue-500"
                     )
                 }
@@ -45,8 +45,15 @@ const AuthenticationCodeInput = ({ value, onChange, invalid = false }: Authentic
 const LoginWith2FaPage: React.FC = function () {
     const [searchParams] = useSearchParams()
     const returnUrl = searchParams.get('returnUrl')
-    const { control, register, formState: { isValid, isSubmitting }, handleSubmit } = useForm<LoginWith2FaModel>()
-    const { loginWith2Fa } = useModel('account.loginwith2fa')
+    const { control, register, formState: { isValid, isSubmitting }, setValue, handleSubmit } = useForm<LoginWith2FaModel>()
+
+    useEffect(() => {
+        returnUrl && setValue('returnUrl', returnUrl)
+    }, [returnUrl])
+
+    const { loginWith2Fa } = useModel('account.login', model => ({
+        loginWith2Fa: model.loginWith2Fa
+    }))
 
     const onSubmit = async (value: LoginWith2FaModel) => {
         await loginWith2Fa(value)
@@ -63,15 +70,12 @@ const LoginWith2FaPage: React.FC = function () {
             <form className="my-5" onSubmit={handleSubmit(onSubmit)}>
                 <input type="hidden" {...register("returnUrl")} />
                 <div className="space-y-5">
-                    <div className="py-2 dark:bg-slate-900">
+                    <div className="py-2">
                         <Controller control={control}
                             name="twoFactorCode"
-                            render={({ field: { onChange, value } }) => {
-
-                                return (
-                                    <AuthenticationCodeInput value={value} onChange={onChange} invalid={value === undefined ? false : value.length !== 6} />
-                                )
-                            }}
+                            render={({ field: { onChange, value } }) => (
+                                <AuthenticationCodeInput value={value} onChange={onChange} invalid={value === undefined ? false : value.length !== 6} />
+                            )}
                             rules={{
                                 required: true,
                                 maxLength: 6,
@@ -86,7 +90,7 @@ const LoginWith2FaPage: React.FC = function () {
                             <FormattedMessage id="account.loginwith2fa.button.verify.text" />
                         </button>
                     </div>
-                    <div className="text-sm text-gray-500 flex items-center gap-x-1">
+                    <div className="text-sm text-gray-400 flex items-center gap-x-1">
                         <FormattedMessage id="account.loginwith2fa.havingProblems" />
                         <Link to={{ pathname: '/account/loginwithrecoverycode', search: `?returnUrl=${returnUrl}` }}
                             className="text-blue-500">

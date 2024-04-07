@@ -34,15 +34,17 @@ type LoginPageProps = {
 }
 
 const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
-    const { register, formState: { errors, isValid }, handleSubmit, setValue } = useForm<LoginWithPasswordModel>()
+    const { register, formState: { isValid, isSubmitting }, handleSubmit, setValue } = useForm<LoginWithPasswordModel>()
     const [searchParams] = useSearchParams()
     const returnUrl = searchParams.get('returnUrl')
 
     useEffect(() => {
-        setValue('returnUrl', returnUrl)
+        returnUrl && setValue('returnUrl', returnUrl)
     }, [returnUrl])
 
-    const { loginWithPassword, isLoggingIn } = useModel('account.login')
+    const { loginWithPassword } = useModel('account.login', model => ({
+        loginWithPassword: model.loginWithPassword
+    }))
 
     const { externalLoginProvidersLoading, externalLoginProviders } = props;
 
@@ -108,8 +110,8 @@ const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
                     <div className="pt-0">
                         <button type="submit"
                             className="w-full p-3 inline-flex justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
-                            aria-disabled={isLoggingIn || !isValid}
-                            disabled={isLoggingIn || !isValid}>
+                            aria-disabled={isSubmitting || !isValid}
+                            disabled={isSubmitting || !isValid}>
                             <FormattedMessage id="account.login.button.login.text" />
                         </button>
                     </div>

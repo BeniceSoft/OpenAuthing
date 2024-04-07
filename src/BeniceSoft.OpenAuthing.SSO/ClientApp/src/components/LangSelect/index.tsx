@@ -14,35 +14,46 @@ const Languages: Record<any, { name: string, icon: React.ReactElement }> = {
     }
 }
 
-export default () => {
-    const currentLocale = getLocale()
-    const currentLanguage = Languages[currentLocale];
+type LangSelectProps = {
+    reload?: boolean
+}
+
+export default ({ reload = true }: LangSelectProps) => {
+
+    const [selectedLang, setSelectedLang] = useState(() => getLocale());
+    const changeLang = (lang: string): void => {
+        setLocale(lang, reload);
+        setSelectedLang(getLocale())
+    };
+    const currentLanguage = Languages[selectedLang];
 
     return (
         <div className="hs-dropdown relative inline-flex [--placement:bottom-right]">
             <button id="lang-select-dropmenu"
                 type="button"
-                className="hs-dropdown-toggle min-w-[166px] py-2.5 px-4 inline-flex items-center gap-x-2 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
+                className="hs-dropdown-toggle min-w-30 py-2.5 px-2 inline-flex items-center gap-x-1 text-sm font-medium rounded-lg border border-gray-200 bg-white text-gray-800 shadow-sm hover:bg-gray-50 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-white dark:hover:bg-gray-800">
                 {currentLanguage.icon}
                 {currentLanguage.name}
-                <ChevronsUpDownIcon className="hs-dropdown-open:rotate-180 size-4 text-gray-600" />
+                <ChevronsUpDownIcon className="size-4 text-gray-600" />
             </button>
 
             <div className="space-y-1 hs-dropdown-menu transition-[opacity,margin] duration hs-dropdown-open:opacity-100 opacity-0 w-48 hidden z-10 mt-2 bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
                 aria-labelledby="lang-select-dropmenu">
                 {getAllLocales().map((locale, index) => {
                     const language = Languages[locale]
-                    const checked = locale === currentLocale
+                    const checked = locale === selectedLang
                     if (language === undefined) return null
                     return (
                         <div key={index}
                             className={cn(
-                                "flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700",
-                                checked ? "bg-gray-100" : ""
+                                "flex justify-between py-2 px-3 rounded-lg text-sm text-gray-800 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700",
+                                checked ? "bg-gray-100 font-medium" : ""
                             )}
-                            onClick={() => setLocale(locale, true)}>
-                            {language.icon}
-                            {language.name}
+                            onClick={() => changeLang(locale)}>
+                            <div className="flex items-center gap-x-3">
+                                {language.icon}
+                                {language.name}
+                            </div>
                             {checked &&
                                 <CheckIcon className="w-4 h-4" />
                             }

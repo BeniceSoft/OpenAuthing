@@ -1,6 +1,7 @@
 {
     "common.or": "Or",
     "common.welcome": "Welcome to use OpenAuthing.",
+    "common.notification.login.success": "Login successful, redirecting...",
     "account.login.title.text": "Log in to your account",
     "account.login.desc.text": "Welcome back! Please enter your details",
     "account.login.input.username.label": "Username",
@@ -17,5 +18,7 @@
     "account.loginwith2fa.link.useRecoveryCode.text": "Use a recovery code or begin 2FA account recovery",
     "account.loginwithrecoverycode.title.text": "Recovery code authentication",
     "account.loginwithrecoverycode.desc.text": "If you are unable to access your mobile device, enter one of your recovery codes to verify your identity.",
-    "account.loginwithrecoverycode.button.verify.text": "Verify recovery code"
+    "account.loginwithrecoverycode.button.verify.text": "Verify recovery code",
+    "account.loginwithrecoverycode.norecoverycode.text": "Don't have a recovery code?",
+    "account.loginwithrecoverycode.link.useAuthenticator.text": "Use your authenticator app"
 }
