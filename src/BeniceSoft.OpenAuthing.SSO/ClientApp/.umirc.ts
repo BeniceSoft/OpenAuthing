@@ -8,7 +8,7 @@ export default defineConfig({
         '/api': {
             'target': 'http://127.0.0.1:5129/',
             'changeOrigin': true,
-            'pathRewrite': { '^/api' : '/api' },
+            'pathRewrite': { '^/api': '/api' },
         },
         '/uploadFiles': {
             'target': 'http://127.0.0.1:5129/',
@@ -59,7 +59,12 @@ export default defineConfig({
             component: '404'
         }
     ],
-
+    scripts: [
+        "./node_modules/preline/preline.js"
+    ],
+    links: [
+        { href: "https://fonts.cdnfonts.com/css/inter", rel: "stylesheet" }
+    ],
     npmClient: "npm",
     tailwindcss: {},
     plugins: [
@@ -68,8 +73,12 @@ export default defineConfig({
         "@umijs/plugins/dist/tailwindcss",
         "@umijs/plugins/dist/dva",
         "@umijs/plugins/dist/request",
-        // '@umijs/plugins/dist/qiankun'
+        '@umijs/plugins/dist/locale'
     ],
+    locale: {
+        default: 'zh-CN',
+        baseSeparator: '-'
+    },
     dva: {},
     request: {
         dataField: 'data'

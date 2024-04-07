@@ -17,6 +17,19 @@ export default defineMock({
         }, mockjs.Random.integer(300, 3000));
     },
 
+    'POST /api/account/loginwith2fa': (req, res) => {
+
+        setTimeout(() => {
+            res.status(200).json({
+                code: 200,
+                data: {
+                    returnUrl: '/',
+                    userInfo: { nickname: mockjs.Random.cname(), userName: mockjs.Random.name() }
+                }
+            })
+        }, mockjs.Random.integer(300, 3000));
+    },
+
     'GET /api/account/towFactorAuthentication': (req, res) => {
         setTimeout(() => {
             res.status(200).json({

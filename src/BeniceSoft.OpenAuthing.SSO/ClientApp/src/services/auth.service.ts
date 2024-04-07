@@ -23,31 +23,34 @@ class AuthService {
     }
 
     public async login(model: LoginWithPasswordModel) {
-        const { data } = await request('/api/account/login', {
+        const response = await request('/api/account/login', {
             method: 'POST',
             data: model
         })
+        const { data } = response
 
         if (data) {
             const { userInfo } = data
             userInfo && service.storeUser(userInfo)
         }
 
-        return data
+        return response
     }
 
     public async loginWith2Fa(model: LoginWith2FaModel) {
-        const { data } = await request('/api/account/loginwith2fa', {
+        const response = await request('/api/account/loginwith2fa', {
             method: 'POST',
             data: model
         })
+
+        const { data } = response
 
         if (data) {
             const { userInfo } = data
             userInfo && service.storeUser(userInfo)
         }
 
-        return data
+        return response
     }
 
     public async loginWithRecoveryCode(model: LoginWithRecoveryCode) {

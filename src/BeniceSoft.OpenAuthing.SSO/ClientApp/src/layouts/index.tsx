@@ -1,5 +1,6 @@
-import {Outlet} from "umi"
-import {Toaster} from "react-hot-toast";
+import { Outlet, useLocation } from "umi"
+import { Toaster } from "react-hot-toast";
+import { useEffect } from "react";
 
 export default () => {
 
@@ -15,10 +16,19 @@ export default () => {
         }
     }
 
+    const { pathname } = useLocation();
+
+    useEffect(() => {
+        if (document.readyState === 'complete') {
+            window.HSStaticMethods.autoInit('all')
+        }
+    }, [pathname])
+
+
     return (
         <div>
-            <Outlet/>
-            <Toaster/>
+            <Outlet />
+            <Toaster />
         </div>
     )
 }

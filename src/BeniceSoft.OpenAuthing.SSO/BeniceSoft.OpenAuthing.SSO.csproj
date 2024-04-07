@@ -55,11 +55,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <_ContentIncludedByDefault Remove="Areas\Admin\Views\Console\Index.cshtml"/>
-        <_ContentIncludedByDefault Remove="Areas\Admin\Views\Shared\_AdminLayout.cshtml"/>
-    </ItemGroup>
-
-    <ItemGroup>
+        <Folder Include="ClientApp\src\pages\account\models\" />
         <Folder Include="wwwroot\uploadFiles"/>
     </ItemGroup>
 
@@ -100,16 +96,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy"/>
         <PackageReference Include="Volo.Abp.BlobStoring.FileSystem"/>
-        <Content Include="ClientApp\src\assets\secure-login.json"/>
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Update="signing-certificate.pfx">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="encryption-certificate.pfx">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
 </Project>

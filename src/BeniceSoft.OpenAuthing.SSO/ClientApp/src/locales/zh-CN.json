@@ -1,0 +1,18 @@
+{
+    "common.or": "或者",
+    "common.welcome": "欢迎使用 OpenAuthing。",
+    "account.login.title.text": "登录你的账号",
+    "account.login.desc.text": "欢迎回来！请输入你的登录信息",
+    "account.login.input.username.label": "用户名",
+    "account.login.input.password.label": "密码",
+    "account.login.input.rememberMe.label": "保持登录",
+    "account.login.button.login.text": "登录",
+    "account.login.link.forgotPassword.text": "忘记密码",
+    "account.login.orSignInWith.text": "或者",
+    "account.login.aggreement.html": "登录即表示我同意<a href=\"#\" class=\"text-blue-500\">隐私声明</a>和<a href=\"#\" class=\"text-blue-500\">服务条款</a>。",
+    "account.loginwith2fa.title.text": "2FA 身份验证",
+    "account.loginwith2fa.desc.text": "打开你的两步身份验证器（TOTP）应用或浏览器扩展程序，查看你的身份验证代码。",
+    "account.loginwith2fa.button.verify.text": "验证身份验证码",
+    "account.loginwith2fa.havingProblems": "有问题？",
+    "account.loginwith2fa.link.useRecoveryCode.text": "使用恢复代码或开始 2FA 帐户恢复"
+}

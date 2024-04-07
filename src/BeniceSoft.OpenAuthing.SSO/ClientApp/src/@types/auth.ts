@@ -5,7 +5,7 @@ export interface ExternalLoginProvider {
 }
 
 export interface LoginModelBase {
-    returnUrl?: string
+    returnUrl?: string | null
     rememberMe: boolean
 }
 

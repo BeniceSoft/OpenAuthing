@@ -1,0 +1,21 @@
+{
+    "common.or": "Or",
+    "common.welcome": "Welcome to use OpenAuthing.",
+    "account.login.title.text": "Log in to your account",
+    "account.login.desc.text": "Welcome back! Please enter your details",
+    "account.login.input.username.label": "Username",
+    "account.login.input.password.label": "Password",
+    "account.login.input.rememberMe.label": "Stay signed in",
+    "account.login.button.login.text": "Sign in",
+    "account.login.link.forgotPassword.text": "I forgot my password",
+    "account.login.orSignInWith.text": "Or sign in with",
+    "account.login.aggreement.html": "By signing in, I agree to the <a href=\"#\" class=\"text-blue-500\">Privacy Statement</a> and <a href=\"#\" class=\"text-blue-500\">Terms of Service</a>.",
+    "account.loginwith2fa.title.text": "2FA authentication",
+    "account.loginwith2fa.desc.text": "Open your two-factor authenticator (TOTP) app or browser extension to view your authentication code.",
+    "account.loginwith2fa.button.verify.text": "Verify authentication code",
+    "account.loginwith2fa.havingProblems": "Having problems?",
+    "account.loginwith2fa.link.useRecoveryCode.text": "Use a recovery code or begin 2FA account recovery",
+    "account.loginwithrecoverycode.title.text": "Recovery code authentication",
+    "account.loginwithrecoverycode.desc.text": "If you are unable to access your mobile device, enter one of your recovery codes to verify your identity.",
+    "account.loginwithrecoverycode.button.verify.text": "Verify recovery code"
+}
