@@ -108,7 +108,7 @@ export default defineMock({
 
     'GET /api/account/profile': (req, res) => {
         setTimeout(() => {
-            res.status([200, 401][mockjs.Random.integer(0, 1)]).json(mockjs.mock({
+            res.status(200).json(mockjs.mock({
                 code: 200,
                 'data': {
                     id: '@guid',
