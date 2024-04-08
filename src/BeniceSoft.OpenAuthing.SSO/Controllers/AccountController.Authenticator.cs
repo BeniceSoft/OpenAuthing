@@ -33,7 +33,7 @@ public partial class AccountController
         return Ok(new
         {
             SharedKey = FormatKey(unformattedKey!),
-            AuthenticatorUri = GenerateQrCodeUri(phoneNumber!, unformattedKey!)
+            AuthenticatorUri = GenerateQrCodeUri(phoneNumber ?? user.UserName , unformattedKey!)
         });
     }
 
@@ -70,13 +70,13 @@ public partial class AccountController
         }.ToSucceed());
     }
 
-    private string GenerateQrCodeUri(string phoneNumber, string unformattedKey)
+    private string GenerateQrCodeUri(string user, string unformattedKey)
     {
         return string.Format(
             CultureInfo.InvariantCulture,
             AuthenticatorUriFormat,
             _urlEncoder.Encode("BeniceSoft OpenAuthing"),
-            _urlEncoder.Encode(phoneNumber),
+            _urlEncoder.Encode(user),
             unformattedKey);
     }
 

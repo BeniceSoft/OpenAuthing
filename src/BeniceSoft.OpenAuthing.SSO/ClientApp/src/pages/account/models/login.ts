@@ -10,16 +10,16 @@ export default () => {
     const { run: loginWithPassword } = useRequest(AuthService.login, {
         manual: true,
         onSuccess(data, params) {
-            const { requireTwoFactor, returnUrl, userIndo } = data
-            if (!requireTwoFactor) {
-                toast.success(successMessage)
-                redirectReturnUrl(returnUrl)
+            const { requiresTwoFactor, returnUrl, userIndo } = data
+            if (requiresTwoFactor) {
+                history.push({
+                    pathname: '/account/loginwith2fa',
+                    search: "?returnUrl=" + returnUrl
+                })
                 return
             }
-            history.push({
-                pathname: '/account/loginwith2fa',
-                search: "?returnUrl=" + returnUrl
-            })
+            toast.success(successMessage)
+            redirectReturnUrl(returnUrl)
         },
     })
 
@@ -37,16 +37,11 @@ export default () => {
     const { run: loginWithRecoveryCode } = useRequest(AuthService.loginWithRecoveryCode, {
         manual: true,
         onSuccess(data, params) {
-            const { requireTwoFactor, returnUrl, userIndo } = data
-            if (!requireTwoFactor) {
-                toast.success(successMessage)
-                redirectReturnUrl(returnUrl)
-                return
-            }
-            history.push({
-                pathname: '/account/loginwith2fa',
-                search: "?returnUrl=" + returnUrl
-            })
+            const { returnUrl, userIndo } = data
+            toast.success(successMessage)
+            redirectReturnUrl(returnUrl)
+            return
+
         },
     })
 

@@ -43,4 +43,18 @@ public partial class AccountController
         _logger.LogWarning("Invalid recovery code entered.");
         return Ok(new ResponseResult(HttpStatusCode.BadRequest, L["InvalidRecoveryCode"]));
     }
+
+    [HttpGet]
+    public async Task<IActionResult> GetRecoveryCodes()
+    {
+        var user = await UserManager.GetUserAsync(User);
+        if (user is null)
+        {
+            throw new InvalidOperationException($"Unable to load user with Id '{UserManager.GetUserId(User)}'");
+        }
+
+        var tokens = await UserManager.GetTwoFactorRecoveryCodesAsync(user) ?? Enumerable.Empty<string>();
+
+        return Ok(tokens.ToList().ToSucceed());
+    }
 }

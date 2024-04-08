@@ -67,15 +67,18 @@ const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: 
                                     onClick={onRefresh} />}
                         </div>
                     </div>
-                    <label className="block">
+                    <div className=''>
                         <OTPInput value={code}
                             onChange={setCode}
+                            inputType="number"
                             numInputs={6}
-                            containerStyle="text-sm gap-x-1"
-                            inputStyle="w-[35px] transition block rounded-md border-gray-300 focus:border-blue-500 placeholder-slate-400 text-xs"
-                            renderInput={(props: any) => (<input {...props} />)}
-                            renderSeparator={index => index === 2 ? <span className="px-1" /> : null} />
-                    </label>
+                            shouldAutoFocus={true}
+                            containerStyle={"flex gap-x-1"}
+                            inputStyle="block size-10 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                            renderInput={(props: any) => (<input {...props} style={undefined} placeholder="○" />)}
+                            renderSeparator={index => index === 2 ? <span className="block w-3"></span> : null} />
+                    </div>
+
                 </div>
                 <div className="py-8 flex justify-end gap-x-2">
                     <Link to="/settings/security"

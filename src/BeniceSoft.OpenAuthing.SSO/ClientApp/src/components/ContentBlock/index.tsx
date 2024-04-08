@@ -9,7 +9,7 @@ interface ContentBlockProps {
 export default function ({ children, title, showLine = true }: ContentBlockProps) {
     return (
         <div>
-            <div className={`text-xl p-3 px-0 font-medium ${showLine && 'border-b'}`}>
+            <div className={`text-xl p-3 px-0 font-semibold ${showLine && 'border-b'}`}>
                 {title}
             </div>
             <div className="pt-4">

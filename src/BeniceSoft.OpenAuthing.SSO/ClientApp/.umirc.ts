@@ -42,6 +42,7 @@ export default defineConfig({
                     { path: '/settings/profile', component: 'settings/profile' },
                     { path: '/settings/account', component: 'settings/account' },
                     { path: '/settings/security', component: 'settings/security' },
+                    { path: '/settings/login-logs', component: 'settings/loginlogs' },
                     {
                         path: '/settings/2fa',
                         routes: [
@@ -64,7 +65,7 @@ export default defineConfig({
         "./node_modules/preline/preline.js"
     ],
     links: [
-        { href: "https://fonts.cdnfonts.com/css/inter", rel: "stylesheet" }
+        { href: "https://rsms.me/inter/inter.css", rel: "stylesheet" }
     ],
     npmClient: "npm",
     tailwindcss: {},

@@ -12,6 +12,8 @@
   "dependencies": {
     "@preline/dropdown": "^2.1.0",
     "@preline/pin-input": "^2.1.0",
+    "@preline/strong-password": "^2.1.0",
+    "@preline/tooltip": "^2.1.0",
     "@radix-ui/react-avatar": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-dropdown-menu": "^2.0.4",

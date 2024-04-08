@@ -1,7 +1,9 @@
 import { request } from '@/lib/request'
 import { CurrentUserInfo, LoginWith2FaModel, LoginWithPasswordModel, LoginWithRecoveryCode } from "@/@types/auth";
+import { ResponseResultWithT } from '@/@types';
 
 const UserStoreName = '__OA_USERINFO'
+const API_ROOT = "/api/account";
 
 class AuthService {
 
@@ -10,7 +12,7 @@ class AuthService {
     }
 
     public async getExternalIdPs() {
-        const { data } = await request('/api/account/getexternalloginproviders')
+        const { data } = await request(API_ROOT + '/getexternalloginproviders')
         return data ?? []
     }
 
@@ -23,7 +25,7 @@ class AuthService {
     }
 
     public async login(model: LoginWithPasswordModel) {
-        const response = await request('/api/account/login', {
+        const response = await request(API_ROOT + '/login', {
             method: 'POST',
             data: model
         })
@@ -38,7 +40,7 @@ class AuthService {
     }
 
     public async loginWith2Fa(model: LoginWith2FaModel) {
-        const response = await request('/api/account/loginwith2fa', {
+        const response = await request(API_ROOT + '/loginwith2fa', {
             method: 'POST',
             data: model
         })
@@ -54,7 +56,7 @@ class AuthService {
     }
 
     public async loginWithRecoveryCode(model: LoginWithRecoveryCode) {
-        const { data } = await request('/api/account/loginWithRecoveryCode', {
+        const { data } = await request(API_ROOT + '/loginWithRecoveryCode', {
             method: 'POST',
             data: model
         })
@@ -76,7 +78,7 @@ class AuthService {
 
             } else {
 
-                const { data } = await request('/api/account/me')
+                const { data } = await request(API_ROOT + '/me')
                 this.storeUser(data)
 
                 return data
@@ -93,7 +95,7 @@ class AuthService {
     }
 
     public async generateAuthenticatorUri(): Promise<string> {
-        const { data } = await request('/api/account/generateAuthenticatorUri')
+        const { data } = await request(API_ROOT + '/generateAuthenticatorUri')
 
         if (data) {
             const { authenticatorUri } = data
@@ -104,25 +106,24 @@ class AuthService {
     }
 
     public async enableAuthenticator(code: string) {
-        const { data } = await request('/api/account/enableAuthenticator', {
+        return await request(API_ROOT + '/enableAuthenticator', {
             method: 'POST',
             data: {
                 code
             }
         })
-
-        return data
     }
 
     public async getTwoFactorState() {
-        const { data } = await request('/api/account/towFactorAuthentication')
-
-        return data
+        return await request(API_ROOT + '/towFactorAuthentication')
     }
 
     public async disableTwoFactor() {
-        const data = await request('/api/account/disable2Fa', { method: 'POST' })
-        console.log(data)
+        return await request(API_ROOT + '/disable2Fa', { method: 'POST' })
+    }
+
+    public async getRecoveryCodes(): Promise<ResponseResultWithT<string[] | null>> {
+        return await request(API_ROOT + '/getRecoveryCodes', { method: 'GET' })
     }
 }
 

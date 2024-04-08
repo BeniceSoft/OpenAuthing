@@ -1,21 +1,8 @@
-import { UserProfile } from "@/@types/user"
 import AccountService from "@/services/account.service"
-import { useCallback, useState } from "react"
+import { useRequest } from "umi"
 
 export default () => {
-    const [loading, setLoading] = useState<boolean>()
-    const [profile, setProfile] = useState<UserProfile>()
-
-    const fetch = useCallback(async () => {
-        setLoading(true)
-        try {
-            const profile = await AccountService.getProfile()
-
-            setProfile(profile)
-        } finally {
-            setLoading(false)
-        }
-    }, [])
+    const {loading, run: fetch, data: profile } = useRequest(AccountService.getProfile)
 
     return {
         loading,

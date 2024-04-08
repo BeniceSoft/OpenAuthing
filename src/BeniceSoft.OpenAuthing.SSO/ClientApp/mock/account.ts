@@ -9,7 +9,7 @@ export default defineMock({
             res.status(200).json({
                 code: 200,
                 data: {
-                    requireTwoFactor: mockjs.Random.boolean(),
+                    requiresTwoFactor: mockjs.Random.boolean(),
                     returnUrl: '/',
                     userInfo: { nickname: mockjs.Random.cname(), userName: mockjs.Random.name() }
                 }
@@ -46,10 +46,12 @@ export default defineMock({
 
     'GET /api/account/generateAuthenticatorUri': (req, res) => {
         setTimeout(() => {
+            const temp = encodeURIComponent('BeniceSoft OpenAuthing')
+            const uri = `otpauth://totp/${temp}:${encodeURIComponent('13000000001')}?secret=${encodeURIComponent('1234 1234 1234 1234 1234 1234 1234 1234')}&issuer=${temp}&digits=6`
             res.status(200).json({
                 code: 200,
                 data: {
-                    authenticatorUri: "abcdefghijklmnopqrstuvwxyz"
+                    authenticatorUri: uri
                 }
             })
         }, mockjs.Random.integer(100, 3000));
@@ -119,6 +121,16 @@ export default defineMock({
                     emailAddress: '@email',
                     creationTime: '@date'
                 }
+            }))
+        }, mockjs.Random.integer(100, 3000));
+    },
+
+    '/api/account/getRecoveryCodes': (req, res) => {
+
+        setTimeout(() => {
+            res.status(200).json(mockjs.mock({
+                code: 200,
+                'data|20': [/[A-Z]{5}-[A-Z]{5}/]
             }))
         }, mockjs.Random.integer(100, 3000));
     }

@@ -4,21 +4,20 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const inputVariants = cva(
-    "rounded w-full transition-colors disabled:cursor-not-allowed",
+    "block w-full border-gray-200 rounded-md text-sm text-gray-800 transition-colors disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600",
     {
         variants: {
             variant: {
-                default: 'border-gray-200 focus:border-primary disabled:bg-gray-100',
+                default: 'border-gray-200 focus:border-primary ring:border-primary disabled:bg-gray-100',
                 solid: 'border-gray-200 bg-gray-100 focus:bg-white focus:border-primary'
             },
             sizeVariant: {
-                xs: 'text-xs',
-                sm: 'text-sm'
+                default: 'py-2 px-3',
             }
         },
         defaultVariants: {
             variant: 'default',
-            sizeVariant: 'sm'
+            sizeVariant: 'default'
         },
     }
 )
@@ -55,21 +54,24 @@ const inputLabelVariants = cva(
     }
 )
 
-interface inputLabelProps extends React.InputHTMLAttributes<HTMLLabelElement>, VariantProps<typeof inputLabelVariants> {
+interface InputLabelProps extends React.InputHTMLAttributes<HTMLLabelElement>, VariantProps<typeof inputLabelVariants> {
     text?: string
     required?: boolean
-
+    errorMessage?: string
 }
 
-const InputLabel: React.FC<inputLabelProps> = (
-    ({ variant, className, children, text, required }) => {
+const InputLabel: React.FC<InputLabelProps> = (
+    ({ className, children, text, required, errorMessage }) => {
 
         return (
-            <label className={cn(inputVariants({ variant, className }))}>
+            <label className={cn("block text-sm font-medium text-gray-500", className)}>
                 <span className={cn("block mb-1", required && "after:content-['*'] after:text-red-600")}>{text}</span>
                 <div className="flex-1">
                     {children}
                 </div>
+                {errorMessage &&
+                    <p className="text-xs text-destructive">{errorMessage}</p>
+                }
             </label>
         )
     }
