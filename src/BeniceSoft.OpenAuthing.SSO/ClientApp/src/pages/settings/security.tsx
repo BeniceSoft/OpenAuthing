@@ -3,11 +3,11 @@ import ContentBlock from '@/components/ContentBlock';
 import Spin from '@/components/Spin';
 import { Button } from '@/components/ui/button';
 import { Input, InputLabel } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { CheckIcon, Key, Smartphone, XIcon } from 'lucide-react';
-import React, { useEffect } from 'react'
+import React from 'react'
 import { useForm } from 'react-hook-form';
-import { FormattedMessage, Link, useDispatch, useIntl, useModel } from 'umi';
+import { FormattedMessage, Link, useIntl, useRequest } from 'umi';
+import AuthService from '@/services/auth.service'
 
 type ChangePasswordFormProps = {
     onSubmit: (data: ChangePasswordModel) => Promise<void>
@@ -121,10 +121,9 @@ const ChangePasswordForm = ({
 
 const TwoFactorContentBlockTitle = (props: { is2FaEnabled: boolean, buttonDisabled: boolean }) => {
     const { is2FaEnabled, buttonDisabled } = props
-    const dispatch = useDispatch()
 
     const onDisable = () => {
-        dispatch({ type: 'twofactor/disableTwoFactor' })
+
     }
 
     return (
@@ -252,13 +251,9 @@ export interface SecurityPageProps {
 
 const SecurityPage: React.FC<SecurityPageProps> = (props: SecurityPageProps) => {
     const intl = useIntl()
+    const { data: twoFactorState = {}, loading: twoFactorStateLoading } = useRequest(AuthService.getTwoFactorState)
 
-    const { twoFactorState = {}, twoFactorStateLoading } = useModel('settings.security')
-    const { is2FaEnabled } = twoFactorState
-
-    useEffect(() => {
-
-    }, [])
+    const { is2FaEnabled } = twoFactorState;
 
     const handleChangePasswordSubmit = async (data: any) => { }
 
@@ -272,7 +267,7 @@ const SecurityPage: React.FC<SecurityPageProps> = (props: SecurityPageProps) => 
                 <div className="py-4">
                     <Spin spinning={twoFactorStateLoading}>
                         {is2FaEnabled ?
-                            <TwoFactorAuthenticationEnabledContent {...props} /> :
+                            <TwoFactorAuthenticationEnabledContent {...twoFactorState} /> :
                             <TowFactorAuthenticationNotEnabledContent />}
                     </Spin>
                 </div>

@@ -6,7 +6,10 @@ import animationData from '@/assets/animations/authentication.json'
 
 export default function () {
     return (
-        <div className="h-screen w-screen p-0 flex">
+        <div className="h-screen w-screen p-0 flex relative">
+            <div className="lg:hidden absolute top-0 w-full py-8 px-5">
+                <Logo className="w-48"/>
+            </div>
             <div className="py-6 px-8 hidden lg:flex w-1/4 min-w-[428px] max-w-2xl bg-gray-100 justify-between flex-col dark:bg-neutral-900">
                 <div className="flex justify-between items-center">
                     <Link to="/"><Logo className="w-48" /></Link>

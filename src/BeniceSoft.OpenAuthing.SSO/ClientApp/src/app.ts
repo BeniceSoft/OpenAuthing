@@ -1,4 +1,4 @@
-import { RequestConfig, AxiosResponse, getDvaApp, history } from 'umi';
+import { RequestConfig, AxiosResponse, getIntl } from 'umi';
 import AuthService from '@/services/auth.service'
 import { toast } from 'react-hot-toast';
 import { ResponseResult } from '@/@types';
@@ -21,29 +21,25 @@ export const request: RequestConfig = {
         },
         // 错误接收及处理
         errorHandler: async (error: any, opts: any) => {
+            const intl = getIntl()
             if (opts?.skipErrorHandler) throw error;
+            // 取消请求时跳过全局错误处理
+            if (error.name === 'CanceledError') return
             // 我们的 errorThrower 抛出的错误。
             if (error.name === 'BizError') {
                 const errorInfo: ResponseResult | undefined = error.info;
                 if (errorInfo) {
                     const { errorCode, errorMessage } = errorInfo;
-                    if (errorCode === 401) {
-                        toast.error('登录状态已失效，正在跳转到登录...')
-                        getDvaApp()._store.dispatch({
-                            type: 'login/logout'
-                        })
-                        return;
-                    }
                     errorMessage && toast.error(errorMessage);
+
+                    // todo 使用errorcode 搭配多语言返回错误信息
                 }
             } else if (error.response) {
                 // Axios 的错误
                 // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
                 if (error.response.status === 401) {
-                    await AuthService.logout()
-                    toast.error('登录状态已失效，正在跳转到登录...')
-                    history.push('/account/login')
-                    return
+                    toast.error(intl.formatMessage({ id: 'common.error.401' }))
+                    return await AuthService.logout()
                 }
                 toast.error(`Response status:${error.response.status}`);
             } else if (error.request) {
@@ -76,6 +72,8 @@ export const request: RequestConfig = {
 export async function getInitialState() {
     const user = await AuthService.getUser()
     const isAuthenticated = user !== null
+
+    console.log('current user is: ', user)
 
     return ({
         isAuthenticated,

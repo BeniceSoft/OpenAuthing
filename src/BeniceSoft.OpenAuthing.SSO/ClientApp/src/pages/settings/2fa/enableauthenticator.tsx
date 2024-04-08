@@ -1,8 +1,7 @@
 import { QRCodeCanvas } from 'qrcode.react';
 import React, { useEffect, useState } from 'react';
 import OTPInput from 'react-otp-input';
-import { Link, connect, useDispatch } from 'umi';
-import { TwoFactorModelState } from '@/models/twofactor';
+import { Link } from 'umi';
 
 export interface EnableAuthenticatorPageProps {
     isLoadingAuthenticatorUri: boolean
@@ -13,27 +12,17 @@ export interface EnableAuthenticatorPageProps {
 const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: EnableAuthenticatorPageProps) => {
     const { isLoadingAuthenticatorUri, isLoggingIn, authenticatorUri = '' } = props
     const [code, setCode] = useState('')
-    const dispatch = useDispatch()
 
     useEffect(() => {
-        dispatch({
-            type: 'twofactor/fetchAuthenticatorUri'
-        })
+
     }, [])
 
     const onRefresh = () => {
-        dispatch({
-            type: 'twofactor/fetchAuthenticatorUri'
-        })
+
     }
 
     const onSubmit = () => {
-        dispatch({
-            type: 'twofactor/enableAuthenticator',
-            payload: {
-                code
-            }
-        })
+
     }
 
 
@@ -98,8 +87,4 @@ const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: 
     )
 }
 
-export default connect(({ loading, twofactor }: { loading: any, twofactor: TwoFactorModelState }) => ({
-    isLoadingAuthenticatorUri: loading.effects['twofactor/fetchAuthenticatorUri'],
-    isLoggingIn: loading.effects['twofactor/enableAuthenticator'],
-    ...twofactor
-}))(EnableAuthenticatorPage)
+export default EnableAuthenticatorPage

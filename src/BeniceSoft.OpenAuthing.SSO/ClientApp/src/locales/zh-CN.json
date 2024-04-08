@@ -1,6 +1,7 @@
 {
     "common.or": "或者",
     "common.welcome": "欢迎使用 OpenAuthing。",
+    "common.signout": "退出登录",
     "common.add": "添加",
     "common.edit": "编辑",
     "common.view": "查看",
@@ -11,6 +12,9 @@
     "common.download": "下载",
     "common.copy": "复制",
     "common.notification.login.success": "登录成功，正在跳转...",
+    "common.error.404.title": "哎呀！出问题了。",
+    "common.error.404.desc": "对不起，我们找不到你要访问的页面。",
+    "common.error.401": "会话已过期，请重新登录",
     "settings.menu.profile": "基础信息",
     "settings.menu.account": "账号绑定",
     "settings.menu.security": "账号安全",

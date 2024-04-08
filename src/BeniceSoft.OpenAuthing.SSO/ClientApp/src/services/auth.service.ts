@@ -1,8 +1,9 @@
+import { history } from 'umi'
 import { request } from '@/lib/request'
 import { CurrentUserInfo, LoginWith2FaModel, LoginWithPasswordModel, LoginWithRecoveryCode } from "@/@types/auth";
 import { ResponseResultWithT } from '@/@types';
 
-const UserStoreName = '__OA_USERINFO'
+export const UserStoreName = '__OA_USERINFO'
 const API_ROOT = "/api/account";
 
 class AuthService {
@@ -16,12 +17,17 @@ class AuthService {
         return data ?? []
     }
 
-    public async logout() {
+    public async logout(returnUrl?: string) {
         if (service.isAuthenticated()) {
             await request('/connect/logout')
         }
 
         localStorage.removeItem(UserStoreName)
+
+        history.replace({
+            pathname: '/account/login',
+            search: `?returnUrl=${encodeURIComponent(returnUrl ?? history.location.pathname)}`
+        })
     }
 
     public async login(model: LoginWithPasswordModel) {
@@ -31,7 +37,7 @@ class AuthService {
         })
         const { data } = response
 
-        if (data) {
+        if (data && data.loginSuccess) {
             const { userInfo } = data
             userInfo && service.storeUser(userInfo)
         }

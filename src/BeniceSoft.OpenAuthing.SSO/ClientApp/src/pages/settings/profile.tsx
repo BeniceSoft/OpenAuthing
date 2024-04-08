@@ -2,15 +2,15 @@ import ContentBlock from "@/components/ContentBlock";
 import Spin from "@/components/Spin";
 import { Button } from "@/components/ui/button";
 import { Input, InputLabel } from "@/components/ui/input";
+import AccountService from "@/services/account.service";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { FormattedMessage, useIntl, useModel } from "umi";
+import { FormattedMessage, useIntl, useRequest } from "umi";
 
 const ProfilePage = function (props: any) {
     const intl = useIntl()
+    const { loading, data: profile } = useRequest(AccountService.getProfile)
     const { register, formState: { errors, isValid, isSubmitting }, handleSubmit, reset } = useForm()
-
-    const { loading, profile, fetch } = useModel('settings.profile')
 
     useEffect(() => {
         reset(profile)

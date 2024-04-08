@@ -73,15 +73,13 @@ export default defineConfig({
         '@umijs/plugins/dist/initial-state',
         '@umijs/plugins/dist/model',
         "@umijs/plugins/dist/tailwindcss",
-        "@umijs/plugins/dist/dva",
         "@umijs/plugins/dist/request",
         '@umijs/plugins/dist/locale'
     ],
     locale: {
-        default: 'zh-CN',
+        default: 'en-US',
         baseSeparator: '-'
     },
-    dva: {},
     request: {
         dataField: 'data'
     },

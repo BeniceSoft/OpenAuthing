@@ -9,7 +9,8 @@ import AccountService from "@/services/account.service";
 import { CameraIcon, FingerprintIcon, FootprintsIcon, PowerIcon, UserIcon, VenetianMaskIcon } from "lucide-react";
 import React, { useEffect } from "react";
 import { useState } from "react";
-import { FormattedMessage, Link, Outlet, useDispatch, useLocation, useModel } from "umi";
+import { FormattedMessage, Link, Outlet, useLocation, useModel } from "umi";
+import AuthService from '@/services/auth.service'
 
 interface NavMenuItemProps {
     selected?: boolean
@@ -75,12 +76,8 @@ const Header = ({
 }
 
 const SettingsLayout = function (props: any) {
-    const { initialState, refresh } = useModel('@@initialState')
-    useEffect(() => {
-        refresh()
-    }, [])
+    const { initialState } = useModel('@@initialState')
 
-    const dispatch = useDispatch()
     const [avatarCorpDialogOpened, setAvatarCorpDialogOpened] = useState<boolean>()
     const [avatarSrc, setAvatarSrc] = useState<string>()
 
@@ -123,9 +120,7 @@ const SettingsLayout = function (props: any) {
     }
 
     const handleLogOut = () => {
-        dispatch({
-            type: "login/logout"
-        })
+        return AuthService.logout()
     }
 
     if (normalizedPathname.startsWith('/settings/2fa')) {

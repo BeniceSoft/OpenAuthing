@@ -2,14 +2,14 @@ import { defineMock } from "umi";
 import mockjs from 'mockjs';
 
 export default defineMock({
-
     'POST /api/account/login': (req, res) => {
-
+        const requiresTwoFactor = mockjs.Random.boolean()
         setTimeout(() => {
             res.status(200).json({
                 code: 200,
                 data: {
-                    requiresTwoFactor: mockjs.Random.boolean(),
+                    loginSuccess: !requiresTwoFactor,
+                    requiresTwoFactor: requiresTwoFactor,
                     returnUrl: '/',
                     userInfo: { nickname: mockjs.Random.cname(), userName: mockjs.Random.name() }
                 }
@@ -108,7 +108,7 @@ export default defineMock({
 
     'GET /api/account/profile': (req, res) => {
         setTimeout(() => {
-            res.status(200).json(mockjs.mock({
+            res.status([200, 401][mockjs.Random.integer(0, 1)]).json(mockjs.mock({
                 code: 200,
                 'data': {
                     id: '@guid',
