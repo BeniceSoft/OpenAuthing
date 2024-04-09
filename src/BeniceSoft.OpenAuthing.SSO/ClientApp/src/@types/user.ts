@@ -19,3 +19,11 @@ export interface UserProfile {
     emailAddress: string
     creationTime: Date
 }
+
+export type ResetPasswordValidationMethod = 'email' | 'phone'
+
+export interface ResetPasswordReq {
+    emailAddress?: string
+    phoneNumber?: string
+    validationMethod: ResetPasswordValidationMethod
+}

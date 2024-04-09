@@ -10,14 +10,18 @@ export const request: Request = (
     opts: any = { method: 'GET', withCredentials: true, signal: controller.signal },
 ) => {
     return umiRequest(url, opts)
-        .then((data) => ({ success: true, ...data }))
+        .then((data) => {
+            console.log("result: ", data)
+
+            return { success: true, ...data }
+        })
         .catch(({ code, status, ...error }) => {
             try {
                 if (code === 'ERR_CANCELED') return
                 console.error('++++request error: ', error)
-                controller.abort()
-                return ({ success: false, errorCode: status, ...error })
+                return { success: false, errorCode: status, ...error }
             } finally {
+                controller.abort()
 
                 // 重新创建一个，否则后续的 useRequest 不会执行
                 controller = new AbortController();

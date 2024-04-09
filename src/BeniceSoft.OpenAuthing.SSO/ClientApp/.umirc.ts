@@ -27,12 +27,15 @@ export default defineConfig({
             path: "/",
             component: "@/layouts/index",
             routes: [{
+                path: '/logout', component: 'logout'
+            }, {
                 path: '/account',
                 component: '@/layouts/account',
                 routes: [
                     { path: '/account/login', component: 'account/login' },
                     { path: '/account/loginwith2fa', component: 'account/loginwith2fa' },
-                    { path: '/account/loginwithrecoverycode', component: 'account/loginwithrecoverycode' }
+                    { path: '/account/loginwithrecoverycode', component: 'account/loginwithrecoverycode' },
+                    { path: '/account/reset-password', component: 'account/resetpassword' },
                 ]
             }, {
                 path: '/settings',
@@ -62,7 +65,7 @@ export default defineConfig({
         }
     ],
     scripts: [
-        "./node_modules/preline/preline.js"
+        // "./node_modules/preline/preline.js"
     ],
     links: [
         { href: "https://rsms.me/inter/inter.css", rel: "stylesheet" }

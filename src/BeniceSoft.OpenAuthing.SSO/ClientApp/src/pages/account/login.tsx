@@ -1,8 +1,10 @@
 import { useForm } from "react-hook-form";
 import React, { useEffect } from "react";
-import { useSearchParams, FormattedMessage, FormattedHTMLMessage, useModel } from 'umi'
+import { useSearchParams, FormattedMessage, FormattedHTMLMessage, useModel, Link } from 'umi'
 import { ExternalLoginProvider, LoginWithPasswordModel } from "@/@types/auth";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { HSTogglePassword } from 'preline/preline'
+import useReturnUrl from "@/hooks/useReturnUrl";
 
 function renderExternalProviderIcon(providerName: string) {
     switch (providerName.toLowerCase()) {
@@ -34,23 +36,22 @@ type LoginPageProps = {
 }
 
 const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
-    const { register, formState: { isValid, isSubmitting }, handleSubmit, setValue } = useForm<LoginWithPasswordModel>()
-    const [searchParams] = useSearchParams()
-    const returnUrl = searchParams.get('returnUrl')
+    const { register, formState: { isValid, isSubmitting }, handleSubmit } = useForm<LoginWithPasswordModel>()
+    const returnUrl = useReturnUrl()
 
     useEffect(() => {
-        returnUrl && setValue('returnUrl', returnUrl)
-    }, [returnUrl])
+        HSTogglePassword.autoInit()
+    }, [])
 
     const { loginWithPassword } = useModel('account.login', model => ({
         loginWithPassword: model.loginWithPassword
     }))
 
-    const { externalLoginProvidersLoading, externalLoginProviders } = props;
-
-
     const onSubmit = async (data: LoginWithPasswordModel) => {
-        await loginWithPassword(data)
+        await loginWithPassword({
+            ...data,
+            returnUrl
+        })
     }
 
     return (
@@ -62,7 +63,6 @@ const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
                 <FormattedMessage id="account.login.desc.text" />
             </p>
             <form className="my-5" onSubmit={handleSubmit(onSubmit)}>
-                <input type="hidden" {...register("returnUrl")} />
                 <div className="space-y-5">
                     <div>
                         <label htmlFor="username" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
@@ -79,9 +79,9 @@ const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
                             <label htmlFor="password" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
                                 <FormattedMessage id="account.login.input.password.label" />
                             </label>
-                            <a href="#" className="text-xs text-gray-500 hover:underline">
+                            <Link to={{ pathname: "/account/reset-password", search: "?returnUrl=" + returnUrl }} className="text-xs text-gray-500 hover:underline">
                                 <FormattedMessage id="account.login.link.forgotPassword.text" />
-                            </a>
+                            </Link>
                         </div>
                         <div className="relative">
                             <input type="password"

@@ -4,6 +4,7 @@ import { Controller, useForm } from "react-hook-form";
 import { LoginWith2FaModel } from "@/@types/auth";
 import OtpInput from 'react-otp-input';
 import { cn } from "@/lib/utils";
+import useReturnUrl from "@/hooks/useReturnUrl";
 
 type AuthenticationCodeInputProps = {
     value?: string
@@ -43,20 +44,15 @@ const AuthenticationCodeInput = ({ value, onChange, invalid = false }: Authentic
 }
 
 const LoginWith2FaPage: React.FC = function () {
-    const [searchParams] = useSearchParams()
-    const returnUrl = searchParams.get('returnUrl')
     const { control, register, formState: { isValid, isSubmitting }, setValue, handleSubmit } = useForm<LoginWith2FaModel>()
-
-    useEffect(() => {
-        returnUrl && setValue('returnUrl', returnUrl)
-    }, [returnUrl])
+    const returnUrl = useReturnUrl()
 
     const { loginWith2Fa } = useModel('account.login', model => ({
         loginWith2Fa: model.loginWith2Fa
     }))
 
     const onSubmit = async (value: LoginWith2FaModel) => {
-        await loginWith2Fa(value)
+        await loginWith2Fa({ ...value, returnUrl })
     }
 
     return (
@@ -68,7 +64,6 @@ const LoginWith2FaPage: React.FC = function () {
                 <FormattedMessage id="account.loginwith2fa.desc.text" />
             </p>
             <form className="my-5" onSubmit={handleSubmit(onSubmit)}>
-                <input type="hidden" {...register("returnUrl")} />
                 <div className="space-y-5">
                     <div className="py-2">
                         <Controller control={control}

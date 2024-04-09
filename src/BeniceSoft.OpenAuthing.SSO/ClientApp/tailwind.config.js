@@ -8,7 +8,7 @@ module.exports = {
         './src/components/**/*.tsx',
         './src/layouts/**/*.tsx',
 
-        './node_modules/preline/preline.js',
+        './node_modules/preline/dist/*.js'
     ],
     theme: {
         extend: {
@@ -60,6 +60,7 @@ module.exports = {
         require("@thoughtbot/tailwindcss-aria-attributes"),
         require("tailwindcss-animate"),
 
+        require('tailwind-scrollbar'),
         require('preline/plugin')
     ],
 }

@@ -16,10 +16,14 @@
     "common.error.404.desc": "Sorry, we couldn't find your page.",
     "common.error.401": "Session has expired, log in again",
     "common.notification.login.success": "Login successful, redirecting",
+    "common.loading.data": "Loading data...",
+    "home.link.profile": "Profile",
+    "home.link.signout": "Sign out",
     "settings.menu.profile": "Profile",
     "settings.menu.account": "Account binding",
     "settings.menu.security": "Password and authentication",
     "settings.menu.loginlogs": "Login logs",
+    "settings.profile.loading": "Loading profile...",
     "settings.profile.title": "Profile",
     "settings.profile.input.username": "Username",
     "settings.profile.input.nickname": "Nickname",
@@ -86,5 +90,11 @@
     "account.loginwithrecoverycode.desc.text": "If you are unable to access your mobile device, enter one of your recovery codes to verify your identity.",
     "account.loginwithrecoverycode.button.verify.text": "Verify recovery code",
     "account.loginwithrecoverycode.norecoverycode.text": "Don't have a recovery code?",
-    "account.loginwithrecoverycode.link.useAuthenticator.text": "Use your authenticator app"
+    "account.loginwithrecoverycode.link.useAuthenticator.text": "Use your authenticator app",
+    "account.resetpassword.title.text": "Reset your password",
+    "account.resetpassword.desc.text": "Enter the email address associated with your account. We’ll send you a link to reset your password.",
+    "account.resetpassword.input.emailaddress.label": "Email address",
+    "account.resetpassword.button.verify.text": "Send email",
+    "account.resetpassword.didnotforgot": "You didn’t forget your password?",
+    "account.resetpassword.link.gotosignin": "Sign in"
 }

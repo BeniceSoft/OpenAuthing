@@ -36,22 +36,22 @@ const AccountSettingsPage: React.FC = () => {
             <ContentBlock title={intl.formatMessage({ id: "settings.account.binding.emailaddress&phonenumber" })}>
                 <div className="flex flex-col gap-y-6">
                     <div className="flex items-center gap-x-4">
-                        <div className="w-9 h-9 p-2 bg-slate-100 rounded-md">
+                        <div className="w-9 h-9 p-2 bg-gray-100 rounded-md">
                             <MailIcon className="w-5 h-5 stroke-slate-600" />
                         </div>
                         <p className="flex-1 text-sm">
-                            <span className="font-medium"><FormattedMessage id="settings.account.binding.emailaddress" /></span>
+                            <span className="font-medium dark:text-gray-200"><FormattedMessage id="settings.account.binding.emailaddress" /></span>
                         </p>
                         <div className="flex gap-x-2">
                             <LinkButton />
                         </div>
                     </div>
                     <div className="flex items-center justify-center gap-x-4">
-                        <div className="w-9 h-9 p-2 bg-slate-100 rounded-md">
+                        <div className="w-9 h-9 p-2 bg-gray-100 rounded-md">
                             <PhoneIcon className="w-5 h-5 stroke-slate-600" />
                         </div>
                         <p className="flex-1 text-sm">
-                            <span className='font-medium'>
+                            <span className='font-medium dark:text-gray-200'>
                                 <FormattedMessage id="settings.account.binding.phonenumber" />
                             </span>
                             <span className="text-blue-600 text-sm before:content-[':'] before:mx-1 before:text-slate-600">
@@ -68,13 +68,13 @@ const AccountSettingsPage: React.FC = () => {
             <ContentBlock title={intl.formatMessage({ id: "settings.account.binding.thirepartyaccount" })}>
                 <div className="flex flex-col gap-y-6">
                     <div className="flex items-center gap-x-4">
-                        <div className="w-9 h-9 bg-slate-100 rounded">
+                        <div className="w-9 h-9 bg-gray-100 rounded">
                             <img className="w-full h-full"
                                 src="https://files.authing.co/authing-console/social-connections/feishu3.svg"
                                 alt="feishu" />
                         </div>
                         <p className="flex-1 text-sm">
-                            <span className='font-medium'>
+                            <span className='font-medium dark:text-gray-200'>
                                 <FormattedMessage id="settings.account.binding.thirepartyaccount.lark" />
                             </span>
                         </p>
@@ -83,13 +83,13 @@ const AccountSettingsPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex items-center gap-x-4">
-                        <div className="w-9 h-9 bg-slate-100 rounded">
+                        <div className="w-9 h-9 bg-gray-100 rounded">
                             <img className="w-full h-full"
                                 src="https://files.authing.co/authing-console/social-connections/dingding2.svg"
                                 alt="dingtalk" />
                         </div>
                         <p className="flex-1 text-sm">
-                            <span className='font-medium'>
+                            <span className='font-medium dark:text-gray-200'>
                                 <FormattedMessage id="settings.account.binding.thirepartyaccount.dingtalk" />
                             </span>
                             <span className="text-blue-600 text-sm before:content-[':'] before:mx-1 before:text-slate-600">
@@ -101,13 +101,13 @@ const AccountSettingsPage: React.FC = () => {
                         </div>
                     </div>
                     <div className="flex items-center gap-x-4">
-                        <div className="w-9 h-9 bg-slate-100 rounded">
+                        <div className="w-9 h-9 bg-gray-100 rounded">
                             <img className="w-full h-full"
                                 src="https://files.authing.co/authing-console/social-connections/wechatIdentitySource.svg"
                                 alt="wechat" />
                         </div>
                         <p className="flex-1 text-sm">
-                            <span className='font-medium'>
+                            <span className='font-medium dark:text-gray-200'>
                                 <FormattedMessage id="settings.account.binding.thirepartyaccount.wechat" />
                             </span>
                             <span className="text-blue-600 text-sm before:content-[':'] before:mx-1 before:text-slate-600">

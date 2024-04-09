@@ -1,10 +1,10 @@
 import { CurrentUserInfo } from '@/@types/auth';
-import React from 'react';
-import { Link, history, useModel } from 'umi';
+import React, { useEffect } from 'react';
+import { FormattedMessage, Link, history, useModel } from 'umi';
 import { Button } from '@/components/ui/button';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Copyright, LogOut, UserSquare } from 'lucide-react';
-import AuthService from '@/services/auth.service'
+import Logo from '@/components/Logo';
+import { HSDropdown } from 'preline/preline'
 
 
 export interface HomePageProps {
@@ -16,9 +16,9 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
     const { initialState } = useModel('@@initialState')
     const { currentUser } = initialState ?? {}
 
-    const handleLogOut = () => {
-        return AuthService.logout()
-    }
+    useEffect(() => {
+        HSDropdown.autoInit()
+    }, [])
 
     return (
         <div className="w-full">
@@ -27,9 +27,7 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                     <nav className="relative z-50 flex justify-between">
                         <div className="flex items-center md:gap-x-12">
                             <Link aria-label="Home" to="/#">
-                                <h1 className="text-center text-lg font-bold tracking-wide text-blue-600 dark:text-gray-100">
-                                    OpenAuthing
-                                </h1>
+                                <Logo className="w-44" />
                             </Link>
                             <div className="hidden md:flex md:gap-x-6">
                                 <Link className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
@@ -42,35 +40,35 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                                     to="/#pricing">Pricing</Link>
                             </div>
                         </div>
-                        <div className="flex items-center gap-x-5 md:gap-x-8">
+                        <div className="flex items-center gap-x-5 md:gap-x-8 [--placement:bottom-right]">
                             <div className="hidden md:block">
                                 {currentUser ?
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild={true}>
-                                            <Button variant="link">{currentUser.nickname}</Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" className="text-sm text-gray-600 p-2 w-32">
-                                            <DropdownMenuGroup>
-                                                <DropdownMenuItem>
-                                                    <Link to="/settings/profile"
-                                                        className="flex items-center gap-x-2">
-                                                        <UserSquare className="w-4 h-4" />
-                                                        <span>个人信息</span>
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                            </DropdownMenuGroup>
-                                            <DropdownMenuSeparator />
-                                            <DropdownMenuGroup>
-                                                <DropdownMenuItem className="flex items-center gap-x-2">
-                                                    <div onClick={handleLogOut}
-                                                        className="flex items-center gap-x-2">
-                                                        <LogOut className="w-4 h-4" />
-                                                        <span>退出登录</span>
-                                                    </div>
-                                                </DropdownMenuItem>
-                                            </DropdownMenuGroup>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu> :
+                                    <div className="hs-dropdown relative inline-flex">
+                                        <Button variant="link" id="hs-dropdown-currentuser" type="button"
+                                            className="hs-dropdown-toggle inline-flex justify-center items-center gap-x-2 text-sm">
+                                            {/* <img className="inline-block size-8 rounded-full" src={currentUser.avatar} alt={currentUser.userName}></img> */}
+                                            {currentUser.nickname}
+                                        </Button>
+
+                                        <div className="hs-dropdown-menu text-sm font-medium transition-[opacity,margin] space-y-1 duration hs-dropdown-open:opacity-100 opacity-0 w-44 hidden z-10 mt-1 min-w-40 bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
+                                            aria-labelledby="hs-dropdown-currentuser">
+                                            <Link to="/settings"
+                                                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
+                                                <UserSquare className="w-4 h-4" />
+                                                <span className="truncate">
+                                                    <FormattedMessage id="home.link.profile" />
+                                                </span>
+                                            </Link>
+                                            <Link to="/logout"
+                                                replace={true}
+                                                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
+                                                <LogOut className="w-4 h-4" />
+                                                <span className="truncate">
+                                                    <FormattedMessage id="home.link.signout" />
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    </div> :
                                     <Button variant="link" onClick={() => history.push('/account/login')}>登录</Button>
                                 }
 

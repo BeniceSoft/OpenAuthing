@@ -1,10 +1,14 @@
-import { RequestConfig, AxiosResponse, getIntl } from 'umi';
+import { RuntimeConfig, AxiosResponse, getIntl } from 'umi';
 import AuthService from '@/services/auth.service'
 import { toast } from 'react-hot-toast';
 import { ResponseResult } from '@/@types';
+import 'preline/preline';
 
-export const request: RequestConfig = {
+export const request: RuntimeConfig['request'] = {
     timeout: 10000,
+    beforeRedirect(options, responseDetails) {
+        console.log('redirect', responseDetails)
+    },
     headers: { 'X-Requested-With': 'XMLHttpRequest' },
     // other axios options you want
     errorConfig: {
@@ -20,11 +24,11 @@ export const request: RequestConfig = {
             }
         },
         // 错误接收及处理
-        errorHandler: async (error: any, opts: any) => {
+        errorHandler: async (error: any, opts) => {
             const intl = getIntl()
-            if (opts?.skipErrorHandler) throw error;
             // 取消请求时跳过全局错误处理
             if (error.name === 'CanceledError') return
+            if (opts?.skipErrorHandler) throw error;
             // 我们的 errorThrower 抛出的错误。
             if (error.name === 'BizError') {
                 const errorInfo: ResponseResult | undefined = error.info;
@@ -69,11 +73,9 @@ export const request: RequestConfig = {
     ]
 };
 
-export async function getInitialState() {
+export const getInitialState: RuntimeConfig['getInitialState'] = async () => {
     const user = await AuthService.getUser()
     const isAuthenticated = user !== null
-
-    console.log('current user is: ', user)
 
     return ({
         isAuthenticated,

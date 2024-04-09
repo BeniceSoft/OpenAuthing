@@ -1,9 +1,10 @@
 import { LoginWithRecoveryCode } from "@/@types/auth";
+import useReturnUrl from "@/hooks/useReturnUrl";
 import { cn } from "@/lib/utils";
 import React, { useEffect, useState } from "react";
 import { Controller, useForm } from "react-hook-form";
 import OtpInput from "react-otp-input";
-import { FormattedMessage, Link, connect, useDispatch, useModel, useSearchParams } from "umi";
+import { FormattedMessage, Link, useModel, useSearchParams } from "umi";
 
 type RecoveryCodeInputProps = {
     value?: string
@@ -45,13 +46,8 @@ const RecoveryCodeInput = ({ value, onChange, invalid = false }: RecoveryCodeInp
 
 
 const LoginWithRecoveryCodePage: React.FC = function () {
-    const [searchParams] = useSearchParams()
-    const returnUrl = searchParams.get('returnUrl')
     const { control, register, formState: { isValid, isSubmitting }, handleSubmit, setValue } = useForm<LoginWithRecoveryCode>()
-
-    useEffect(() => {
-        returnUrl && setValue('returnUrl', returnUrl)
-    }, [returnUrl])
+    const returnUrl = useReturnUrl()
 
     const { loginWithRecoveryCode } = useModel('account.login', model => ({
         loginWithRecoveryCode: model.loginWithRecoveryCode
@@ -74,7 +70,6 @@ const LoginWithRecoveryCodePage: React.FC = function () {
                 <FormattedMessage id="account.loginwithrecoverycode.desc.text" />
             </p>
             <form className="my-5" onSubmit={handleSubmit(onSubmit)}>
-                <input type="hidden" {...register("returnUrl")} />
                 <div className="space-y-5">
                     <div className="py-2">
                         <Controller control={control}

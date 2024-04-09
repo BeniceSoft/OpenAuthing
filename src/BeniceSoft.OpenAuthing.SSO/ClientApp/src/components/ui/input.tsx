@@ -64,7 +64,7 @@ const InputLabel: React.FC<InputLabelProps> = (
     ({ className, children, text, required, errorMessage }) => {
 
         return (
-            <label className={cn("block text-sm font-medium text-gray-500", className)}>
+            <label className={cn("block text-sm font-medium text-gray-500 dark:text-gray-300", className)}>
                 <span className={cn("block mb-1", required && "after:content-['*'] after:text-red-600")}>{text}</span>
                 <div className="flex-1">
                     {children}

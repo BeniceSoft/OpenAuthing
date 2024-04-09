@@ -13,6 +13,7 @@
     "@preline/dropdown": "^2.1.0",
     "@preline/pin-input": "^2.1.0",
     "@preline/strong-password": "^2.1.0",
+    "@preline/theme-switch": "^2.1.0",
     "@preline/tooltip": "^2.1.0",
     "@radix-ui/react-avatar": "^1.0.2",
     "@radix-ui/react-dialog": "^1.0.4",
@@ -54,6 +55,7 @@
     "@types/react-transition-group": "^4.4.5",
     "@umijs/plugins": "^4.0.64",
     "cross-env": "^7.0.3",
+    "tailwind-scrollbar": "^3.1.0",
     "tailwindcss": "^3",
     "typescript": "^5.0.3"
   }

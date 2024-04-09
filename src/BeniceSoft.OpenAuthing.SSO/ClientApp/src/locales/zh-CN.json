@@ -85,5 +85,11 @@
     "account.loginwithrecoverycode.desc.text": "如果你无法访问你的移动设备，请输入其中一个恢复代码以验证你的身份。",
     "account.loginwithrecoverycode.button.verify.text": "验证恢复代码",
     "account.loginwithrecoverycode.norecoverycode.text": "没有恢复代码？",
-    "account.loginwithrecoverycode.link.useAuthenticator.text": "使用你的身份验证器应用"
+    "account.loginwithrecoverycode.link.useAuthenticator.text": "使用你的身份验证器应用",
+    "account.resetpassword.title.text": "重置密码",
+    "account.resetpassword.desc.text": "输入你的账号关联的邮箱地址。 我们将发送一封包含重置密码链接的邮件到你的邮箱。",
+    "account.resetpassword.input.emailaddress.label": "邮箱地址",
+    "account.resetpassword.button.verify.text": "发送邮件",
+    "account.resetpassword.didnotforgot": "你已经想起密码了？",
+    "account.resetpassword.link.gotosignin": "去登录"
 }

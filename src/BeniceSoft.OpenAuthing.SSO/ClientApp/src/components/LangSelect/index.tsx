@@ -2,6 +2,7 @@ import { cn } from "@/lib/utils"
 import { CheckIcon, ChevronsUpDownIcon } from "lucide-react"
 import React, { useEffect, useState } from "react"
 import { getAllLocales, setLocale, getLocale } from 'umi'
+import { HSDropdown } from 'preline/preline'
 
 const Languages: Record<any, { name: string, icon: React.ReactElement }> = {
     "en-US": {
@@ -19,6 +20,10 @@ type LangSelectProps = {
 }
 
 export default ({ reload = true }: LangSelectProps) => {
+
+    useEffect(() => {
+        HSDropdown.autoInit()
+    }, [])
 
     const [selectedLang, setSelectedLang] = useState(() => getLocale());
     const changeLang = (lang: string): void => {
@@ -47,7 +52,7 @@ export default ({ reload = true }: LangSelectProps) => {
                         <div key={index}
                             className={cn(
                                 "flex justify-between py-2 px-3 rounded-lg text-xs text-gray-800 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700",
-                                checked ? "bg-gray-100 font-medium" : ""
+                                checked ? "bg-gray-100 dark:bg-gray-700 font-medium" : ""
                             )}
                             onClick={() => changeLang(locale)}>
                             <div className="flex items-center gap-x-3">

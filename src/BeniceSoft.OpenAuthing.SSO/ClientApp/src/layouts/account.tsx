@@ -1,16 +1,15 @@
 import LangSelect from "@/components/LangSelect";
 import Logo from "@/components/Logo";
 import Lottie from "lottie-react";
-import { FormattedMessage, Link, Outlet } from "umi";
+import { FormattedMessage, Link, Outlet, useSearchParams } from "umi";
 import animationData from '@/assets/animations/authentication.json'
+import ThemeSwitch from "@/components/ThemeSwitch";
 
 export default function () {
+
     return (
-        <div className="h-screen w-screen p-0 flex relative">
-            <div className="lg:hidden absolute top-0 w-full py-8 px-5">
-                <Logo className="w-48"/>
-            </div>
-            <div className="py-6 px-8 hidden lg:flex w-1/4 min-w-[428px] max-w-2xl bg-gray-100 justify-between flex-col dark:bg-neutral-900">
+        <div className="h-screen w-screen min-h-[600px] p-0 flex relative">
+            <div className="py-6 px-8 hidden lg:flex w-1/4 min-w-[428px] max-w-2xl bg-gray-100 justify-between flex-col dark:bg-slate-700">
                 <div className="flex justify-between items-center">
                     <Link to="/"><Logo className="w-48" /></Link>
                     <LangSelect />
@@ -27,7 +26,15 @@ export default function () {
                 </div>
             </div>
             <div className="grow px-5 bg-white dark:bg-gray-600">
-                <div className="flex flex-col mx-auto w-[480px] h-full min-h-100vh justify-center">
+                <div className="flex h-20">
+                    <div className="lg:hidden z-10 my-auto">
+                        <Logo className="w-48" />
+                    </div>
+                    <div className="ml-auto mr-4 my-auto">
+                        <ThemeSwitch hiddenText={true} />
+                    </div>
+                </div>
+                <div className="flex flex-col mx-auto w-[480px] h-full min-h-100vh justify-center -mt-20">
                     <Outlet />
                 </div>
             </div>

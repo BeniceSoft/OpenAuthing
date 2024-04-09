@@ -1,13 +1,14 @@
 import { ChangePasswordModel } from '@/@types/settings';
 import ContentBlock from '@/components/ContentBlock';
-import Spin from '@/components/Spin';
 import { Button } from '@/components/ui/button';
 import { Input, InputLabel } from '@/components/ui/input';
 import { CheckIcon, Key, Smartphone, XIcon } from 'lucide-react';
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
 import { FormattedMessage, Link, useIntl, useRequest } from 'umi';
 import AuthService from '@/services/auth.service'
+import Mask from '@/components/Mask';
+import { HSStrongPassword } from 'preline/preline'
 
 type ChangePasswordFormProps = {
     onSubmit: (data: ChangePasswordModel) => Promise<void>
@@ -18,6 +19,10 @@ const ChangePasswordForm = ({
 }: ChangePasswordFormProps) => {
     const { register, handleSubmit, formState: { errors, isValid } } = useForm<ChangePasswordModel>()
     const intl = useIntl()
+
+    useEffect(() => {
+        HSStrongPassword.autoInit()
+    }, [])
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -109,7 +114,7 @@ const ChangePasswordForm = ({
                         disabled={!isValid}>
                         <FormattedMessage id="settings.secrity.password.submit" />
                     </Button>
-                    <Link to="/"
+                    <Link to="/account/reset-password"
                         className="text-xs text-primary/80 font-medium">
                         <FormattedMessage id="settings.secrity.password.forgot" />
                     </Link>
@@ -146,7 +151,7 @@ const TowFactorAuthenticationNotEnabledContent = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                 </svg>
             </div>
-            <p className="text-center text-xl font-semibold mb-4">
+            <p className="text-center dark:text-gray-200 text-xl font-semibold mb-4">
                 <FormattedMessage id="settings.secrity.2fa.notenabled" />
             </p>
             <p className="text-center text-gray-400 text-sm leading-normal">
@@ -174,15 +179,15 @@ const TwoFactorAuthenticationEnabledContent = (props: {
             </p>
             <div className="grid gap-y-6">
                 <div>
-                    <h2 className="mb-2 text-base text-gray-800 font-semibold"><FormattedMessage id="settings.secrity.2fa.methods.title" /></h2>
+                    <h2 className="mb-2 text-base text-gray-800 dark:text-gray-200 font-semibold"><FormattedMessage id="settings.secrity.2fa.methods.title" /></h2>
                     <div>
                         <div className="flex border p-4 rounded-lg items-center">
                             <div className="flex-none w-[40px] pt-0.5 self-start">
-                                <Smartphone className="w-6 h-6 stroke-gray-600" />
+                                <Smartphone className="w-6 h-6 stroke-gray-600 dark:stroke-gray-300" />
                             </div>
                             <div className="grow text-sm">
                                 <div className="mb-2 flex gap-x-2 items-center">
-                                    <h3 className="font-semibold text-gray-700 inline-block"><FormattedMessage id="settings.secrity.2fa.methods.authenticatorapp" /></h3>
+                                    <h3 className="font-semibold text-gray-700 dark:text-gray-300 inline-block"><FormattedMessage id="settings.secrity.2fa.methods.authenticatorapp" /></h3>
                                     {hasAuthenticator && <span className="text-xs border rounded-full px-2 py-[1px] border-green-700 text-green-700">已启用</span>}
                                 </div>
                                 <div className="text-gray-500 leading-normal text">
@@ -209,15 +214,15 @@ const TwoFactorAuthenticationEnabledContent = (props: {
                     </div>
                 </div>
                 <div>
-                    <h2 className="mb-2 text-base text-gray-800 font-semibold"><FormattedMessage id="settings.secrity.2fa.recoveryoptions" /></h2>
+                    <h2 className="mb-2 text-base text-gray-800 dark:text-gray-200 font-semibold"><FormattedMessage id="settings.secrity.2fa.recoveryoptions" /></h2>
                     <div>
                         <div className="flex border p-4 rounded-lg items-center">
                             <div className="flex-none w-[40px] pt-0.5 self-start">
-                                <Key className="w-6 h-6 stroke-gray-600" />
+                                <Key className="w-6 h-6 stroke-gray-600 dark:stroke-gray-300" />
                             </div>
                             <div className="grow text-sm">
                                 <div className="mb-2 flex gap-x-2 items-center">
-                                    <h3 className="font-semibold text-gray-800 inline-block"><FormattedMessage id="settings.secrity.2fa.recoveryoptions.recoverycode" /></h3>
+                                    <h3 className="font-semibold text-gray-800 dark:text-gray-300 inline-block"><FormattedMessage id="settings.secrity.2fa.recoveryoptions.recoverycode" /></h3>
                                     <span className="text-xs border rounded-full px-2 py-[1px] border-green-700 text-green-700">
                                         可用 {recoveryCodesLeft} 个
                                     </span>
@@ -264,12 +269,11 @@ const SecurityPage: React.FC<SecurityPageProps> = (props: SecurityPageProps) => 
             </ContentBlock>
             <ContentBlock title={<TwoFactorContentBlockTitle is2FaEnabled={is2FaEnabled}
                 buttonDisabled={false} />}>
-                <div className="py-4">
-                    <Spin spinning={twoFactorStateLoading}>
-                        {is2FaEnabled ?
-                            <TwoFactorAuthenticationEnabledContent {...twoFactorState} /> :
-                            <TowFactorAuthenticationNotEnabledContent />}
-                    </Spin>
+                <div className="py-4 relative">
+                    {is2FaEnabled ?
+                        <TwoFactorAuthenticationEnabledContent {...twoFactorState} /> :
+                        <TowFactorAuthenticationNotEnabledContent />}
+                    {twoFactorStateLoading && <Mask />}
                 </div>
             </ContentBlock>
         </div>

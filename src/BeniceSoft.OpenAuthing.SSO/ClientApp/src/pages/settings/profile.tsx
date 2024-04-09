@@ -1,4 +1,5 @@
 import ContentBlock from "@/components/ContentBlock";
+import Mask from "@/components/Mask";
 import Spin from "@/components/Spin";
 import { Button } from "@/components/ui/button";
 import { Input, InputLabel } from "@/components/ui/input";
@@ -23,7 +24,7 @@ const ProfilePage = function (props: any) {
     return (
         <div className="grid gap-y-6">
             <ContentBlock title={intl.formatMessage({ id: 'settings.profile.title' })}>
-                <Spin spinning={loading ?? false}>
+                <div className="relative">
                     <form onSubmit={handleSubmit(onSubmit)}>
                         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
                             <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.username' })} required={true}>
@@ -69,7 +70,9 @@ const ProfilePage = function (props: any) {
                             </div>
                         </div>
                     </form>
-                </Spin>
+
+                    {loading && <Mask loadingText={intl.formatMessage({ id: "settings.profile.loading" })} />}
+                </div>
             </ContentBlock>
         </div>
     )

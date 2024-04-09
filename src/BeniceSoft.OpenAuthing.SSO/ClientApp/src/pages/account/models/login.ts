@@ -14,39 +14,44 @@ export default () => {
     const { run: loginWithPassword } = useRequest(AuthService.login, {
         manual: true,
         async onSuccess(data, params) {
-            const { requiresTwoFactor, returnUrl, userInfo } = data
-            if (requiresTwoFactor) {
-                history.push({
-                    pathname: '/account/loginwith2fa',
-                    search: "?returnUrl=" + returnUrl
-                })
-                return
+            if (data) {
+                const { requiresTwoFactor, returnUrl, userInfo } = data
+                if (requiresTwoFactor) {
+                    history.push({
+                        pathname: '/account/loginwith2fa',
+                        search: "?returnUrl=" + returnUrl
+                    })
+                    return
+                }
+                await refresh()
+                toast.success(successMessage)
+                redirectReturnUrl(returnUrl)
             }
-            await refresh()
-            toast.success(successMessage)
-            redirectReturnUrl(returnUrl)
-        },
+        }
     })
 
     const { run: loginWith2Fa } = useRequest(AuthService.loginWith2Fa, {
         manual: true,
         async onSuccess(data, params) {
-            console.log(data)
-            const { returnUrl = "/" } = data
+            if (data) {
+                const { returnUrl = "/" } = data
 
-            await refresh()
-            toast.success(successMessage)
-            redirectReturnUrl(returnUrl)
+                await refresh()
+                toast.success(successMessage)
+                redirectReturnUrl(returnUrl)
+            }
         },
     })
 
     const { run: loginWithRecoveryCode } = useRequest(AuthService.loginWithRecoveryCode, {
         manual: true,
         async onSuccess(data, params) {
-            await refresh()
-            const { returnUrl, userInfo } = data
-            toast.success(successMessage)
-            redirectReturnUrl(returnUrl)
+            if (data) {
+                await refresh()
+                const { returnUrl, userInfo } = data
+                toast.success(successMessage)
+                redirectReturnUrl(returnUrl)
+            }
         },
     })
 

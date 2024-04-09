@@ -1,14 +1,14 @@
 import { Outlet, useLocation } from "umi"
 import { Toaster } from "react-hot-toast";
 import { useEffect } from "react";
+import { syncTheme } from "@/lib/misc";
 
 export default () => {
 
+    const { pathname } = useLocation();
+
     if (process.env.NODE_ENV === 'development') {
-
-        console.log('pathname', window.location.pathname)
-
-        if (window.location.pathname === '/connect/authorize') {
+        if (pathname === '/connect/authorize') {
             console.log(window.location)
             const href = window.location.href
             // @ts-ignore
@@ -16,14 +16,9 @@ export default () => {
         }
     }
 
-    const { pathname } = useLocation();
-
     useEffect(() => {
-        if (document.readyState === 'complete') {
-            window.HSStaticMethods.autoInit('all')
-        }
-    }, [pathname])
-
+        syncTheme()
+    }, [pathname]);
 
     return (
         <div>

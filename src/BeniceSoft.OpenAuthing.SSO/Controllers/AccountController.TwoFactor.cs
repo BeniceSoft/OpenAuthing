@@ -4,6 +4,7 @@ using BeniceSoft.Abp.Core.Extensions;
 using BeniceSoft.Abp.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Volo.Abp;
 
 namespace BeniceSoft.OpenAuthing.Controllers;
 
@@ -22,7 +23,7 @@ public partial class AccountController
         var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
         if (user is null)
         {
-            throw new InvalidOperationException($"Unable to load two-factor authentication user");
+            throw new UserFriendlyException($"Unable to load two-factor authentication user");
         }
 
         // Strip spaces and hyphens

@@ -52,16 +52,6 @@ public class SsoModule : AbpModule
         IdentityModelEventSource.ShowPII = true;
 #endif
         var configuration = context.Services.GetConfiguration();
-        PostConfigure<MvcOptions>(options =>
-        {
-            // TODO DesensitizeResponseFilter 需要解决当返回值为 IEnumerable<string> 时会有异常的问题
-            var filterMetadata = options.Filters.FirstOrDefault(x =>
-                x is TypeFilterAttribute attribute && attribute.ImplementationType == typeof(DesensitizeResponseFilter));
-            if (filterMetadata is not null)
-            {
-                options.Filters.Remove(filterMetadata);
-            }
-        });
 
         Configure<AbpBlobStoringOptions>(options =>
         {

@@ -5,11 +5,11 @@ import { cva, type VariantProps } from "class-variance-authority"
 import { cn } from "@/lib/utils"
 
 const buttonVariants = cva(
-  "inline-flex items-center gap-x-2 text-sm  transition-colors font-semibold rounded-lg border border-transparent disabled:opacity-50 disabled:pointer-events-none",
+  "inline-flex items-center gap-x-2 text-sm transition-colors font-semibold rounded-lg border border-transparent disabled:opacity-50 disabled:pointer-events-none",
   {
     variants: {
       variant: {
-        default: "bg-primary text-white hover:bg-primary/90",
+        default: "bg-primary text-primary-foreground hover:bg-primary/90",
         destructive:
           "bg-destructive text-destructive-foreground hover:bg-destructive/90",
         outline:
