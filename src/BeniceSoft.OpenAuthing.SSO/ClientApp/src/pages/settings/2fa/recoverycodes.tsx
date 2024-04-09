@@ -41,8 +41,8 @@ export default () => {
 
 
     return (
-        <div className="w-full min-w-[680px] max-w-3xl mx-auto flex flex-col justify-center items-center">
-            <h1 className="inline-block font-bold text-2xl mt-8 mb-4">
+        <div className="w-full min-w-[680px] max-w-3xl mx-auto">
+            <h1 className="text-center font-bold text-2xl mt-8 mb-4">
                 <FormattedMessage id="settings.2fa.recoverycodes.title" />
             </h1>
             <div className="mx-auto mt-2 rounded-lg shadow-sm border w-full p-8 pb-0">

@@ -44,13 +44,13 @@ interface HeaderProps {
 const Header = ({
     avatar, onLogOut
 }: HeaderProps) => {
-    
+
     useEffect(() => {
         HSDropdown.autoInit()
     }, [])
 
     return (
-        <div className="w-full h-[64px] border-b dark:border-b-slate-800 bg-white dark:bg-slate-800 text-black dark:text-gray-200 flex items-center justify-between px-4 lg:px-8">
+        <div className="w-full h-[64px] sticky top-0 border-b dark:border-b-slate-800 bg-white dark:bg-slate-800 text-black dark:text-gray-200 flex items-center justify-between px-4 lg:px-8">
             <Link className="text-base font-bold tracking-wide text-blue-600 dark:text-gray-100"
                 to="/settings">
                 <Logo className="w-40" />
@@ -132,12 +132,10 @@ const SettingsLayout = function (props: any) {
 
     if (normalizedPathname.startsWith('/settings/2fa')) {
         return (
-            <div className="w-screen">
+            <div className="w-screen h-screen min-w-[720px] flex flex-col overflow-hidden">
                 <Header avatar={initialState?.currentUser?.avatar} onLogOut={handleLogOut} />
-                <div className="flex-1 overflow-auto pb-6">
-                    <main className="lg:container mx-4 lg:mx-auto">
-                        <Outlet />
-                    </main>
+                <div className="flex-1 overflow-auto pb-8">
+                    <Outlet />
                 </div>
             </div>
         )
