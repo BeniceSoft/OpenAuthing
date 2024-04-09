@@ -71,7 +71,6 @@ public class SsoModule : AbpModule
         Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
-        Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
         
         context.Services.AddBeniceSoftAuthentication();
 
