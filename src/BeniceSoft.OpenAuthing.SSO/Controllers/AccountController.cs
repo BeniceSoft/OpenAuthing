@@ -67,6 +67,7 @@ public partial class AccountController : AuthControllerBase
 
                 return Ok(new
                 {
+                    LoginSuccess = true,
                     ReturnUrl = model.ReturnUrl ?? "/",
                     UserInfo = user.ToViewModel()
                 }.ToSucceed());

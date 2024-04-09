@@ -98,14 +98,13 @@ class AuthService {
     }
 
     generateAuthenticatorUri = async (): Promise<string> => {
-        const { data } = await request(API_ROOT + '/generateAuthenticatorUri')
-
-        if (data) {
-            const { authenticatorUri } = data
-            return authenticatorUri
+        const response = await request(API_ROOT + '/generateAuthenticatorUri')
+        const { data } = response
+        if (data && data.authenticatorUri) {
+            return response
         }
 
-        return ''
+        throw new Error('生成验证码失败')
     }
 
     enableAuthenticator = async (code: string) => {

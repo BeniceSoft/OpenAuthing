@@ -75,7 +75,7 @@ public partial class AccountController
         return string.Format(
             CultureInfo.InvariantCulture,
             AuthenticatorUriFormat,
-            _urlEncoder.Encode("BeniceSoft OpenAuthing"),
+            _urlEncoder.Encode("OpenAuthing"),
             _urlEncoder.Encode(user),
             unformattedKey);
     }

@@ -30,7 +30,10 @@ export default function () {
                     <div className="lg:hidden z-10 my-auto">
                         <Logo className="w-48" />
                     </div>
-                    <div className="ml-auto mr-4 my-auto">
+                    <div className="flex gap-x-2 items-center ml-auto mr-4 my-auto">
+                        <div className="lg:hidden mr-4">
+                            <LangSelect />
+                        </div>
                         <ThemeSwitch hiddenText={true} />
                     </div>
                 </div>

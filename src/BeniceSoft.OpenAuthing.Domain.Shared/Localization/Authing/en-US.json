@@ -1,5 +1,5 @@
 {
-  "culture": "en",
+  "culture": "en-US",
   "texts": {
     "SignIn": "Sign In",
     "UserName": "Username",
@@ -9,6 +9,7 @@
     "RememberMe": "Remember Me?",
     "AccountIsLockedOut": "Too many attempts to login, the account has been locked.",
     "IncorrectUsernameOrPassword": "Incorrect username or password!",
-    "SupportLoginWithTheFollowingExternalAccounts": "Support login with the following external accounts"
+    "SupportLoginWithTheFollowingExternalAccounts": "Support login with the following external accounts",
+    "InvalidAuthenticatorCode": "Invalid authentication code"
   }
 }

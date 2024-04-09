@@ -1,33 +1,42 @@
 import { QRCodeCanvas } from 'qrcode.react';
 import React, { useEffect, useState } from 'react';
 import OTPInput from 'react-otp-input';
-import { Link } from 'umi';
+import { Link, useRequest } from 'umi';
+import AuthService from '@/services/auth.service'
 
 export interface EnableAuthenticatorPageProps {
-    isLoadingAuthenticatorUri: boolean
-    isLoggingIn: boolean
-    authenticatorUri?: string
 }
 
 const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: EnableAuthenticatorPageProps) => {
-    const { isLoadingAuthenticatorUri, isLoggingIn, authenticatorUri = '' } = props
     const [code, setCode] = useState('')
+    const {
+        loading: isLoadingAuthenticatorUri,
+        data: authenticatorData,
+        refresh: refreshAuthenticatorUri
+    } = useRequest(AuthService.generateAuthenticatorUri)
+    const { run: enableAuthenticator, loading: isSubmitting } = useRequest(AuthService.enableAuthenticator, {
+        manual: true, onSuccess(data, params) {
+
+        },
+    })
+
+    const { authenticatorUri } = authenticatorData ?? {}
 
     useEffect(() => {
 
     }, [])
 
-    const onRefresh = () => {
-
+    const onRefresh = async () => {
+        await refreshAuthenticatorUri()
     }
 
-    const onSubmit = () => {
-
+    const onSubmit = async () => {
+        await enableAuthenticator(code)
     }
 
 
     return (
-        <div className="w-full max-w-[800px] mx-auto flex flex-col justify-center items-center">
+        <div className="w-full max-w-[600px] mx-auto flex flex-col justify-center items-center">
             <h1 className="inline-block font-bold text-2xl mt-4 mb-2">启用 2FA 身份验证</h1>
             <div className="mx-auto mt-2 rounded-md shadow border w-[860px] p-8 pb-0">
                 <div className="pb-8 border-b">
@@ -76,14 +85,14 @@ const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: 
                     </Link>
                     <button type="button"
                         className="rounded bg-blue-600 hover:bg-blue-700 text-white px-6 py-1 text-sm transition duration-300 aria-disabled:bg-blue-300 aria-disabled:cursor-not-allowed"
-                        disabled={code.length < 6}
-                        aria-disabled={code.length < 6}
+                        disabled={isSubmitting || code.length < 6}
+                        aria-disabled={isSubmitting || code.length < 6}
                         onClick={onSubmit}>
                         确定
                     </button>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 

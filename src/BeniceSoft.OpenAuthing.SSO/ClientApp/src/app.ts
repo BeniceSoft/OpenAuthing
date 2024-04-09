@@ -1,4 +1,4 @@
-import { RuntimeConfig, AxiosResponse, getIntl } from 'umi';
+import { RuntimeConfig, AxiosResponse, getIntl, AxiosRequestConfig, getLocale } from 'umi';
 import AuthService from '@/services/auth.service'
 import { toast } from 'react-hot-toast';
 import { ResponseResult } from '@/@types';
@@ -57,7 +57,20 @@ export const request: RuntimeConfig['request'] = {
             }
         },
     },
-    requestInterceptors: [],
+    requestInterceptors: [
+        (config: AxiosRequestConfig) => {
+            // Accept-Language
+            const locale = getLocale()
+            if (locale) {
+                config.headers = {
+                    ...config.headers,
+                    'Accept-Language': locale
+                };
+            }
+
+            return config
+        }
+    ],
     responseInterceptors: [
         (response: AxiosResponse) => {
             const { code: errorCode, message: errorMessage, data } = response.data;

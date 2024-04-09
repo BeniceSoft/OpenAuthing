@@ -24,8 +24,8 @@ public class DomainSharedModule : AbpModule
         Configure<AbpLocalizationOptions>(options =>
         {
             options.Resources
-                .Add<AuthingResource>("en")
-                .AddBaseTypes(typeof(AbpValidationResource))
+                .Add<AuthingResource>("en-US")
+                // .AddBaseTypes(typeof(AbpValidationResource))
                 .AddVirtualJson("/Localization/Authing");
 
             options.DefaultResourceType = typeof(AuthingResource);

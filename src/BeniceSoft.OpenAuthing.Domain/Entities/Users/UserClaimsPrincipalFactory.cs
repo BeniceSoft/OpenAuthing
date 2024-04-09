@@ -73,20 +73,24 @@ public class UserClaimsPrincipalFactory : IUserClaimsPrincipalFactory<User>, ISc
             var email = await _userManager.GetEmailAsync(user);
             if (!string.IsNullOrEmpty(email))
             {
-                id.AddClaim(new Claim(_options.ClaimsIdentity.EmailClaimType, email));
+                id.AddClaim(_options.ClaimsIdentity.EmailClaimType, email);
             }
         }
 
         if (_userManager.SupportsUserSecurityStamp)
         {
-            id.AddClaim(new Claim(_options.ClaimsIdentity.SecurityStampClaimType,
-                await _userManager.GetSecurityStampAsync(user)));
+            id.AddClaim(_options.ClaimsIdentity.SecurityStampClaimType,
+                await _userManager.GetSecurityStampAsync(user));
         }
 
         if (_userManager.SupportsUserClaim)
         {
             id.AddClaims(await _userManager.GetClaimsAsync(user));
         }
+
+        var amr = await _userManager.GetTwoFactorEnabledAsync(user) ? "mfa" : "pwd";
+        id.AddClaim(OpenIddictConstants.Claims.AuthenticationMethodReference, amr);
+
 
         return id;
     }
