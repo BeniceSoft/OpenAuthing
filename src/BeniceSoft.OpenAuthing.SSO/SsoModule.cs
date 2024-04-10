@@ -1,14 +1,11 @@
-using System.Globalization;
 using BeniceSoft.OpenAuthing.Localization;
 using BeniceSoft.Abp.AspNetCore;
-using BeniceSoft.Abp.AspNetCore.Filters;
 using BeniceSoft.Abp.AspNetCore.Localizations;
 using BeniceSoft.Abp.AspNetCore.Middlewares;
 using BeniceSoft.Abp.Auth;
 using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.BackgroundTasks;
 using Microsoft.AspNetCore.Localization;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Logging;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
@@ -52,16 +49,6 @@ public class SsoModule : AbpModule
         IdentityModelEventSource.ShowPII = true;
 #endif
         var configuration = context.Services.GetConfiguration();
-        PostConfigure<MvcOptions>(options =>
-        {
-            // TODO DesensitizeResponseFilter 需要解决当返回值为 IEnumerable<string> 时会有异常的问题
-            var filterMetadata = options.Filters.FirstOrDefault(x =>
-                x is TypeFilterAttribute attribute && attribute.ImplementationType == typeof(DesensitizeResponseFilter));
-            if (filterMetadata is not null)
-            {
-                options.Filters.Remove(filterMetadata);
-            }
-        });
 
         Configure<AbpBlobStoringOptions>(options =>
         {
@@ -82,6 +69,10 @@ public class SsoModule : AbpModule
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
 
+        context.Services
+            .AddJsonFormatResponse()
+            .AddDesensitizeResponse();
+        
         context.Services.AddBeniceSoftAuthentication();
 
         context.Services.ConfigureIdentity();
@@ -123,7 +114,10 @@ public class SsoModule : AbpModule
         // 跨域
         app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-        app.UseBeniceSoftExceptionHandlingMiddleware();
+        app.UseBeniceSoftExceptionHandlingMiddleware(new()
+        {
+            
+        });
 
         // 身份验证
         app.UseBeniceSoftAuthentication();
