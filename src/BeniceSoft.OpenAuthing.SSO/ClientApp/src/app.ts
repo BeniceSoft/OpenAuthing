@@ -1,4 +1,4 @@
-import { RuntimeConfig, AxiosResponse, getIntl, AxiosRequestConfig, getLocale } from 'umi';
+import { RuntimeConfig, AxiosResponse, getIntl, AxiosRequestConfig, getLocale, history } from 'umi';
 import AuthService from '@/services/auth.service'
 import { toast } from 'react-hot-toast';
 import { ResponseResult } from '@/@types';
@@ -43,7 +43,13 @@ export const request: RuntimeConfig['request'] = {
                 // 请求成功发出且服务器也响应了状态码，但状态代码超出了 2xx 的范围
                 if (error.response.status === 401) {
                     toast.error(intl.formatMessage({ id: 'common.error.401' }))
-                    return await AuthService.logout()
+
+                    history.push({
+                        pathname: '/logout',
+                        search: `?returnUrl=${encodeURIComponent("/account/login")}`
+                    })
+
+                    return
                 }
                 toast.error(`Response status:${error.response.status}`);
             } else if (error.request) {

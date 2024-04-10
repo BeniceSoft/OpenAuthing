@@ -18,6 +18,7 @@ public partial class AccountController : AuthControllerBase
     private readonly UrlEncoder _urlEncoder;
     private readonly IRepository<ExternalIdentityProvider, Guid> _idPRepository;
     private readonly IBlobContainer _blobContainer;
+
     public AccountController(ILogger<AccountController> logger, UrlEncoder urlEncoder, IRepository<ExternalIdentityProvider, Guid> idPRepository, IBlobContainer blobContainer)
     {
         _logger = logger;
@@ -26,6 +27,7 @@ public partial class AccountController : AuthControllerBase
         _blobContainer = blobContainer;
     }
 
+#if DEBUG
     [HttpGet, AllowAnonymous]
     [Route("/account/login")]
     public IActionResult Login(string? returnUrl = null)
@@ -34,11 +36,10 @@ public partial class AccountController : AuthControllerBase
         {
             returnUrl = _urlEncoder.Encode(returnUrl);
         }
-#if DEBUG
-        return Redirect($"{Request.Scheme}://{Request.Host}/#/account/login?returnUrl={returnUrl}");
-#endif
-        return Redirect($"/#/account/login?returnUrl={returnUrl}");
+
+        return Redirect($"http://localhost:8000/account/login?returnUrl={returnUrl}");
     }
+#endif
 
     // POST: /account/login
     [HttpPost]

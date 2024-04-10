@@ -21,18 +21,14 @@ public partial class AccountController
         model.ReturnUrl ??= Url.Content("~/");
 
         var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
-        if (user is null)
-        {
-            throw new UserFriendlyException($"Unable to load two-factor authentication user");
-        }
-
+        ThrowUnauthorizedIfUserIsNull(user, L["UnableToLoadTwoFactorAuthenticationUser"]);
+        
         // Strip spaces and hyphens
         var authenticatorCode = model.TwoFactorCode
             .Replace(" ", string.Empty)
             .Replace("-", string.Empty);
 
         var result = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, model.RememberMe, model.RememberMachine);
-        await UserManager.GetUserIdAsync(user);
 
         if (result.Succeeded)
         {
@@ -42,7 +38,7 @@ public partial class AccountController
                 model.ReturnUrl = "/";
             }
 
-            return Ok(new { model.ReturnUrl, UserInfo = user.ToViewModel() }.ToSucceed());
+            return Ok(new { model.ReturnUrl, UserInfo = user!.ToViewModel() }.ToSucceed());
         }
 
         _logger.LogWarning("Invalid authenticator code entered");

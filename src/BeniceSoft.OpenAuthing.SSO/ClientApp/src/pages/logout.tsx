@@ -1,9 +1,11 @@
-import { useModel, useRequest, history } from "umi";
+import { useModel, useRequest, history, Navigate } from "umi";
 import AuthService from '@/services/auth.service'
+import useReturnUrl from "@/hooks/useReturnUrl";
 
 
 export default () => {
     const { setInitialState } = useModel('@@initialState')
+    const returnUrl = useReturnUrl()
 
     const { loading, error } = useRequest(AuthService.logout, {
         onSuccess: () => {
@@ -13,8 +15,7 @@ export default () => {
             })
 
             history.replace({
-                pathname: '/account/login',
-                search: `?returnUrl=/`
+                pathname: decodeURIComponent(returnUrl)
             })
         }
     })
@@ -35,9 +36,5 @@ export default () => {
         )
     }
 
-    return (
-        <div>
-            You have logged out, you can close the browser
-        </div>
-    )
+    return (<Navigate to="/" replace={true} />)
 }

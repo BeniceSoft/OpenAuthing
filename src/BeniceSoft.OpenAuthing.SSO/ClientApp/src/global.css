@@ -84,27 +84,4 @@
         -webkit-appearance: none;
         margin: 0;
     }
-
-    /* width */
-    ::-webkit-scrollbar {
-        width: 10px;
-        height: 10px;
-    }
-    
-    /* Track */
-    ::-webkit-scrollbar-track {
-        background: transparent;
-        border-radius: 5px;
-    }
-    
-    /* Handle */
-    ::-webkit-scrollbar-thumb {
-        background: #efefee;
-        border-radius: 5px;
-    }
-    
-    /* Handle on hover */
-    ::-webkit-scrollbar-thumb:hover {
-        background: #cccccc;
-    }
 }

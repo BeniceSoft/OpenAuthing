@@ -28,6 +28,8 @@
         <PackageReference Include="OpenIddict.Server.AspNetCore"/>
         <PackageReference Include="Serilog.AspNetCore"/>
         <PackageReference Include="Volo.Abp.Autofac"/>
+        <PackageReference Include="Microsoft.AspNetCore.SpaProxy"/>
+        <PackageReference Include="Volo.Abp.BlobStoring.FileSystem"/>
     </ItemGroup>
 
     <ItemGroup>
@@ -50,12 +52,12 @@
         <None Remove="$(SpaRoot)**"/>
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**"/>
         <None Update="certs\NewFile1.txt">
-          <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
         </None>
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="ClientApp\src\pages\account\models\" />
+        <Folder Include="ClientApp\src\pages\account\models\"/>
         <Folder Include="wwwroot\uploadFiles"/>
     </ItemGroup>
 
@@ -84,7 +86,7 @@
             </ResolvedFileToPublish>
         </ItemGroup>
     </Target>
-    
+
     <ItemGroup>
         <None Update="signing-certificate.pfx">
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -93,9 +95,9 @@
             <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
         </None>
     </ItemGroup>
+
     <ItemGroup>
-        <PackageReference Include="Microsoft.AspNetCore.SpaProxy"/>
-        <PackageReference Include="Volo.Abp.BlobStoring.FileSystem"/>
+        <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml"/>
     </ItemGroup>
 
 </Project>

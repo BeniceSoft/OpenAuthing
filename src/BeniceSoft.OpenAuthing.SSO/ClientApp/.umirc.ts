@@ -20,7 +20,8 @@ export default defineConfig({
         },
     },
     history: {
-        type: 'hash'
+        // type: 'hash'
+        type: 'browser'
     },
     routes: [
         {
@@ -64,21 +65,19 @@ export default defineConfig({
             component: '404'
         }
     ],
-    scripts: [
-        // "./node_modules/preline/preline.js"
-    ],
     links: [
         { href: "https://rsms.me/inter/inter.css", rel: "stylesheet" }
     ],
     npmClient: "npm",
-    tailwindcss: {},
     plugins: [
         '@umijs/plugins/dist/initial-state',
         '@umijs/plugins/dist/model',
         "@umijs/plugins/dist/tailwindcss",
         "@umijs/plugins/dist/request",
-        '@umijs/plugins/dist/locale'
+        '@umijs/plugins/dist/locale',
+        require.resolve('./src/plugins/global-scrollbar')
     ],
+    tailwindcss: {},
     locale: {
         default: 'en-US',
         baseSeparator: '-'
@@ -88,5 +87,6 @@ export default defineConfig({
     },
     clientLoader: {},
     model: {},
-    initialState: {}
+    initialState: {},
+    globalScrollbar: ""
 });

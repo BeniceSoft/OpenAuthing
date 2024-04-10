@@ -30,7 +30,7 @@ const AuthenticationCodeInput = ({ value, onChange, invalid = false }: Authentic
                     ...props,
                     style: undefined,
                     className: cn(
-                        "block size-12 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600",
+                        "block size-12 p-0 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600",
                         invalid && index >= (value?.length ?? -1) ? "focus:ring-red-400 focus:border-red-400" : "focus:ring-blue-500"
                     )
                 }

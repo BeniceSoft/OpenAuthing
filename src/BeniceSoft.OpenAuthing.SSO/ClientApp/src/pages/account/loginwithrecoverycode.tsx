@@ -1,7 +1,7 @@
 import { LoginWithRecoveryCode } from "@/@types/auth";
 import useReturnUrl from "@/hooks/useReturnUrl";
 import { cn } from "@/lib/utils";
-import React, { useEffect, useState } from "react";
+import React from "react";
 import { Controller, useForm } from "react-hook-form";
 import OtpInput from "react-otp-input";
 import { FormattedMessage, Link, useModel, useSearchParams } from "umi";
@@ -18,20 +18,29 @@ const RecoveryCodeInput = ({ value, onChange, invalid = false }: RecoveryCodeInp
         onChange && onChange(code)
     }
 
+    const handlePaste = (e: React.ClipboardEvent<HTMLDivElement>) => {
+        e.preventDefault()
+        const otp = e.clipboardData.getData('text')
+        const code = otp.trim().replace(/[^a-zA-Z0-9]/gi, '').substring(0, 10).toUpperCase()
+
+        onChange && onChange(code)
+    }
+
     return (
         <OtpInput onChange={handleChange}
+            onPaste={handlePaste}
             inputType="text"
             numInputs={10}
             shouldAutoFocus={true}
             containerStyle={"flex gap-x-1"}
             value={value}
-            renderSeparator={index => index == 4 && <span className="flex-1 block mx-1 text-center leading-[48px]">-</span>}
+            renderSeparator={index => index == 4 && <span className="block mx-2 text-center my-auto">-</span>}
             renderInput={(props, index) => {
                 const inputProps = {
                     ...props,
                     style: undefined,
                     className: cn(
-                        "block size-10 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600",
+                        "block size-10 p-0 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600",
                         invalid && index >= (value?.length ?? -1) ? "focus:ring-red-400 focus:border-red-400" : "focus:ring-blue-500"
                     )
                 }
@@ -46,7 +55,7 @@ const RecoveryCodeInput = ({ value, onChange, invalid = false }: RecoveryCodeInp
 
 
 const LoginWithRecoveryCodePage: React.FC = function () {
-    const { control, register, formState: { isValid, isSubmitting }, handleSubmit, setValue } = useForm<LoginWithRecoveryCode>()
+    const { control, formState: { isValid, isSubmitting }, handleSubmit } = useForm<LoginWithRecoveryCode>()
     const returnUrl = useReturnUrl()
 
     const { loginWithRecoveryCode } = useModel('account.login', model => ({
@@ -57,7 +66,8 @@ const LoginWithRecoveryCodePage: React.FC = function () {
         const { recoveryCode } = value
         await loginWithRecoveryCode({
             ...value,
-            recoveryCode: recoveryCode.slice(0, 5) + '-' + recoveryCode.slice(5)
+            recoveryCode: recoveryCode.slice(0, 5) + '-' + recoveryCode.slice(5),
+            returnUrl
         })
     }
 

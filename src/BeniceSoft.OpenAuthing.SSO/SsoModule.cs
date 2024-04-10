@@ -128,10 +128,10 @@ public class SsoModule : AbpModule
         app.UseAuditing();
 
         // 路由映射
-        app.UseConfiguredEndpoints(builder =>
+        app.UseConfiguredEndpoints(endpoints =>
         {
-            builder.MapDefaultControllerRoute();
-            builder.MapFallbackToFile("/", "index.html");
+            endpoints.MapDefaultControllerRoute();
+            endpoints.MapFallbackToFile("index.html");
         });
     }
 }

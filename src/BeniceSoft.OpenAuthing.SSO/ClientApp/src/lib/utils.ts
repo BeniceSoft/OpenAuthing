@@ -10,11 +10,9 @@ export function enabledStatusDescription(enabled: boolean) {
 }
 
 export function redirectReturnUrl(returnUrl: string) {
-    console.log("return url is: ", returnUrl)
-    if (!returnUrl.startsWith("/connect")) {
-        returnUrl = returnUrl.ensureStartsWith("#")
-    }
+    const redirectUrl = decodeURIComponent(returnUrl)
+    console.log("redirecting: ", redirectUrl)
     setTimeout(() => {
-        window.location.href = returnUrl
+        window.location.href = redirectUrl
     }, 500);
 }

@@ -41,17 +41,14 @@ public partial class AccountController
     public async Task<IActionResult> EnableAuthenticator([FromBody] EnableAuthenticatorViewModel model)
     {
         var user = await UserManager.GetUserAsync(User);
-        if (user is null)
-        {
-            throw new InvalidOperationException($"Unable to load user with Id '{UserManager.GetUserId(User)}'");
-        }
+        ThrowUnauthorizedIfUserIsNull(user);
 
         // Strip spaces and hyphens
         var verificationCode = model.Code
             .Replace(" ", string.Empty)
             .Replace("-", string.Empty);
 
-        var is2FaTokenValid = await UserManager.VerifyTwoFactorTokenAsync(user,
+        var is2FaTokenValid = await UserManager.VerifyTwoFactorTokenAsync(user!,
             UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
         if (!is2FaTokenValid)
@@ -59,8 +56,8 @@ public partial class AccountController
             return Ok(new ResponseResult(HttpStatusCode.BadRequest, L["TwoFactorTokenInvalid"]));
         }
 
-        await UserManager.SetTwoFactorEnabledAsync(user, true);
-        await UserManager.GetUserIdAsync(user);
+        await UserManager.SetTwoFactorEnabledAsync(user!, true);
+        await UserManager.GetUserIdAsync(user!);
         _logger.LogInformation("User has enabled 2FA with an authenticator app");
 
         var recoveryCodes = await UserManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);

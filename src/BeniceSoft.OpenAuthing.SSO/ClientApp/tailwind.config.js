@@ -59,8 +59,6 @@ module.exports = {
         require('@tailwindcss/forms'),
         require("@thoughtbot/tailwindcss-aria-attributes"),
         require("tailwindcss-animate"),
-
-        require('tailwind-scrollbar'),
-        require('preline/plugin')
+        require('preline/plugin'),
     ],
 }

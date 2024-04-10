@@ -8,7 +8,6 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 public partial class AccountController
 {
     [HttpGet]
-
     public async Task<IActionResult> Me()
     {
         var user = await UserManager.GetUserAsync(User);
