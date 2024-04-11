@@ -1,4 +1,4 @@
-import { Link, Navigate, connect, history, useLocation } from "umi"
+import { Link, Navigate, history, useLocation } from "umi"
 
 const ShowRecoveryCodesPage = () => {
     const { state } = useLocation()
@@ -71,6 +71,4 @@ const ShowRecoveryCodesPage = () => {
     )
 }
 
-export default connect(() => ({
-
-}))(ShowRecoveryCodesPage)
+export default ShowRecoveryCodesPage

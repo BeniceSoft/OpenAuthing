@@ -1,17 +1,16 @@
-import Lottie from "lottie-react";
-import AnimationData from '@/assets/animations/secure-login.json'
 import { useForm } from "react-hook-form";
 import React, { useEffect } from "react";
-import { useSearchParams, connect, useDispatch } from 'umi'
-import { LoginModelState } from "@/models/login";
-import { ExternalLoginProvider } from "@/@types/auth";
-import { getSearchParam } from "@/lib/misc";
+import { useSearchParams, FormattedMessage, FormattedHTMLMessage, useModel, Link } from 'umi'
+import { ExternalLoginProvider, LoginWithPasswordModel } from "@/@types/auth";
+import { EyeIcon, EyeOffIcon } from "lucide-react";
+import { HSTogglePassword } from 'preline/preline'
+import useReturnUrl from "@/hooks/useReturnUrl";
 
 function renderExternalProviderIcon(providerName: string) {
     switch (providerName.toLowerCase()) {
         case "feishu":
             return (
-                <svg className="icon" width="32px" height="32px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
+                <svg className="icon" width="16px" height="16px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg">
                     <path
                         d="M243.413333 186.538667h372.010667s130.944 144.64 103.978667 264.106666-182.485333 77.568-182.485334 77.568-156.373333-241.066667-295.722666-335.488a3.370667 3.370667 0 0 1 2.261333-6.186666z"
                         fill="#01D7BB" />
@@ -30,97 +29,107 @@ function renderExternalProviderIcon(providerName: string) {
     }
 }
 
-interface LoginProps {
+type LoginPageProps = {
     externalLoginProvidersLoading: boolean
     isLoggingIn: boolean
     externalLoginProviders?: ExternalLoginProvider[]
 }
 
-const Login: React.FC<LoginProps> = (props: LoginProps) => {
-    const { register, formState: { errors, isValid }, handleSubmit } = useForm()
-    const dispatch = useDispatch()
-    const [searchParams] = useSearchParams()
-
-    const { externalLoginProvidersLoading, externalLoginProviders, isLoggingIn } = props;
+const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
+    const { register, formState: { isValid, isSubmitting }, handleSubmit } = useForm<LoginWithPasswordModel>()
+    const returnUrl = useReturnUrl()
 
     useEffect(() => {
-        dispatch({
-            type: 'login/fetchLoginProviders'
-        })
-    }, []);
+        HSTogglePassword.autoInit()
+    }, [])
 
-    console.log('isLoggingIn', isLoggingIn)
+    const { loginWithPassword } = useModel('account.login', model => ({
+        loginWithPassword: model.loginWithPassword
+    }))
 
-    const onSubmit = (data: any) => {
-        dispatch({
-            type: 'login/login',
-            payload: {
-                ...data,
-                returnUrl: getSearchParam(searchParams, 'returnUrl') ?? '',
-                rememberMe: true
-            }
+    const onSubmit = async (data: LoginWithPasswordModel) => {
+        await loginWithPassword({
+            ...data,
+            returnUrl
         })
     }
 
     return (
-
-        <div className="rounded-lg shadow-[0_8px_24px_0px_rgba(45,46,50,.15)] w-[900px] md:w-[860px] h-[500px] overflow-hidden bg-white">
-            <div className="columns-2 h-full gap-0">
-                <div className="w-full h-full flex items-center justify-center">
-                    <Lottie className="w-4/5" animationData={AnimationData} loop={true} />
-                </div>
-                <div className="w-full h-full px-8">
-                    <div className="text-center p-10 pt-14">
-                        <h1 className="text-3xl">OpenAuthing</h1>
+        <div>
+            <h1 className="text-2xl font-semibold text-neutral-800 dark:text-neutral-200">
+                <FormattedMessage id="account.login.title.text" />
+            </h1>
+            <p className="mt-1 text-sm text-gray-400 dark:text-neutral-500">
+                <FormattedMessage id="account.login.desc.text" />
+            </p>
+            <form className="my-5" onSubmit={handleSubmit(onSubmit)}>
+                <div className="space-y-5">
+                    <div>
+                        <label htmlFor="username" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
+                            <FormattedMessage id="account.login.input.username.label" />
+                        </label>
+                        <input type="text"
+                            id="username"
+                            className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                            placeholder="administrator"
+                            {...register('userName', { required: true })} />
                     </div>
-                    <form onSubmit={handleSubmit(onSubmit)}>
-                        <label className="block">
-                            <span className="text-gray-700 text-sm">用户名</span>
-                            <input type="text"
-                                disabled={isLoggingIn}
-                                placeholder="请输入用户名" required
-                                aria-invalid={errors.userName ? "true" : "false"}
-                                className="mt-2 transition block w-full rounded-md border-gray-300 focus:border-blue-500 placeholder-slate-400 text-sm"
-                                {...register('userName', { required: true })} />
-                        </label>
-                        <label className="block mt-4">
-                            <span className="text-gray-700 text-sm">密码</span>
-                            <input type="password"
-                                disabled={isLoggingIn}
-                                placeholder="请输入密码" required
-                                aria-invalid={errors.password ? "true" : "false"}
-                                className="mt-2 transition block w-full rounded-md border-gray-300 foucs:border-blue-500 placeholder-slate-400 text-sm"
-                                {...register('password', { required: true })} />
-                        </label>
-                        <button type="submit"
-                            className="rounded-md mt-6 bg-blue-500 hover:bg-blue-600 aria-disabled:bg-blue-300 w-full h-10 text-white transition aria-disabled:cursor-not-allowed"
-                            aria-disabled={isLoggingIn || !isValid}
-                            disabled={isLoggingIn || !isValid}>
-                            登录
-                        </button>
-                    </form>
-                    {(externalLoginProviders && externalLoginProviders.length > 0) &&
-                        <div className="mt-4 mb-2">
-                            <p className="text-center text-sm text-gray-400">支持使用以下外部账号登录</p>
-                            <div className="space-x-4">
-                                {externalLoginProviders.map((element: any) => (
-                                    <button key={element.name} title={`Login with ${element.displayName} account`}
-                                        value={element.name}
-                                        className="transition duration-300 rounded-full w-[40px] h-[40px] flex bg-gray-50 hover:bg-gray-100 items-center justify-center">
-                                        {renderExternalProviderIcon(element.providerName)}
-                                    </button>
-                                ))}
-                            </div>
+                    <div>
+                        <div className="flex justify-between">
+                            <label htmlFor="password" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
+                                <FormattedMessage id="account.login.input.password.label" />
+                            </label>
+                            <Link to={{ pathname: "/account/reset-password", search: "?returnUrl=" + returnUrl }} className="text-xs text-gray-500 hover:underline">
+                                <FormattedMessage id="account.login.link.forgotPassword.text" />
+                            </Link>
                         </div>
-                    }
+                        <div className="relative">
+                            <input type="password"
+                                id="password"
+                                className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                                placeholder="**********"
+                                {...register('password', { required: true })} />
+                            <button type="button"
+                                data-hs-toggle-password='{"target":"#password"}'
+                                className="absolute top-0 end-0 p-4 rounded-e-md">
+                                <EyeOffIcon className="flex-shrink-0 size-3.5 text-gray-400 dark:text-neutral-600 w-4 h-4 hs-password-active:hidden" />
+                                <EyeIcon className="hidden flex-shrink-0 size-3.5 text-gray-400 dark:text-neutral-600 w-4 h-4 hs-password-active:block" />
+                            </button>
+                        </div>
+                    </div>
+                    <div className="flex">
+                        <input type="checkbox"
+                            id="rememberMe"
+                            className="shrink-0 mt-0.5 border-gray-200 rounded text-blue-600 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-gray-800 dark:border-gray-700 dark:checked:bg-blue-500 dark:checked:border-blue-500 dark:focus:ring-offset-gray-800"
+                            {...register('rememberMe', { required: false })} />
+                        <label htmlFor="rememberMe" className="text-sm text-gray-500 ms-3 dark:text-gray-400">
+                            <FormattedMessage id="account.login.input.rememberMe.label" />
+                        </label>
+                    </div>
+
+                    <div className="pt-0">
+                        <button type="submit"
+                            className="w-full p-3 inline-flex justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                            aria-disabled={isSubmitting || !isValid}
+                            disabled={isSubmitting || !isValid}>
+                            <FormattedMessage id="account.login.button.login.text" />
+                        </button>
+                    </div>
+                    <p className="text-sm text-gray-600">
+                        <FormattedHTMLMessage id="account.login.aggreement.html" />
+                    </p>
+                    {/* <div className="space-y-2">
+                        <div className="flex items-center text-gray-400 font-medium text-xs before:content-[''] before:flex-1 before:border-gray-300 before:mr-6 before:border-t after:content-[''] after:flex-1 after:border-gray-300 after:ml-6 after:border-t dark:text-neutral-500 dark:before:border-neutral-700 dark:after:border-neutral-700">
+                            <FormattedMessage id="account.login.orSignInWith.text" />
+                        </div>
+                        <div className="flex gap-2">
+
+                        </div>
+                    </div> */}
                 </div>
-            </div>
-        </div>
+            </form >
+        </div >
     )
 }
 
-export default connect(({ loading, login }: { loading: any, login: LoginModelState }) => ({
-    ...login,
-    externalLoginProvidersLoading: loading.effects['login/fetchLoginProviders'],
-    isLoggingIn: loading.effects['login/login']
-}))(Login)
+export default LoginPage

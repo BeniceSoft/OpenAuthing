@@ -17,12 +17,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <EmbeddedResource Include="Localization\AM\*.json" />
-        <Content Remove="Localization\AM\*.json" />
-        <None Remove="Localization\Authing\en.json" />
-        <EmbeddedResource Include="Localization\Authing\en.json" />
-        <None Remove="Localization\Authing\zh-CN.json" />
-        <EmbeddedResource Include="Localization\Authing\zh-CN.json" />
+        <EmbeddedResource Include="Localization\Authing\*.json" />
     </ItemGroup>
 
     <ItemGroup>

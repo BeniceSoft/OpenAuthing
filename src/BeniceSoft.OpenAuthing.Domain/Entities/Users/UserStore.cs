@@ -1,6 +1,5 @@
 using BeniceSoft.OpenAuthing.Entities.Departments;
 using BeniceSoft.OpenAuthing.Entities.Roles;
-using JetBrains.Annotations;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Logging;
 using Volo.Abp;
@@ -23,9 +22,9 @@ public class UserStore :
     IUserTwoFactorRecoveryCodeStore<User>,
     ITransientDependency
 {
-    private const string InternalLoginProvider = "[AspNetUserStore]";
-    private const string AuthenticatorKeyTokenName = "AuthenticatorKey";
-    private const string RecoveryCodeTokenName = "RecoveryCodes";
+    public const string InternalLoginProvider = "[AspNetUserStore]";
+    public const string AuthenticatorKeyTokenName = "AuthenticatorKey";
+    public const string RecoveryCodeTokenName = "RecoveryCodes";
 
     /// <summary>
     /// Gets or sets a flag indicating if changes should be persisted after CreateAsync, UpdateAsync and DeleteAsync are called.
@@ -73,22 +72,22 @@ public class UserStore :
         return Task.FromResult(user.Id.ToString());
     }
 
-    public Task<string> GetUserNameAsync(User user, CancellationToken cancellationToken)
+    public Task<string?> GetUserNameAsync(User user, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         Check.NotNull(user, nameof(user));
 
-        return Task.FromResult(user.UserName);
+        return Task.FromResult<string?>(user.UserName);
     }
 
-    public Task SetUserNameAsync(User user, string userName, CancellationToken cancellationToken)
+    public Task SetUserNameAsync(User user, string? userName, CancellationToken cancellationToken)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         Check.NotNull(user, nameof(user));
 
-        user.UserName = userName;
+        user.UserName = userName!;
 
         return Task.CompletedTask;
     }
@@ -119,7 +118,7 @@ public class UserStore :
     /// <param name="user">The user to create.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="IdentityResult"/> of the creation operation.</returns>
-    public virtual async Task<IdentityResult> CreateAsync([NotNull] User user,
+    public virtual async Task<IdentityResult> CreateAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -161,7 +160,7 @@ public class UserStore :
     /// <param name="user">The user to update.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="IdentityResult"/> of the update operation.</returns>
-    public virtual async Task<IdentityResult> UpdateAsync([NotNull] User user,
+    public virtual async Task<IdentityResult> UpdateAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -208,7 +207,7 @@ public class UserStore :
     /// <param name="user">The user to delete.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the <see cref="IdentityResult"/> of the update operation.</returns>
-    public virtual async Task<IdentityResult> DeleteAsync([NotNull] User user,
+    public virtual async Task<IdentityResult> DeleteAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -251,7 +250,7 @@ public class UserStore :
     /// <returns>
     /// The <see cref="Task"/> that represents the asynchronous operation, containing the user matching the specified <paramref name="normalizedUserName"/> if it exists.
     /// </returns>
-    public virtual Task<User?> FindByNameAsync([NotNull] string normalizedUserName,
+    public virtual Task<User?> FindByNameAsync(string normalizedUserName,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -269,7 +268,7 @@ public class UserStore :
     /// <param name="passwordHash">The password hash to set.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual Task SetPasswordHashAsync([NotNull] User user, string passwordHash,
+    public virtual Task SetPasswordHashAsync(User user, string passwordHash,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -287,7 +286,7 @@ public class UserStore :
     /// <param name="user">The user to retrieve the password hash for.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> that contains the password hash for the user.</returns>
-    public virtual Task<string> GetPasswordHashAsync([NotNull] User user,
+    public virtual Task<string> GetPasswordHashAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -304,7 +303,7 @@ public class UserStore :
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>A <see cref="Task{TResult}"/> containing a flag indicating if the specified user has a password. If the
     /// user has a password the returned value with be true, otherwise it will be false.</returns>
-    public virtual Task<bool> HasPasswordAsync([NotNull] User user, CancellationToken cancellationToken = default)
+    public virtual Task<bool> HasPasswordAsync(User user, CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
@@ -320,7 +319,7 @@ public class UserStore :
     /// <param name="login">The login to add to the user.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual async Task AddLoginAsync([NotNull] User user, [NotNull] UserLoginInfo login,
+    public virtual async Task AddLoginAsync(User user, UserLoginInfo login,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -341,8 +340,8 @@ public class UserStore :
     /// <param name="providerKey">The key provided by the <paramref name="loginProvider"/> to identify a user.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual async Task RemoveLoginAsync([NotNull] User user, [NotNull] string loginProvider,
-        [NotNull] string providerKey,
+    public virtual async Task RemoveLoginAsync(User user, string loginProvider,
+        string providerKey,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -364,7 +363,7 @@ public class UserStore :
     /// <returns>
     /// The <see cref="Task"/> for the asynchronous operation, containing a list of <see cref="UserLoginInfo"/> for the specified <paramref name="user"/>, if any.
     /// </returns>
-    public virtual async Task<IList<UserLoginInfo>> GetLoginsAsync([NotNull] User user,
+    public virtual async Task<IList<UserLoginInfo>> GetLoginsAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -385,7 +384,7 @@ public class UserStore :
     /// <returns>
     /// The <see cref="Task"/> for the asynchronous operation, containing the user, if any which matched the specified login provider and key.
     /// </returns>
-    public virtual Task<User> FindByLoginAsync([NotNull] string loginProvider, [NotNull] string providerKey,
+    public virtual Task<User> FindByLoginAsync(string loginProvider, string providerKey,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -406,7 +405,7 @@ public class UserStore :
     /// A <see cref="Task{TResult}"/> that represents the result of the asynchronous query, a <see cref="DateTimeOffset"/> containing the last time
     /// a user's lockout expired, if any.
     /// </returns>
-    public virtual Task<DateTimeOffset?> GetLockoutEndDateAsync([NotNull] User user,
+    public virtual Task<DateTimeOffset?> GetLockoutEndDateAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -423,7 +422,7 @@ public class UserStore :
     /// <param name="lockoutEnd">The <see cref="DateTimeOffset"/> after which the <paramref name="user"/>'s lockout should end.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual Task SetLockoutEndDateAsync([NotNull] User user, DateTimeOffset? lockoutEnd,
+    public virtual Task SetLockoutEndDateAsync(User user, DateTimeOffset? lockoutEnd,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -441,7 +440,7 @@ public class UserStore :
     /// <param name="user">The user whose cancellation count should be incremented.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the incremented failed access count.</returns>
-    public virtual Task<int> IncrementAccessFailedCountAsync([NotNull] User user,
+    public virtual Task<int> IncrementAccessFailedCountAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -460,7 +459,7 @@ public class UserStore :
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
     /// <remarks>This is typically called after the account is successfully accessed.</remarks>
-    public virtual Task ResetAccessFailedCountAsync([NotNull] User user,
+    public virtual Task ResetAccessFailedCountAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -478,7 +477,7 @@ public class UserStore :
     /// <param name="user">The user whose failed access count should be retrieved.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the failed access count.</returns>
-    public virtual Task<int> GetAccessFailedCountAsync([NotNull] User user,
+    public virtual Task<int> GetAccessFailedCountAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -496,7 +495,7 @@ public class UserStore :
     /// <returns>
     /// The <see cref="Task"/> that represents the asynchronous operation, true if a user can be locked out, otherwise false.
     /// </returns>
-    public virtual Task<bool> GetLockoutEnabledAsync([NotNull] User user,
+    public virtual Task<bool> GetLockoutEnabledAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -513,7 +512,7 @@ public class UserStore :
     /// <param name="enabled">A flag indicating if lock out can be enabled for the specified <paramref name="user"/>.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual Task SetLockoutEnabledAsync([NotNull] User user, bool enabled,
+    public virtual Task SetLockoutEnabledAsync(User user, bool enabled,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -532,7 +531,7 @@ public class UserStore :
     /// <param name="phoneNumber">The telephone number to set.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual Task SetPhoneNumberAsync([NotNull] User user, string phoneNumber,
+    public virtual Task SetPhoneNumberAsync(User user, string? phoneNumber,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -550,7 +549,7 @@ public class UserStore :
     /// <param name="user">The user whose telephone number should be retrieved.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the user's telephone number, if any.</returns>
-    public virtual Task<string> GetPhoneNumberAsync([NotNull] User user,
+    public virtual Task<string?> GetPhoneNumberAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -569,7 +568,7 @@ public class UserStore :
     /// The <see cref="Task"/> that represents the asynchronous operation, returning true if the specified <paramref name="user"/> has a confirmed
     /// telephone number otherwise false.
     /// </returns>
-    public virtual Task<bool> GetPhoneNumberConfirmedAsync([NotNull] User user,
+    public virtual Task<bool> GetPhoneNumberConfirmedAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -586,7 +585,7 @@ public class UserStore :
     /// <param name="confirmed">A flag indicating whether the user's telephone number has been confirmed.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual Task SetPhoneNumberConfirmedAsync([NotNull] User user, bool confirmed,
+    public virtual Task SetPhoneNumberConfirmedAsync(User user, bool confirmed,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -605,7 +604,7 @@ public class UserStore :
     /// <param name="stamp">The security stamp to set.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation.</returns>
-    public virtual Task SetSecurityStampAsync([NotNull] User user, string stamp,
+    public virtual Task SetSecurityStampAsync(User user, string stamp,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
@@ -623,14 +622,14 @@ public class UserStore :
     /// <param name="user">The user whose security stamp should be set.</param>
     /// <param name="cancellationToken">The <see cref="CancellationToken"/> used to propagate notifications that the operation should be canceled.</param>
     /// <returns>The <see cref="Task"/> that represents the asynchronous operation, containing the security stamp for the specified <paramref name="user"/>.</returns>
-    public virtual Task<string> GetSecurityStampAsync([NotNull] User user,
+    public virtual Task<string?> GetSecurityStampAsync(User user,
         CancellationToken cancellationToken = default)
     {
         cancellationToken.ThrowIfCancellationRequested();
 
         Check.NotNull(user, nameof(user));
 
-        return Task.FromResult(user.SecurityStamp);
+        return Task.FromResult<string?>(user.SecurityStamp);
     }
 
     public virtual void Dispose()
@@ -644,7 +643,7 @@ public class UserStore :
         return SetTokenAsync(user, InternalLoginProvider, AuthenticatorKeyTokenName, key, cancellationToken);
     }
 
-    public virtual Task<string> GetAuthenticatorKeyAsync(User user, CancellationToken cancellationToken = default)
+    public virtual Task<string?> GetAuthenticatorKeyAsync(User user, CancellationToken cancellationToken = default)
     {
         return GetTokenAsync(user, InternalLoginProvider, AuthenticatorKeyTokenName, cancellationToken);
     }

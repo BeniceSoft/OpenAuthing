@@ -4,6 +4,7 @@ using BeniceSoft.Abp.Core.Extensions;
 using BeniceSoft.Abp.Core.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Volo.Abp;
 
 namespace BeniceSoft.OpenAuthing.Controllers;
 
@@ -20,18 +21,14 @@ public partial class AccountController
         model.ReturnUrl ??= Url.Content("~/");
 
         var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
-        if (user is null)
-        {
-            throw new InvalidOperationException($"Unable to load two-factor authentication user");
-        }
-
+        ThrowUnauthorizedIfUserIsNull(user, L["UnableToLoadTwoFactorAuthenticationUser"]);
+        
         // Strip spaces and hyphens
         var authenticatorCode = model.TwoFactorCode
             .Replace(" ", string.Empty)
             .Replace("-", string.Empty);
 
         var result = await SignInManager.TwoFactorAuthenticatorSignInAsync(authenticatorCode, model.RememberMe, model.RememberMachine);
-        await UserManager.GetUserIdAsync(user);
 
         if (result.Succeeded)
         {
@@ -41,7 +38,7 @@ public partial class AccountController
                 model.ReturnUrl = "/";
             }
 
-            return Ok(new { model.ReturnUrl, UserInfo = user.ToViewModel() }.ToSucceed());
+            return Ok(new { model.ReturnUrl, UserInfo = user!.ToViewModel() }.ToSucceed());
         }
 
         _logger.LogWarning("Invalid authenticator code entered");

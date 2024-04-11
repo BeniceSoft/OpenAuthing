@@ -1,70 +1,78 @@
+import { history } from 'umi'
 import { request } from '@/lib/request'
 import { CurrentUserInfo, LoginWith2FaModel, LoginWithPasswordModel, LoginWithRecoveryCode } from "@/@types/auth";
+import { ResponseResultWithT } from '@/@types';
 
-const UserStoreName = '__OA_USERINFO'
+export const UserStoreName = '__OA_USERINFO'
+const API_ROOT = "/api/account";
 
 class AuthService {
 
-    public isAuthenticated(): boolean {
-        return !!service.getUser()
+    public isAuthenticated = async (): Promise<boolean> => {
+        const user = await this.getUser();
+        return user !== null && user !== undefined;
     }
 
-    public async getExternalIdPs() {
-        const { data } = await request('/api/account/getexternalloginproviders')
+    public getExternalIdPs = async (): Promise<ResponseResultWithT<any>> => {
+        const { data } = await request(API_ROOT + '/getexternalloginproviders')
         return data ?? []
     }
 
-    public async logout() {
-        if (service.isAuthenticated()) {
+    public logout = async (returnUrl?: string): Promise<void> => {
+        if (await this.isAuthenticated()) {
             await request('/connect/logout')
         }
 
         localStorage.removeItem(UserStoreName)
     }
 
-    public async login(model: LoginWithPasswordModel) {
-        const { data } = await request('/api/account/login', {
+    public login = async (model: LoginWithPasswordModel): Promise<ResponseResultWithT<any>> => {
+        const response = await request(API_ROOT + '/login', {
+            method: 'POST',
+            data: model
+        })
+        const { data } = response
+
+        if (data && data.loginSuccess) {
+            const { userInfo } = data
+            userInfo && this.storeUser(userInfo)
+        }
+
+        return response
+    }
+
+    loginWith2Fa = async (model: LoginWith2FaModel) => {
+        const response = await request(API_ROOT + '/loginwith2fa', {
             method: 'POST',
             data: model
         })
 
+        const { data } = response
+
         if (data) {
             const { userInfo } = data
-            userInfo && service.storeUser(userInfo)
+            userInfo && this.storeUser(userInfo)
         }
 
-        return data
+        return response
     }
 
-    public async loginWith2Fa(model: LoginWith2FaModel) {
-        const { data } = await request('/api/account/loginwith2fa', {
+    loginWithRecoveryCode = async (model: LoginWithRecoveryCode) => {
+        const response = await request(API_ROOT + '/loginWithRecoveryCode', {
             method: 'POST',
             data: model
         })
+        const { data } = response;
 
         if (data) {
             const { userInfo } = data
-            userInfo && service.storeUser(userInfo)
+            userInfo && this.storeUser(userInfo)
         }
 
-        return data
+        return response
     }
 
-    public async loginWithRecoveryCode(model: LoginWithRecoveryCode) {
-        const { data } = await request('/api/account/loginWithRecoveryCode', {
-            method: 'POST',
-            data: model
-        })
-
-        if (data) {
-            const { userInfo } = data
-            userInfo && service.storeUser(userInfo)
-        }
-
-        return data
-    }
-
-    public async getUser(fromCache: boolean = true): Promise<CurrentUserInfo | null> {
+    getUser = async (fromCache: boolean = true): Promise<CurrentUserInfo | null> => {
         try {
             if (fromCache) {
                 const json = localStorage.getItem(UserStoreName)
@@ -73,7 +81,7 @@ class AuthService {
 
             } else {
 
-                const { data } = await request('/api/account/me')
+                const { data } = await request(API_ROOT + '/me')
                 this.storeUser(data)
 
                 return data
@@ -85,44 +93,41 @@ class AuthService {
         return null
     }
 
-    public storeUser(user: any) {
+    storeUser = (user: any) => {
         localStorage.setItem(UserStoreName, JSON.stringify(user))
     }
 
-    public async generateAuthenticatorUri(): Promise<string> {
-        const { data } = await request('/api/account/generateAuthenticatorUri')
-
-        if (data) {
-            const { authenticatorUri } = data
-            return authenticatorUri
+    generateAuthenticatorUri = async (): Promise<string> => {
+        const response = await request(API_ROOT + '/generateAuthenticatorUri')
+        const { data } = response
+        if (data && data.authenticatorUri) {
+            return response
         }
 
-        return ''
+        throw new Error('生成验证码失败')
     }
 
-    public async enableAuthenticator(code: string) {
-        const { data } = await request('/api/account/enableAuthenticator', {
+    enableAuthenticator = async (code: string) => {
+        return await request(API_ROOT + '/enableAuthenticator', {
             method: 'POST',
             data: {
                 code
             }
         })
-
-        return data
     }
 
-    public async getTwoFactorState() {
-        const { data } = await request('/api/account/towFactorAuthentication')
-
-        return data
+    getTwoFactorState = async () => {
+        return await request(API_ROOT + '/towFactorAuthentication')
     }
 
-    public async disableTwoFactor() {
-        const data = await request('/api/account/disable2Fa', { method: 'POST' })
-        console.log(data)
+    disableTwoFactor = async () => {
+        return await request(API_ROOT + '/disable2Fa', { method: 'POST' })
+    }
+
+    getRecoveryCodes = async (): Promise<ResponseResultWithT<string[] | null>> => {
+        return await request(API_ROOT + '/getRecoveryCodes', { method: 'GET' })
     }
 }
 
-const service = new AuthService();
 
-export default service;
+export default new AuthService()

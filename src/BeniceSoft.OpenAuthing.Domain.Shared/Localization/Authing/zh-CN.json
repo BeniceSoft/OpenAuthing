@@ -20,6 +20,7 @@
     "PasswordTooShort": "密码长度过短，需要大于6位",
     "InvalidUserName": "无效的用户名",
     "NotAllowAdmin": "Admin账号不允许操作",
-    "SupportLoginWithTheFollowingExternalAccounts": "支持使用以下外部账号登录"
+    "SupportLoginWithTheFollowingExternalAccounts": "支持使用以下外部账号登录",
+    "InvalidAuthenticatorCode": "身份验证无效"
   }
 }

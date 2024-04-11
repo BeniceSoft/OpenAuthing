@@ -30,7 +30,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.OAut
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.Tools", "src\BeniceSoft.OpenAuthing.Tools\BeniceSoft.OpenAuthing.Tools.csproj", "{5F3AED06-C866-4EE3-ACFD-2C4DA4B64D2E}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.API", "src\BeniceSoft.OpenAuthing.API\BeniceSoft.OpenAuthing.API.csproj", "{7288F222-5A7C-46F8-9957-E09976143DA4}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BeniceSoft.OpenAuthing.AdminApi", "src\BeniceSoft.OpenAuthing.AdminApi\BeniceSoft.OpenAuthing.AdminApi.csproj", "{7288F222-5A7C-46F8-9957-E09976143DA4}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "A Presentation", "A Presentation", "{DD276074-655B-49EB-A475-811EDE8E65DF}"
 EndProject

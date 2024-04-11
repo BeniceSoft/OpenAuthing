@@ -25,7 +25,7 @@ namespace BeniceSoft.OpenAuthing;
     typeof(ApplicationModule),
     typeof(RemoteServiceModule)
 )]
-public class ApiModule : AbpModule
+public class AdminApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

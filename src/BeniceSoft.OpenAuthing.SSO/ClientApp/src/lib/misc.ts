@@ -7,14 +7,14 @@ export function getSearchParam(searchParams: URLSearchParams, name: string): str
     return newParams.get(name.toLowerCase())
 }
 
-export function initialTheme(): string | null {
-    const theme = localStorage.getItem('theme')
+export function syncTheme() {
+    const theme = localStorage.getItem('hs_theme')
     if (theme === null) {
         return ''
     }
 
     const html = document.querySelector('html');
-    html?.classList.add(theme ?? '')
 
-    return theme
+    if (html?.classList.contains(theme)) return
+    html?.classList.add(theme ?? '')
 }

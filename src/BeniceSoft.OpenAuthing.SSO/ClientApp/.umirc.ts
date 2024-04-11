@@ -8,7 +8,7 @@ export default defineConfig({
         '/api': {
             'target': 'http://127.0.0.1:5129/',
             'changeOrigin': true,
-            'pathRewrite': { '^/api' : '/api' },
+            'pathRewrite': { '^/api': '/api' },
         },
         '/uploadFiles': {
             'target': 'http://127.0.0.1:5129/',
@@ -20,27 +20,33 @@ export default defineConfig({
         },
     },
     history: {
-        type: 'hash'
+        // type: 'hash'
+        type: 'browser'
     },
     routes: [
         {
             path: "/",
             component: "@/layouts/index",
             routes: [{
+                path: '/logout', component: 'logout'
+            }, {
                 path: '/account',
                 component: '@/layouts/account',
                 routes: [
                     { path: '/account/login', component: 'account/login' },
                     { path: '/account/loginwith2fa', component: 'account/loginwith2fa' },
-                    { path: '/account/loginwithrecoverycode', component: 'account/loginwithrecoverycode' }
+                    { path: '/account/loginwithrecoverycode', component: 'account/loginwithrecoverycode' },
+                    { path: '/account/reset-password', component: 'account/resetpassword' },
                 ]
             }, {
                 path: '/settings',
                 component: '@/layouts/settings',
                 routes: [
+                    { path: '/settings', redirect: '/settings/profile' },
                     { path: '/settings/profile', component: 'settings/profile' },
                     { path: '/settings/account', component: 'settings/account' },
                     { path: '/settings/security', component: 'settings/security' },
+                    { path: '/settings/login-logs', component: 'settings/loginlogs' },
                     {
                         path: '/settings/2fa',
                         routes: [
@@ -59,22 +65,28 @@ export default defineConfig({
             component: '404'
         }
     ],
-
+    links: [
+        { href: "https://rsms.me/inter/inter.css", rel: "stylesheet" }
+    ],
     npmClient: "npm",
-    tailwindcss: {},
     plugins: [
         '@umijs/plugins/dist/initial-state',
         '@umijs/plugins/dist/model',
         "@umijs/plugins/dist/tailwindcss",
-        "@umijs/plugins/dist/dva",
         "@umijs/plugins/dist/request",
-        // '@umijs/plugins/dist/qiankun'
+        '@umijs/plugins/dist/locale',
+        require.resolve('./src/plugins/global-scrollbar')
     ],
-    dva: {},
+    tailwindcss: {},
+    locale: {
+        default: 'en-US',
+        baseSeparator: '-'
+    },
     request: {
         dataField: 'data'
     },
     clientLoader: {},
     model: {},
-    initialState: {}
+    initialState: {},
+    globalScrollbar: ""
 });

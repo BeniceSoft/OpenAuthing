@@ -1,44 +1,42 @@
 import { QRCodeCanvas } from 'qrcode.react';
 import React, { useEffect, useState } from 'react';
 import OTPInput from 'react-otp-input';
-import { Link, connect, useDispatch } from 'umi';
-import { TwoFactorModelState } from '@/models/twofactor';
+import { Link, useRequest } from 'umi';
+import AuthService from '@/services/auth.service'
 
 export interface EnableAuthenticatorPageProps {
-    isLoadingAuthenticatorUri: boolean
-    isLoggingIn: boolean
-    authenticatorUri?: string
 }
 
 const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: EnableAuthenticatorPageProps) => {
-    const { isLoadingAuthenticatorUri, isLoggingIn, authenticatorUri = '' } = props
     const [code, setCode] = useState('')
-    const dispatch = useDispatch()
+    const {
+        loading: isLoadingAuthenticatorUri,
+        data: authenticatorData,
+        refresh: refreshAuthenticatorUri
+    } = useRequest(AuthService.generateAuthenticatorUri)
+    const { run: enableAuthenticator, loading: isSubmitting } = useRequest(AuthService.enableAuthenticator, {
+        manual: true, onSuccess(data, params) {
+
+        },
+    })
+
+    const { authenticatorUri } = authenticatorData ?? {}
 
     useEffect(() => {
-        dispatch({
-            type: 'twofactor/fetchAuthenticatorUri'
-        })
+
     }, [])
 
-    const onRefresh = () => {
-        dispatch({
-            type: 'twofactor/fetchAuthenticatorUri'
-        })
+    const onRefresh = async () => {
+        await refreshAuthenticatorUri()
     }
 
-    const onSubmit = () => {
-        dispatch({
-            type: 'twofactor/enableAuthenticator',
-            payload: {
-                code
-            }
-        })
+    const onSubmit = async () => {
+        await enableAuthenticator(code)
     }
 
 
     return (
-        <div className="w-full max-w-[800px] mx-auto flex flex-col justify-center items-center">
+        <div className="w-full max-w-[600px] mx-auto flex flex-col justify-center items-center">
             <h1 className="inline-block font-bold text-2xl mt-4 mb-2">启用 2FA 身份验证</h1>
             <div className="mx-auto mt-2 rounded-md shadow border w-[860px] p-8 pb-0">
                 <div className="pb-8 border-b">
@@ -67,15 +65,18 @@ const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: 
                                     onClick={onRefresh} />}
                         </div>
                     </div>
-                    <label className="block">
+                    <div className=''>
                         <OTPInput value={code}
                             onChange={setCode}
+                            inputType="number"
                             numInputs={6}
-                            containerStyle="text-sm gap-x-1"
-                            inputStyle="w-[35px] transition block rounded-md border-gray-300 focus:border-blue-500 placeholder-slate-400 text-xs"
-                            renderInput={(props: any) => (<input {...props} />)}
-                            renderSeparator={index => index === 2 ? <span className="px-1" /> : null} />
-                    </label>
+                            shouldAutoFocus={true}
+                            containerStyle={"flex gap-x-1"}
+                            inputStyle="block size-10 text-center border-gray-200 rounded-md text-base font-medium placeholder:text-gray-300 focus:border-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-700 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
+                            renderInput={(props: any) => (<input {...props} style={undefined} placeholder="○" />)}
+                            renderSeparator={index => index === 2 ? <span className="block w-3"></span> : null} />
+                    </div>
+
                 </div>
                 <div className="py-8 flex justify-end gap-x-2">
                     <Link to="/settings/security"
@@ -84,19 +85,15 @@ const EnableAuthenticatorPage: React.FC<EnableAuthenticatorPageProps> = (props: 
                     </Link>
                     <button type="button"
                         className="rounded bg-blue-600 hover:bg-blue-700 text-white px-6 py-1 text-sm transition duration-300 aria-disabled:bg-blue-300 aria-disabled:cursor-not-allowed"
-                        disabled={code.length < 6}
-                        aria-disabled={code.length < 6}
+                        disabled={isSubmitting || code.length < 6}
+                        aria-disabled={isSubmitting || code.length < 6}
                         onClick={onSubmit}>
                         确定
                     </button>
                 </div>
             </div>
-        </div>
+        </div >
     )
 }
 
-export default connect(({ loading, twofactor }: { loading: any, twofactor: TwoFactorModelState }) => ({
-    isLoadingAuthenticatorUri: loading.effects['twofactor/fetchAuthenticatorUri'],
-    isLoggingIn: loading.effects['twofactor/enableAuthenticator'],
-    ...twofactor
-}))(EnableAuthenticatorPage)
+export default EnableAuthenticatorPage

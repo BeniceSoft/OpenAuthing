@@ -20,27 +20,33 @@ public partial class AccountController
         model.ReturnUrl ??= Url.Content("~/");
 
         var user = await SignInManager.GetTwoFactorAuthenticationUserAsync();
-        if (user is null)
-        {
-            throw new InvalidOperationException("Unable to load tow factor authentication user.");
-        }
+        ThrowUnauthorizedIfUserIsNull(user, L["UnableToLoadTwoFactorAuthenticationUser"]);
 
         var recoveryCode = model.RecoveryCode.Replace(" ", string.Empty);
         var result = await SignInManager.TwoFactorRecoveryCodeSignInAsync(recoveryCode);
-        await UserManager.GetUserIdAsync(user);
 
         if (result.Succeeded)
         {
             _logger.LogInformation("User logged in with a recovery code.");
-            if (!Url.IsLocalUrl(model.ReturnUrl))
-            {
-                model.ReturnUrl = "/";
-            }
 
-            return Ok(new { model.ReturnUrl, UserInfo = user.ToViewModel() }.ToSucceed());
+            return Ok(new { model.ReturnUrl, UserInfo = user!.ToViewModel() }.ToSucceed());
         }
 
         _logger.LogWarning("Invalid recovery code entered.");
         return Ok(new ResponseResult(HttpStatusCode.BadRequest, L["InvalidRecoveryCode"]));
+    }
+
+    [HttpGet]
+    public async Task<IActionResult> GetRecoveryCodes()
+    {
+        var user = await UserManager.GetUserAsync(User);
+        if (user is null)
+        {
+            throw new InvalidOperationException($"Unable to load user with Id '{UserManager.GetUserId(User)}'");
+        }
+
+        var tokens = await UserManager.GetTwoFactorRecoveryCodesAsync(user) ?? Enumerable.Empty<string>();
+
+        return Ok(tokens.ToList().ToSucceed());
     }
 }

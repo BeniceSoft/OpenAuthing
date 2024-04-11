@@ -2,11 +2,13 @@ const { fontFamily } = require("tailwindcss/defaultTheme")
 
 module.exports = {
     darkMode: 'class',
-    important: true,
+    important: false,
     content: [
         './src/pages/**/*.tsx',
         './src/components/**/*.tsx',
-        './src/layouts/**/*.tsx'
+        './src/layouts/**/*.tsx',
+
+        './node_modules/preline/dist/*.js'
     ],
     theme: {
         extend: {
@@ -47,12 +49,16 @@ module.exports = {
                     DEFAULT: "hsl(var(--card))",
                     foreground: "hsl(var(--card-foreground))",
                 },
+            },
+            fontFamily: {
+                sans: ['Inter var', ...fontFamily.sans],
             }
         },
     },
     plugins: [
         require('@tailwindcss/forms'),
         require("@thoughtbot/tailwindcss-aria-attributes"),
-        require("tailwindcss-animate")
+        require("tailwindcss-animate"),
+        require('preline/plugin'),
     ],
 }

@@ -1,9 +1,10 @@
-import {CurrentUserInfo} from '@/@types/auth';
-import React from 'react';
-import {Link, history, useModel, useDispatch} from 'umi';
-import {Button} from '@/components/ui/button';
-import {DropdownMenu, DropdownMenuContent, DropdownMenuGroup, DropdownMenuItem, DropdownMenuSeparator, DropdownMenuTrigger} from '@/components/ui/dropdown-menu';
-import {Copyright, LogOut, Server, User, UserSquare} from 'lucide-react';
+import { CurrentUserInfo } from '@/@types/auth';
+import React, { useEffect } from 'react';
+import { FormattedMessage, Link, history, useModel } from 'umi';
+import { Button } from '@/components/ui/button';
+import { Copyright, LogOut, UserSquare } from 'lucide-react';
+import Logo from '@/components/Logo';
+import { HSDropdown } from 'preline/preline'
 
 
 export interface HomePageProps {
@@ -12,15 +13,12 @@ export interface HomePageProps {
 }
 
 const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
-    const {initialState} = useModel('@@initialState')
-    const {currentUser} = initialState ?? {}
-    const dispatch = useDispatch()
-    
-    const handleLogOut = ()=>{
-        dispatch({
-            type: "login/logout"
-        })
-    }
+    const { initialState } = useModel('@@initialState')
+    const { currentUser } = initialState ?? {}
+
+    useEffect(() => {
+        HSDropdown.autoInit()
+    }, [])
 
     return (
         <div className="w-full">
@@ -29,50 +27,48 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                     <nav className="relative z-50 flex justify-between">
                         <div className="flex items-center md:gap-x-12">
                             <Link aria-label="Home" to="/#">
-                                <h1 className="text-center text-lg font-bold tracking-wide text-blue-600 dark:text-gray-100">
-                                    OpenAuthing
-                                </h1>
+                                <Logo className="w-44" />
                             </Link>
                             <div className="hidden md:flex md:gap-x-6">
                                 <Link className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                                      to="/#features">
+                                    to="/#features">
                                     Features
                                 </Link>
                                 <Link className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                                      to="/#testimonials">Testimonials</Link>
+                                    to="/#testimonials">Testimonials</Link>
                                 <Link className="inline-block rounded-lg px-2 py-1 text-sm text-slate-700 hover:bg-slate-100 hover:text-slate-900"
-                                      to="/#pricing">Pricing</Link>
+                                    to="/#pricing">Pricing</Link>
                             </div>
                         </div>
-                        <div className="flex items-center gap-x-5 md:gap-x-8">
+                        <div className="flex items-center gap-x-5 md:gap-x-8 [--placement:bottom-right]">
                             <div className="hidden md:block">
                                 {currentUser ?
-                                    <DropdownMenu>
-                                        <DropdownMenuTrigger asChild={true}>
-                                            <Button variant="link">{currentUser.nickname}</Button>
-                                        </DropdownMenuTrigger>
-                                        <DropdownMenuContent align="end" className="text-sm text-gray-600 p-2 w-32">
-                                            <DropdownMenuGroup>
-                                                <DropdownMenuItem>
-                                                    <Link to="/settings/profile"
-                                                          className="flex items-center gap-x-2">
-                                                        <UserSquare className="w-4 h-4"/>
-                                                        <span>个人信息</span>
-                                                    </Link>
-                                                </DropdownMenuItem>
-                                            </DropdownMenuGroup>
-                                            <DropdownMenuSeparator/>
-                                            <DropdownMenuGroup>
-                                                <DropdownMenuItem className="flex items-center gap-x-2">
-                                                    <div onClick={handleLogOut}
-                                                         className="flex items-center gap-x-2">
-                                                        <LogOut className="w-4 h-4"/>
-                                                        <span>退出登录</span>
-                                                    </div>
-                                                </DropdownMenuItem>
-                                            </DropdownMenuGroup>
-                                        </DropdownMenuContent>
-                                    </DropdownMenu> :
+                                    <div className="hs-dropdown relative inline-flex">
+                                        <Button variant="link" id="hs-dropdown-currentuser" type="button"
+                                            className="hs-dropdown-toggle inline-flex justify-center items-center gap-x-2 text-sm">
+                                            {/* <img className="inline-block size-8 rounded-full" src={currentUser.avatar} alt={currentUser.userName}></img> */}
+                                            {currentUser.nickname}
+                                        </Button>
+
+                                        <div className="hs-dropdown-menu text-sm font-medium transition-[opacity,margin] space-y-1 duration hs-dropdown-open:opacity-100 opacity-0 w-44 hidden z-10 mt-1 min-w-40 bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700"
+                                            aria-labelledby="hs-dropdown-currentuser">
+                                            <Link to="/settings"
+                                                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
+                                                <UserSquare className="w-4 h-4" />
+                                                <span className="truncate">
+                                                    <FormattedMessage id="home.link.profile" />
+                                                </span>
+                                            </Link>
+                                            <Link to="/logout"
+                                                replace={true}
+                                                className="flex items-center gap-x-3.5 py-2 px-3 rounded-lg text-sm text-gray-800 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300 dark:focus:bg-gray-700">
+                                                <LogOut className="w-4 h-4" />
+                                                <span className="truncate">
+                                                    <FormattedMessage id="home.link.signout" />
+                                                </span>
+                                            </Link>
+                                        </div>
+                                    </div> :
                                     <Button variant="link" onClick={() => history.push('/account/login')}>登录</Button>
                                 }
 
@@ -84,7 +80,7 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                                         aria-label="Toggle Navigation" type="button" aria-expanded="false" data-headlessui-state=""
                                         id="headlessui-popover-button-:R3p6:">
                                         <svg aria-hidden="true" className="h-3.5 w-3.5 overflow-visible stroke-slate-700" fill="none" strokeWidth="2"
-                                             strokeLinecap="round">
+                                            strokeLinecap="round">
                                             <path d="M0 1H14M0 7H14M0 13H14" className="origin-center transition"></path>
                                             <path d="M2 2L12 12M12 2L2 12" className="origin-center transition scale-90 opacity-0"></path>
                                         </svg>
@@ -108,7 +104,7 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
             <footer className="border-t py-8">
                 <div className="mx-auto container">
                     <p className="flex items-center justify-center text-sm text-gray-400 gap-x-2">
-                        OpenAuthing<Copyright className="w-4 h-4"/>BeniceSoft
+                        OpenAuthing<Copyright className="w-4 h-4" />BeniceSoft
                     </p>
                 </div>
             </footer>

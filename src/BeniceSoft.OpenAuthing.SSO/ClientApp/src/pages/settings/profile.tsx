@@ -1,22 +1,20 @@
 import ContentBlock from "@/components/ContentBlock";
+import Mask from "@/components/Mask";
 import Spin from "@/components/Spin";
 import { Button } from "@/components/ui/button";
 import { Input, InputLabel } from "@/components/ui/input";
+import AccountService from "@/services/account.service";
 import { useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useModel } from "umi";
+import { FormattedMessage, useIntl, useRequest } from "umi";
 
 const ProfilePage = function (props: any) {
-    const { register, formState: { errors, isValid }, handleSubmit, reset } = useForm()
-
-    const { loading, profile, fetch } = useModel('settings.profile')
-
-    useEffect(() => {
-        fetch()
-    }, [])
+    const intl = useIntl()
+    const { loading, data: profile } = useRequest(AccountService.getProfile)
+    const { register, formState: { errors, isValid, isSubmitting }, handleSubmit, reset } = useForm()
 
     useEffect(() => {
-        reset({ ...profile })
+        reset(profile)
     }, [profile])
 
     const onSubmit = (data: any) => {
@@ -25,56 +23,56 @@ const ProfilePage = function (props: any) {
 
     return (
         <div className="grid gap-y-6">
-            <ContentBlock title="基础信息">
-                <Spin spinning={loading ?? false}>
+            <ContentBlock title={intl.formatMessage({ id: 'settings.profile.title' })}>
+                <div className="relative">
                     <form onSubmit={handleSubmit(onSubmit)}>
-                        <div className="grid grid-col-1 lg:grid-cols-2 gap-8">
-                            <InputLabel text="用户名" required={true}>
-                                {/* <span className="block text-sm mb-1 after:content-['*'] after:text-red-600"></span> */}
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                            <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.username' })} required={true}>
                                 <Input type="text"
                                     placeholder=""
                                     {...register('userName', { required: true })} />
                             </InputLabel>
-                            <InputLabel text="昵称" required={true}>
+                            <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.nickname' })} required={true}>
                                 <Input type="text"
                                     placeholder=""
                                     {...register('nickname', { required: true })} />
                             </InputLabel>
-                            <InputLabel text="手机号码">
+                            <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.phonenumber' })}>
                                 <Input type="text"
                                     disabled={true}
                                     {...register('phoneNumber')} />
                             </InputLabel>
-                            <InputLabel text="邮箱地址">
+                            <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.emailaddress' })}>
                                 <Input type="text"
                                     disabled={true}
                                     {...register('emailAddress')} />
                             </InputLabel>
-                            <InputLabel text="性别">
+                            <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.gender' })}>
                                 <Input type="text"
                                     placeholder=""
                                     {...register('gender')} />
                             </InputLabel>
-                            <InputLabel text="职务">
+                            <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.jobtitle' })}>
                                 <Input type="text"
                                     disabled={true}
                                     {...register('jobTitle')} />
                             </InputLabel>
-                            <InputLabel text="创建日期">
+                            <InputLabel text={intl.formatMessage({ id: 'settings.profile.input.creationtime' })}>
                                 <Input type="text"
                                     disabled={true}
                                     {...register('creationTime')} />
                             </InputLabel>
                             <div className="lg:col-span-2">
-                                <Button type="submit"
-                                    disabled={!isValid}
-                                    className="px-6">
-                                    保存
+
+                                <Button type="submit" disabled={isSubmitting || !isValid}>
+                                    <FormattedMessage id="settings.profile.button.save" />
                                 </Button>
                             </div>
                         </div>
                     </form>
-                </Spin>
+
+                    {loading && <Mask loadingText={intl.formatMessage({ id: "settings.profile.loading" })} />}
+                </div>
             </ContentBlock>
         </div>
     )

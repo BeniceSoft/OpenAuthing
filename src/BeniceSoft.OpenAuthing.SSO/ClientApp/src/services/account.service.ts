@@ -14,9 +14,7 @@ const AccountService = {
     },
 
     getProfile: async () => {
-        const { data } = await request('/api/account/profile')
-
-        return data
+        return await request('/api/account/profile')
     }
 }
 

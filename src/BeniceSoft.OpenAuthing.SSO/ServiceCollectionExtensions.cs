@@ -14,6 +14,7 @@ internal static class ServiceCollectionExtensions
 {
     internal static void ConfigureIdentity(this IServiceCollection services)
     {
+        services.Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
         services
             .AddIdentity<User, Role>(options =>
             {

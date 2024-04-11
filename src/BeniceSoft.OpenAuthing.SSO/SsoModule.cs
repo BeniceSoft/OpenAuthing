@@ -5,7 +5,7 @@ using BeniceSoft.Abp.AspNetCore.Middlewares;
 using BeniceSoft.Abp.Auth;
 using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.BackgroundTasks;
-using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Localization;
 using Microsoft.IdentityModel.Logging;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
@@ -68,7 +68,10 @@ public class SsoModule : AbpModule
         Configure<RouteOptions>(options => { options.LowercaseUrls = true; });
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
-        Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
+
+        context.Services
+            .AddJsonFormatResponse()
+            .AddDesensitizeResponse();
         
         context.Services.AddBeniceSoftAuthentication();
 
@@ -78,13 +81,26 @@ public class SsoModule : AbpModule
         context.Services.AddDetection();
         context.Services.AddHostedService<LoadEnabledExternalIdentityProvidersBackgroundTask>();
     }
-
+    
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
-
-        app.UseBeniceSoftRequestLocalization();
+        
+        app.UseBeniceSoftRequestLocalization(options =>
+        {
+            options.DefaultRequestCulture = new("en-US","en-US");
+            options.AddSupportedCultures("en-US", "zh-CN");
+            options.AddSupportedUICultures("en-US", "zh-CN");
+            options.ApplyCurrentCultureToResponseHeaders = true;
+            options.CultureInfoUseUserOverride = false;
+            options.RequestCultureProviders =
+            [
+                new AcceptLanguageHeaderRequestCultureProvider(),
+                new QueryStringRequestCultureProvider(),
+                new CookieRequestCultureProvider(),
+            ];
+        });
 
         app.UseDetection();
 
@@ -98,7 +114,10 @@ public class SsoModule : AbpModule
         // 跨域
         app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-        app.UseBeniceSoftExceptionHandlingMiddleware();
+        app.UseBeniceSoftExceptionHandlingMiddleware(new()
+        {
+            
+        });
 
         // 身份验证
         app.UseBeniceSoftAuthentication();
@@ -109,10 +128,10 @@ public class SsoModule : AbpModule
         app.UseAuditing();
 
         // 路由映射
-        app.UseConfiguredEndpoints(builder =>
+        app.UseConfiguredEndpoints(endpoints =>
         {
-            builder.MapDefaultControllerRoute();
-            builder.MapFallbackToFile("/", "index.html");
+            endpoints.MapDefaultControllerRoute();
+            endpoints.MapFallbackToFile("index.html");
         });
     }
 }

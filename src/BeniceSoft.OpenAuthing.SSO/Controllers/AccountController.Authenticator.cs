@@ -33,7 +33,7 @@ public partial class AccountController
         return Ok(new
         {
             SharedKey = FormatKey(unformattedKey!),
-            AuthenticatorUri = GenerateQrCodeUri(phoneNumber!, unformattedKey!)
+            AuthenticatorUri = GenerateQrCodeUri(phoneNumber ?? user.UserName , unformattedKey!)
         });
     }
 
@@ -41,17 +41,14 @@ public partial class AccountController
     public async Task<IActionResult> EnableAuthenticator([FromBody] EnableAuthenticatorViewModel model)
     {
         var user = await UserManager.GetUserAsync(User);
-        if (user is null)
-        {
-            throw new InvalidOperationException($"Unable to load user with Id '{UserManager.GetUserId(User)}'");
-        }
+        ThrowUnauthorizedIfUserIsNull(user);
 
         // Strip spaces and hyphens
         var verificationCode = model.Code
             .Replace(" ", string.Empty)
             .Replace("-", string.Empty);
 
-        var is2FaTokenValid = await UserManager.VerifyTwoFactorTokenAsync(user,
+        var is2FaTokenValid = await UserManager.VerifyTwoFactorTokenAsync(user!,
             UserManager.Options.Tokens.AuthenticatorTokenProvider, verificationCode);
 
         if (!is2FaTokenValid)
@@ -59,8 +56,8 @@ public partial class AccountController
             return Ok(new ResponseResult(HttpStatusCode.BadRequest, L["TwoFactorTokenInvalid"]));
         }
 
-        await UserManager.SetTwoFactorEnabledAsync(user, true);
-        await UserManager.GetUserIdAsync(user);
+        await UserManager.SetTwoFactorEnabledAsync(user!, true);
+        await UserManager.GetUserIdAsync(user!);
         _logger.LogInformation("User has enabled 2FA with an authenticator app");
 
         var recoveryCodes = await UserManager.GenerateNewTwoFactorRecoveryCodesAsync(user, 10);
@@ -70,13 +67,13 @@ public partial class AccountController
         }.ToSucceed());
     }
 
-    private string GenerateQrCodeUri(string phoneNumber, string unformattedKey)
+    private string GenerateQrCodeUri(string user, string unformattedKey)
     {
         return string.Format(
             CultureInfo.InvariantCulture,
             AuthenticatorUriFormat,
-            _urlEncoder.Encode("BeniceSoft OpenAuthing"),
-            _urlEncoder.Encode(phoneNumber),
+            _urlEncoder.Encode("OpenAuthing"),
+            _urlEncoder.Encode(user),
             unformattedKey);
     }
 

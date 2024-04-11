@@ -4,7 +4,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Aguacongas.AspNetCore.Authentication" Version="4.1.1" />
-    <PackageVersion Include="BeniceSoft.Abp.EntityFrameworkCore" Version="8.1.0-rc.3.1" />
+    <PackageVersion Include="BeniceSoft.Abp.EntityFrameworkCore" Version="8.1.0" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
@@ -19,45 +19,45 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.2-dev-00336" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10382" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="5.1.0-dev-00943" />
-    <PackageVersion Include="Volo.Abp.BlobStoring" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.BlobStoring.FileSystem" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.Core" Version="8.1.0-rc.3" />
+    <PackageVersion Include="Volo.Abp.BlobStoring" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.BlobStoring.FileSystem" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.Core" Version="8.1.0" />
     <PackageVersion Include="AspNet.Security.OAuth.Feishu" Version="8.0.0" />
-    <PackageVersion Include="BeniceSoft.OAuth.DingTalk" Version="8.1.0-rc.3" />
+    <PackageVersion Include="BeniceSoft.OAuth.DingTalk" Version="8.1.0" />
     <PackageVersion Include="Microsoft.SourceLink.GitHub" Version="8.0.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
-    <PackageVersion Include="Volo.Abp.Ddd.Domain.Shared" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.OpenIddict.Domain" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.OpenIddict.Domain.Shared" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.SettingManagement.Application" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.SettingManagement.Application.Contracts" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.SettingManagement.Domain" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.SettingManagement.Domain.Shared" Version="8.1.0-rc.3" />
-    <PackageVersion Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="8.1.0-rc.3" />
+    <PackageVersion Include="Volo.Abp.Ddd.Domain.Shared" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.OpenIddict.Domain" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.OpenIddict.Domain.Shared" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.SettingManagement.Application" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.SettingManagement.Application.Contracts" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.SettingManagement.Domain" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.SettingManagement.Domain.Shared" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.SettingManagement.EntityFrameworkCore" Version="8.1.0" />
     <PackageVersion Include="Microsoft.Extensions.FileProviders.Embedded" Version="8.0.3" />
-    <PackageVersion Include="BeniceSoft.Abp.Auth.Core" Version="8.1.0-rc.3.2" />
-    <PackageVersion Include="BeniceSoft.Abp.Ddd.Domain" Version="8.1.0-rc.3" />
+    <PackageVersion Include="BeniceSoft.Abp.Auth.Core" Version="8.1.0" />
+    <PackageVersion Include="BeniceSoft.Abp.Ddd.Domain" Version="8.1.0" />
     <PackageVersion Include="Mapster" Version="7.4.0" />
-    <PackageVersion Include="Volo.Abp.EntityFrameworkCore.MySQL" Version="8.1.0-rc.3" />
-    <PackageVersion Include="BeniceSoft.Abp.Ddd.Application.Contracts" Version="8.1.0-rc.3" />
+    <PackageVersion Include="Volo.Abp.EntityFrameworkCore.MySQL" Version="8.1.0" />
+    <PackageVersion Include="BeniceSoft.Abp.Ddd.Application.Contracts" Version="8.1.0" />
     <PackageVersion Include="System.ComponentModel.Annotations" Version="6.0.0-preview.4.21253.7" />
-    <PackageVersion Include="BeniceSoft.Abp.Ddd.Application" Version="8.1.0-rc.3" />
+    <PackageVersion Include="BeniceSoft.Abp.Ddd.Application" Version="8.1.0" />
     <PackageVersion Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.3" />
-    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.5.0" />
-    <PackageVersion Include="Volo.Abp.AutoMapper" Version="8.1.0-rc.3" />
-    <PackageVersion Include="BeniceSoft.Abp.Http.Client" Version="0.0.30-dev" />
+    <PackageVersion Include="System.IdentityModel.Tokens.Jwt" Version="7.5.1" />
+    <PackageVersion Include="Volo.Abp.AutoMapper" Version="8.1.0" />
+    <PackageVersion Include="BeniceSoft.Abp.Http.Client" Version="8.1.0" />
     <PackageVersion Include="AlibabaCloud.SDK.Dingtalk" Version="2.0.95" />
     <PackageVersion Include="dingtalk-sdk-netCore" Version="1.0.4" />
-    <PackageVersion Include="BeniceSoft.Abp.AspNetCore" Version="8.1.0-rc.3.2" />
-    <PackageVersion Include="BeniceSoft.Abp.Auth" Version="8.1.0-rc.3.2" />
+    <PackageVersion Include="BeniceSoft.Abp.AspNetCore" Version="8.1.1-preview.1" />
+    <PackageVersion Include="BeniceSoft.Abp.Auth" Version="8.1.0" />
     <PackageVersion Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageVersion Include="OpenIddict.Quartz" Version="5.4.0" />
     <PackageVersion Include="OpenIddict.Server.AspNetCore" Version="5.4.0" />
     <PackageVersion Include="Swashbuckle.AspNetCore" Version="6.5.0" />
-    <PackageVersion Include="Volo.Abp.Autofac" Version="8.1.0-rc.3" />
+    <PackageVersion Include="Volo.Abp.Autofac" Version="8.1.0" />
     <PackageVersion Include="Wangkanai.Detection" Version="8.12.0" />
   </ItemGroup>
 </Project>

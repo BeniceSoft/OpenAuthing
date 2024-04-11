@@ -86,7 +86,7 @@ public class AuthorizeController : AuthOpenIddictControllerBase
         }
 
         // Retrieve the application details from the database.
-        var application = await ApplicationManager.FindByClientIdAsync(request.ClientId) ??
+        var application = await ApplicationManager.FindByClientIdAsync(request.ClientId!) ??
                           throw new InvalidOperationException(L["DetailsConcerningTheCallingClientApplicationCannotBeFound"]);
 
         // Retrieve the permanent authorizations associated with the user and the calling client application.

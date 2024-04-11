@@ -1,46 +1,143 @@
+import { ChangePasswordModel } from '@/@types/settings';
 import ContentBlock from '@/components/ContentBlock';
-import Spin from '@/components/Spin';
 import { Button } from '@/components/ui/button';
 import { Input, InputLabel } from '@/components/ui/input';
-import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
-import { TwoFactorModelState } from '@/models/twofactor';
-import { Key, Smartphone } from 'lucide-react';
-import React, { Fragment, useEffect } from 'react'
+import { CheckIcon, Key, Smartphone, XIcon } from 'lucide-react';
+import React, { useEffect } from 'react'
 import { useForm } from 'react-hook-form';
-import { Link, connect, useDispatch } from 'umi';
+import { FormattedMessage, Link, useIntl, useRequest } from 'umi';
+import AuthService from '@/services/auth.service'
+import Mask from '@/components/Mask';
+import { HSStrongPassword } from 'preline/preline'
+
+type ChangePasswordFormProps = {
+    onSubmit: (data: ChangePasswordModel) => Promise<void>
+}
+
+const ChangePasswordForm = ({
+    onSubmit
+}: ChangePasswordFormProps) => {
+    const { register, handleSubmit, formState: { errors, isValid } } = useForm<ChangePasswordModel>()
+    const intl = useIntl()
+
+    useEffect(() => {
+        HSStrongPassword.autoInit()
+    }, [])
+
+    return (
+        <form onSubmit={handleSubmit(onSubmit)}>
+            <div className="flex flex-col gap-y-4 lg:max-w-md">
+                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.current" })} required={true}>
+                    <Input type="password"
+                        autoComplete="disabled"
+                        {...register('oldPassword', { required: true, minLength: 6 })} />
+                </InputLabel>
+                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.new" })} required={true}
+                    className="relative">
+                    <Input type="password"
+                        id="new-password"
+                        autoComplete="disabled"
+                        {...register('newPassword', { required: true, minLength: 6 })} />
+                    <div id="new-password-strong-popover"
+                        className="hidden absolute z-10 w-full bg-white shadow-xl rounded-lg p-4 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700">
+                        <div id="hs-strong-password-in-popover" data-hs-strong-password='{
+                                "target": "#new-password",
+                                "hints": "#new-password-strong-popover",
+                                "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1",
+                                "mode": "popover"
+                            }'
+                            className="flex mt-2 -mx-1">
+                        </div>
+
+                        <h4 className="mt-3 text-sm font-semibold text-gray-800 dark:text-white">
+                            <FormattedMessage id="settings.secrity.password.rule" />
+                        </h4>
+
+                        <ul className="space-y-1 text-sm text-gray-500">
+                            <li data-hs-strong-password-hints-rule-text="min-length" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
+                                <span className="hidden" data-check="">
+                                    <CheckIcon className="w-4 h-4" />
+                                </span>
+                                <span data-uncheck="">
+                                    <XIcon className="w-4 h-4" />
+                                </span>
+                                <FormattedMessage id="settings.secrity.password.rule.length" />
+                            </li>
+                            <li data-hs-strong-password-hints-rule-text="lowercase" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
+                                <span className="hidden" data-check="">
+                                    <CheckIcon className="w-4 h-4" />
+                                </span>
+                                <span data-uncheck="">
+                                    <XIcon className="w-4 h-4" />
+                                </span>
+                                <FormattedMessage id="settings.secrity.password.rule.lowercase" />
+                            </li>
+                            <li data-hs-strong-password-hints-rule-text="uppercase" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
+                                <span className="hidden" data-check="">
+                                    <CheckIcon className="w-4 h-4" />
+                                </span>
+                                <span data-uncheck="">
+                                    <XIcon className="w-4 h-4" />
+                                </span>
+                                <FormattedMessage id="settings.secrity.password.rule.uppercase" />
+                            </li>
+                            <li data-hs-strong-password-hints-rule-text="numbers" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
+                                <span className="hidden" data-check="">
+                                    <CheckIcon className="w-4 h-4" />
+                                </span>
+                                <span data-uncheck="">
+                                    <XIcon className="w-4 h-4" />
+                                </span>
+                                <FormattedMessage id="settings.secrity.password.rule.numbers" />
+                            </li>
+                            <li data-hs-strong-password-hints-rule-text="special-characters" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
+                                <span className="hidden" data-check="">
+                                    <CheckIcon className="w-4 h-4" />
+                                </span>
+                                <span data-uncheck="">
+                                    <XIcon className="w-4 h-4" />
+                                </span>
+                                <FormattedMessage id="settings.secrity.password.rule.specialchar" />
+                            </li>
+                        </ul>
+                    </div>
+                </InputLabel>
+                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.confirm" })} required={true}
+                    errorMessage={errors.confirmationPassword?.message?.toString()}>
+                    <Input type="password"
+                        autoComplete="disabled"
+                        {...register('confirmationPassword', { required: { value: true, message: "Confirmation password is required" } })} />
+                </InputLabel>
+                <div className="flex items-center justify-between gap-x-3">
+                    <Button variant="secondary"
+                        type="submit"
+                        disabled={!isValid}>
+                        <FormattedMessage id="settings.secrity.password.submit" />
+                    </Button>
+                    <Link to="/account/reset-password"
+                        className="text-xs text-primary/80 font-medium">
+                        <FormattedMessage id="settings.secrity.password.forgot" />
+                    </Link>
+                </div>
+            </div>
+        </form>
+    )
+}
 
 const TwoFactorContentBlockTitle = (props: { is2FaEnabled: boolean, buttonDisabled: boolean }) => {
     const { is2FaEnabled, buttonDisabled } = props
-    const dispatch = useDispatch()
 
     const onDisable = () => {
-        dispatch({ type: 'twofactor/disableTwoFactor' })
+
     }
 
     return (
         <div className="flex justify-between items-center">
-            <div>2FA 身份验证</div>
+            <h2><FormattedMessage id="settings.secrity.2fa.title" /></h2>
             {is2FaEnabled &&
-                <Popover>
-                    <PopoverTrigger asChild={true}>
-                        <button className="text-xs py-1.5 px-3 rounded bg-red-500 hover:bg-red-600 transition duration-300 text-white  focus:outline-none">
-                            禁用
-                        </button>
-                    </PopoverTrigger>
-                    <PopoverContent
-                        className="absolute z-10 w-[320px] shadow-md border right-0 mt-1 p-4 bg-white rounded">
-                        <div className="flex flex-col">
-                            <p className="text-sm font-normal">禁用 2FA 将会使您的账号安全性降低，请确认操作。</p>
-                            <button type="button"
-                                className="text-sm text-red-500 aria-disabled:text-red-300 font-normal self-end"
-                                disabled={buttonDisabled}
-                                aria-disabled={buttonDisabled}
-                                onClick={onDisable}>
-                                确定禁用
-                            </button>
-                        </div>
-                    </PopoverContent>
-                </Popover>
+                <button className="text-xs py-1.5 px-3 rounded bg-red-500 hover:bg-red-600 transition duration-300 text-white  focus:outline-none">
+                    <FormattedMessage id="common.disable" />
+                </button>
             }
         </div>
     )
@@ -54,16 +151,16 @@ const TowFactorAuthenticationNotEnabledContent = () => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 10.5V6.75a4.5 4.5 0 10-9 0v3.75m-.75 11.25h10.5a2.25 2.25 0 002.25-2.25v-6.75a2.25 2.25 0 00-2.25-2.25H6.75a2.25 2.25 0 00-2.25 2.25v6.75a2.25 2.25 0 002.25 2.25z" />
                 </svg>
             </div>
-            <p className="text-center text-xl font-semibold mb-4">
-                尚未启用 2FA 身份验证
+            <p className="text-center dark:text-gray-200 text-xl font-semibold mb-4">
+                <FormattedMessage id="settings.secrity.2fa.notenabled" />
             </p>
             <p className="text-center text-gray-400 text-sm leading-normal">
-                2FA 身份验证要求的不仅仅是密码才能登录，从而为您的帐户增加了一层额外的安全保护。
+                <FormattedMessage id="settings.secrity.2fa.desc" />
             </p>
             <div className="mt-8 text-center">
                 <Link to="/settings/2fa/enable-authenticator"
                     className="bg-blue-600 hover:bg-blue-800 transition duration-300 text-white p-2 px-4 rounded text-sm">
-                    启用 2FA 身份验证
+                    <FormattedMessage id="settings.secrity.2fa.enable" />
                 </Link>
             </div>
         </div>
@@ -74,28 +171,27 @@ const TwoFactorAuthenticationEnabledContent = (props: {
     hasAuthenticator: boolean,
     recoveryCodesLeft: number
 }) => {
-    const { hasAuthenticator, recoveryCodesLeft } = props
+    const { hasAuthenticator, recoveryCodesLeft = 0 } = props
     return (
-        <div className="flex flex-col gap-y-4">
-            <p className="text-gray-500 text-sm leading-normal">
-                2FA 身份验证要求的不仅仅是密码登录，从而为您的帐户增加了一层额外的安全保护。
-                2FA 身份验证<span className="text-green-700 font-semibold">已启用</span>
+        <div className="">
+            <p className="text-gray-500 text-sm leading-normal -mt-4 mb-6">
+                <FormattedMessage id="settings.secrity.2fa.desc" />
             </p>
-            <div className="grid gap-y-3">
+            <div className="grid gap-y-6">
                 <div>
-                    <h2 className="mb-2 text-base font-semibold">2FA 验证方式</h2>
+                    <h2 className="mb-2 text-base text-gray-800 dark:text-gray-200 font-semibold"><FormattedMessage id="settings.secrity.2fa.methods.title" /></h2>
                     <div>
-                        <div className="flex border p-3 rounded items-center">
+                        <div className="flex border p-4 rounded-lg items-center">
                             <div className="flex-none w-[40px] pt-0.5 self-start">
-                                <Smartphone className="w-6 h-6 stroke-gray-600" />
+                                <Smartphone className="w-6 h-6 stroke-gray-600 dark:stroke-gray-300" />
                             </div>
                             <div className="grow text-sm">
                                 <div className="mb-2 flex gap-x-2 items-center">
-                                    <h3 className="font-semibold inline-block">Authenticator 应用</h3>
+                                    <h3 className="font-semibold text-gray-700 dark:text-gray-300 inline-block"><FormattedMessage id="settings.secrity.2fa.methods.authenticatorapp" /></h3>
                                     {hasAuthenticator && <span className="text-xs border rounded-full px-2 py-[1px] border-green-700 text-green-700">已启用</span>}
                                 </div>
                                 <div className="text-gray-500 leading-normal text">
-                                    使用 Authenticator 应用获取 2FA 身份验证代码，例如：
+                                    <FormattedMessage id="settings.secrity.2fa.methods.authenticatorapp.desc" />
                                     <a href="https://www.microsoft.com/en-us/security/mobile-authenticator-app"
                                         className="text-blue-500 hover:text-blue-600"
                                         target="_blank">
@@ -111,34 +207,34 @@ const TwoFactorAuthenticationEnabledContent = (props: {
                             <div className="flex-none px-2 align-middle">
                                 <button type="button"
                                     className="bg-gray-50 border-gray-200 border px-4 py-1.5 rounded text-xs text-gray-700 hover:text-black hover:border-gray-400 transition duration-300">
-                                    编辑
+                                    <FormattedMessage id="common.edit" />
                                 </button>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h2 className="mb-2 text-base font-semibold">恢复选项</h2>
+                    <h2 className="mb-2 text-base text-gray-800 dark:text-gray-200 font-semibold"><FormattedMessage id="settings.secrity.2fa.recoveryoptions" /></h2>
                     <div>
-                        <div className="flex border p-3 rounded items-center">
+                        <div className="flex border p-4 rounded-lg items-center">
                             <div className="flex-none w-[40px] pt-0.5 self-start">
-                                <Key className="w-6 h-6 stroke-gray-600" />
+                                <Key className="w-6 h-6 stroke-gray-600 dark:stroke-gray-300" />
                             </div>
                             <div className="grow text-sm">
                                 <div className="mb-2 flex gap-x-2 items-center">
-                                    <h3 className="font-semibold inline-block">恢复码</h3>
+                                    <h3 className="font-semibold text-gray-800 dark:text-gray-300 inline-block"><FormattedMessage id="settings.secrity.2fa.recoveryoptions.recoverycode" /></h3>
                                     <span className="text-xs border rounded-full px-2 py-[1px] border-green-700 text-green-700">
                                         可用 {recoveryCodesLeft} 个
                                     </span>
                                 </div>
                                 <div className="text-gray-500 leading-normal">
-                                    如果您无法访问设备并且无法接收 2FA 身份验证代码，则可以使用恢复码验证您的帐户。
+                                    <FormattedMessage id="settings.secrity.2fa.recoveryoptions.recoverycode.desc" />
                                 </div>
                             </div>
                             <div className="flex-none px-2 align-middle">
                                 <Link to="/settings/2fa/recovery-codes"
                                     className="bg-gray-50 border-gray-200 border px-4 py-1.5 rounded text-xs text-gray-700 hover:text-black hover:border-gray-400 transition duration-300">
-                                    查看
+                                    <FormattedMessage id="common.view" />
                                 </Link>
                             </div>
                         </div>
@@ -159,67 +255,29 @@ export interface SecurityPageProps {
 }
 
 const SecurityPage: React.FC<SecurityPageProps> = (props: SecurityPageProps) => {
-    const dispatch = useDispatch()
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm()
-    const { isLoading, is2FaEnabled, disableTwoFactorProcessing } = props
+    const intl = useIntl()
+    const { data: twoFactorState = {}, loading: twoFactorStateLoading } = useRequest(AuthService.getTwoFactorState)
 
-    useEffect(() => {
-        dispatch({
-            type: 'twofactor/fetchTwoFactorState'
-        })
-    }, [])
+    const { is2FaEnabled } = twoFactorState;
 
-    const onChangePasswordSubmit = (data: any) => { }
+    const handleChangePasswordSubmit = async (data: any) => { }
 
     return (
-        <div className="grid gap-y-6">
-            <ContentBlock title="登录密码">
-                <form onSubmit={handleSubmit(onChangePasswordSubmit)}>
-                    <div className="grid gap-y-4 max-w-md">
-                        <InputLabel text="当前密码" required={true}>
-                            <Input variant="solid" sizeVariant="xs" type="password"
-                                autoComplete="disabled"
-                                placeholder="输入当前的登录密码"
-                                {...register('oldPassword', { required: true, minLength: 6 })} />
-                        </InputLabel>
-                        <InputLabel text="新密码" required={true}>
-                            <Input variant="solid" sizeVariant="xs" type="password"
-                                autoComplete="disabled"
-                                placeholder="输入新的密码"
-                                {...register('password', { required: true, minLength: 6 })} />
-                        </InputLabel>
-                        <InputLabel text="确认密码" required={true}>
-                            <Input variant="solid" sizeVariant="xs" type="password"
-                                autoComplete="disabled"
-                                placeholder="重复输入新的密码"
-                                {...register('confirmationPassword', { required: true, minLength: 6 })} />
-                        </InputLabel>
-                        <div>
-                            <p className="text-xs mb-2 text-gray-500">密码<span className="text-red-600 font-semibold">至少6位</span>并且<span className="text-red-600 font-semibold">包含数字、字母和符号</span>。</p>
-                            <Button variant="secondary"
-                                type="submit"
-                                disabled={!isValid}>
-                                更新密码
-                            </Button>
-                        </div>
-                    </div>
-                </form>
+        <div className="grid gap-y-8">
+            <ContentBlock title={intl.formatMessage({ id: "settings.secrity.password.title" })}>
+                <ChangePasswordForm onSubmit={handleChangePasswordSubmit} />
             </ContentBlock>
-            <ContentBlock title={<TwoFactorContentBlockTitle is2FaEnabled={is2FaEnabled} buttonDisabled={disableTwoFactorProcessing} />}>
-                <div className="py-4">
-                    <Spin spinning={isLoading}>
-                        {is2FaEnabled ?
-                            <TwoFactorAuthenticationEnabledContent {...props} /> :
-                            <TowFactorAuthenticationNotEnabledContent />}
-                    </Spin>
+            <ContentBlock title={<TwoFactorContentBlockTitle is2FaEnabled={is2FaEnabled}
+                buttonDisabled={false} />}>
+                <div className="py-4 relative">
+                    {is2FaEnabled ?
+                        <TwoFactorAuthenticationEnabledContent {...twoFactorState} /> :
+                        <TowFactorAuthenticationNotEnabledContent />}
+                    {twoFactorStateLoading && <Mask />}
                 </div>
             </ContentBlock>
         </div>
     )
 }
 
-export default connect(({ loading, twofactor }: { loading: any, twofactor: TwoFactorModelState }) => ({
-    isLoading: loading.effects['twofactor/fetchTwoFactorState'],
-    disableTwoFactorProcessing: loading.effects['twofactor/disableTwoFactor'],
-    ...twofactor
-}))(SecurityPage);
+export default SecurityPage

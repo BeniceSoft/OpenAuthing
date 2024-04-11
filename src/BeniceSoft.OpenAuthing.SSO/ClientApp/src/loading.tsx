@@ -11,12 +11,10 @@ class Loading extends React.PureComponent {
     }
 
     override componentDidMount(): void {
-        console.log('componentDidMount')
         this.bar.current.continuousStart()
     }
 
     override componentWillUnmount(): void {
-        console.log('componentWillUnmount')
         this.bar.current.complete()
     }
 
