@@ -23,13 +23,16 @@
     <ItemGroup>
         <PackageReference Include="BeniceSoft.Abp.AspNetCore"/>
         <PackageReference Include="BeniceSoft.Abp.Auth"/>
+        <PackageReference Include="Hangfire.InMemory" />
         <PackageReference Include="Microsoft.Extensions.PlatformAbstractions"/>
         <PackageReference Include="OpenIddict.Quartz"/>
         <PackageReference Include="OpenIddict.Server.AspNetCore"/>
         <PackageReference Include="Serilog.AspNetCore"/>
         <PackageReference Include="Volo.Abp.Autofac"/>
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy"/>
+        <PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" />
         <PackageReference Include="Volo.Abp.BlobStoring.FileSystem"/>
+        <PackageReference Include="Volo.Abp.MailKit" />
     </ItemGroup>
 
     <ItemGroup>

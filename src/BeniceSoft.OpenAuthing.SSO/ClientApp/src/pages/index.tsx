@@ -5,6 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Copyright, LogOut, UserSquare } from 'lucide-react';
 import Logo from '@/components/Logo';
 import { HSDropdown } from 'preline/preline'
+import { Avatar } from '@/components/ui/avatar';
 
 
 export interface HomePageProps {
@@ -47,6 +48,10 @@ const HomePage: React.FC<HomePageProps> = (props: HomePageProps) => {
                                         <Button variant="link" id="hs-dropdown-currentuser" type="button"
                                             className="hs-dropdown-toggle inline-flex justify-center items-center gap-x-2 text-sm">
                                             {/* <img className="inline-block size-8 rounded-full" src={currentUser.avatar} alt={currentUser.userName}></img> */}
+                                            <Avatar src="currentUser.avatar"
+                                                size="xs"
+                                                fallback="https://files.authing.co/authing-console/default-user-avatar.png"
+                                                alt="avatar" />
                                             {currentUser.nickname}
                                         </Button>
 

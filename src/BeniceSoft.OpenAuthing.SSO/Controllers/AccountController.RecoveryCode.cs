@@ -9,6 +9,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 
 public partial class AccountController
 {
+    // POST: /api/account/loginwithrecoverycode
     [HttpPost, AllowAnonymous]
     public async Task<IActionResult> LoginWithRecoveryCode([FromBody] LoginWithRecoveryCodeViewModel model)
     {
@@ -36,6 +37,7 @@ public partial class AccountController
         return Ok(new ResponseResult(HttpStatusCode.BadRequest, L["InvalidRecoveryCode"]));
     }
 
+    // GET: /api/account/getrecoverycodes
     [HttpGet]
     public async Task<IActionResult> GetRecoveryCodes()
     {
@@ -48,5 +50,16 @@ public partial class AccountController
         var tokens = await UserManager.GetTwoFactorRecoveryCodesAsync(user) ?? Enumerable.Empty<string>();
 
         return Ok(tokens.ToList().ToSucceed());
+    }
+
+    // POST: /api/account/regeneraterecoverycodes
+    [HttpPost]
+    public async Task<IActionResult> RegenerateRecoveryCodes()
+    {
+        var user = await UserManager.GetUserAsync(User);
+        ThrowUnauthorizedIfUserIsNull(user);
+
+        var recoveryCodes = await UserManager.GenerateNewTwoFactorRecoveryCodesAsync(user!, 10);
+        return Ok(recoveryCodes.ToSucceed());
     }
 }

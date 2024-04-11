@@ -5,15 +5,18 @@ using BeniceSoft.Abp.AspNetCore.Middlewares;
 using BeniceSoft.Abp.Auth;
 using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.BackgroundTasks;
+using Hangfire;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.IdentityModel.Logging;
 using Volo.Abp;
 using Volo.Abp.AspNetCore.Mvc.AntiForgery;
 using Volo.Abp.AspNetCore.Mvc.Localization;
 using Volo.Abp.Autofac;
+using Volo.Abp.BackgroundJobs.Hangfire;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.BlobStoring.FileSystem;
 using Volo.Abp.IO;
+using Volo.Abp.MailKit;
 using Volo.Abp.Modularity;
 
 namespace BeniceSoft.OpenAuthing;
@@ -22,6 +25,8 @@ namespace BeniceSoft.OpenAuthing;
     typeof(BeniceSoftAbpAspNetCoreModule),
     typeof(AbpAutofacModule),
     typeof(AbpBlobStoringFileSystemModule),
+    typeof(AbpBackgroundJobsHangfireModule),
+    typeof(AbpMailKitModule),
     typeof(BeniceSoftAbpAuthModule),
     typeof(EntityFrameworkCoreModule),
     typeof(ApplicationModule),
@@ -77,6 +82,7 @@ public class SsoModule : AbpModule
 
         context.Services.ConfigureIdentity();
         context.Services.ConfigureOpeniddict(configuration);
+        context.Services.ConfigureHangfire(configuration);
 
         context.Services.AddDetection();
         context.Services.AddHostedService<LoadEnabledExternalIdentityProvidersBackgroundTask>();
@@ -124,6 +130,8 @@ public class SsoModule : AbpModule
 
         // 认证授权
         app.UseBeniceSoftAuthorization();
+
+        app.UseHangfireDashboard();
 
         app.UseAuditing();
 

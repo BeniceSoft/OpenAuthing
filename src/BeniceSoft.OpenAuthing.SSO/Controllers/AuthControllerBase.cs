@@ -15,6 +15,8 @@ public abstract class AuthControllerBase : AbpController
     protected UserManager UserManager => LazyServiceProvider.LazyGetRequiredService<UserManager>();
     protected IConfiguration Configuration => LazyServiceProvider.LazyGetRequiredService<IConfiguration>();
 
+    protected string AppUrl => Configuration.GetValue<string>("AppUrl")!;
+
     protected AuthControllerBase()
     {
         LocalizationResource = typeof(AuthingResource);

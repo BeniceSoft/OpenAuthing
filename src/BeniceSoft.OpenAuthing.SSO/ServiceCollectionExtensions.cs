@@ -1,9 +1,10 @@
 using BeniceSoft.Abp.Auth.Core;
-using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.Entities.Roles;
 using BeniceSoft.OpenAuthing.Entities.Users;
+using BeniceSoft.OpenAuthing.Identity;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions.ClaimDestinations;
+using Hangfire;
 using Microsoft.AspNetCore.Identity;
 using OpenIddict.Abstractions;
 using OpenIddict.Server;
@@ -33,6 +34,7 @@ internal static class ServiceCollectionExtensions
             })
             .AddUserStore<UserStore>()
             .AddRoleStore<RoleStore>()
+            .AddDefaultTokenProviders()
             // asp.net core identity 2FA/MFA support
             // https://learn.microsoft.com/zh-cn/aspnet/core/security/authentication/mfa?view=aspnetcore-8.0#mfa-2fa
             .AddTokenProvider<AuthenticatorTokenProvider<User>>(TokenOptions.DefaultAuthenticatorProvider);
@@ -43,6 +45,8 @@ internal static class ServiceCollectionExtensions
             // options.LoginPath = "/#/account/login";
             options.Cookie.HttpOnly = false;
         });
+
+        services.AddTransient<IEmailSender<User>, SmtpEmailSender>();
     }
     
     internal static void ConfigureOpeniddict(this IServiceCollection services, IConfiguration configuration)
@@ -126,5 +130,17 @@ internal static class ServiceCollectionExtensions
                 // 移除通过授权code获取token的时候 验证重定向地址
                 builder.RemoveEventHandler(OpenIddictServerHandlers.Exchange.ValidateRedirectUri.Descriptor);
             });
+    }
+
+    internal static void ConfigureHangfire(this IServiceCollection services, IConfiguration configuration)
+    {
+        // var redisOptions = new RedisStorageOptions();
+        // configuration.GetSection("Hangfire:Redis").Bind(redisOptions);
+        // var connectionString = configuration.GetValue<string>("Hangfire:Redis:ConnectionString");
+        services.AddHangfire((sp, config) =>
+        {
+            config.UseInMemoryStorage();
+            // config.UseRedisStorage(connectionString, redisOptions);
+        });
     }
 }

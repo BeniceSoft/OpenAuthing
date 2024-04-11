@@ -26,6 +26,17 @@ public class UserRepository : EfCoreRepository<AuthingDbContext, User, Guid>, IU
             );
     }
 
+    public async Task<User?> FindByNormalizedEmailAsync(string normalizedEmail, bool includeDetails = true, CancellationToken cancellationToken = default)
+    {
+        return await (await GetDbSetAsync())
+            .IncludeDetails(includeDetails)
+            .OrderBy(x => x.Id)
+            .FirstOrDefaultAsync(
+                u => u.NormalizedEmail == normalizedEmail,
+                GetCancellationToken(cancellationToken)
+            );
+    }
+
     public virtual async Task<User?> FindByLoginAsync(
         string loginProvider,
         string providerKey,

@@ -2,7 +2,7 @@ import AvatarCorpDialog from "@/components/AvatarCorpDialog";
 import LangSelect from "@/components/LangSelect";
 import Logo from "@/components/Logo";
 import ThemeSwitch from "@/components/ThemeSwitch";
-import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
+import { Avatar } from "@/components/ui/avatar";
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from "@/components/ui/dropdown-menu";
 import withAuth from "@/hocs/withAuth";
 import AccountService from "@/services/account.service";
@@ -60,13 +60,11 @@ const Header = ({
                 <ThemeSwitch />
                 <DropdownMenu>
                     <DropdownMenuTrigger asChild={true}>
-                        <Avatar className="size-10 cursor-pointer">
-                            <AvatarImage src={avatar}
-                                alt="avatar" />
-                            <AvatarFallback>
-                                <img src="https://files.authing.co/authing-console/default-user-avatar.png" />
-                            </AvatarFallback>
-                        </Avatar>
+                        <Avatar className="cursor-pointer"
+                            size="sm"
+                            src={avatar}
+                            alt="avatar"
+                            fallback="https://files.authing.co/authing-console/default-user-avatar.png" />
                     </DropdownMenuTrigger>
                     <DropdownMenuContent className="dark:text-gray-300" align="end">
                         <DropdownMenuItem className="flex gap-x-2 text-sm font-medium items-center" onClick={onLogOut}>
@@ -100,11 +98,9 @@ const SettingsLayout = function (props: any) {
     }
 
     const onSelectAvatarFile = (e: React.ChangeEvent<HTMLInputElement>) => {
-        console.log('onSelectAvatarFile')
         if (e.target.files && e.target.files.length > 0) {
             const reader = new FileReader()
             reader.addEventListener('load', () => {
-                console.log('lalalalala')
                 setAvatarSrc(reader.result?.toString() || '')
                 setAvatarCorpDialogOpened(true)
             },)
@@ -149,13 +145,10 @@ const SettingsLayout = function (props: any) {
                     <nav className="min-w-72 lg:w-80 text-sm gap-y-2 lg:gap-y-4 grid">
                         <div className="w-full px-4 py-8 bg-white dark:bg-slate-700 rounded-lg shadow-sm flex flex-col items-center justify-center gap-y-2">
                             <div className="w-28 h-28 border-gray-400 rounded-full relative">
-                                <Avatar className="w-full h-full">
-                                    <AvatarImage src={initialState?.currentUser?.avatar} />
-                                    <AvatarFallback>
-                                        <img className="w-full h-full"
-                                            src="https://files.authing.co/authing-console/default-user-avatar.png" />
-                                    </AvatarFallback>
-                                </Avatar>
+                                <Avatar className="w-full h-full"
+                                    src={initialState?.currentUser?.avatar}
+                                    alt="avatar"
+                                    fallback="https://files.authing.co/authing-console/default-user-avatar.png" />
                                 <button type="button"
                                     onClick={onAvatarButtonClick}
                                     className="w-8 h-8 bg-primary text-primary-foreground rounded-full border-[2px] border-white absolute bottom-1 right-1 inline-flex items-center justify-center">

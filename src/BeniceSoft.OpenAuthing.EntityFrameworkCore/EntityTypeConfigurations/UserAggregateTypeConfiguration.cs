@@ -82,6 +82,17 @@ internal static class UserAggregateTypeConfiguration
         builder.Property(x => x.PhoneNumberConfirmed)
             .IsRequired()
             .HasComment("手机号码是否确认");
+        builder.Property(x => x.Email)
+            .IsRequired(false)
+            .HasMaxLength(50)
+            .HasComment("邮箱");
+        builder.Property(x => x.NormalizedEmail)
+            .IsRequired(false)
+            .HasMaxLength(50)
+            .HasComment("归一化后的邮箱");
+        builder.Property(x => x.EmailConfirmed)
+            .IsRequired()
+            .HasComment("邮箱是否确认");
         builder.Property(x => x.Avatar)
             .IsRequired(false)
             .HasMaxLength(1000)

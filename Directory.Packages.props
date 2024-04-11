@@ -4,9 +4,11 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageVersion Include="Aguacongas.AspNetCore.Authentication" Version="4.1.1" />
+    <PackageVersion Include="BeniceSoft.Abp.Core" Version="8.1.1-preview.1" />
     <PackageVersion Include="BeniceSoft.Abp.EntityFrameworkCore" Version="8.1.0" />
     <PackageVersion Include="CommandLineParser" Version="2.9.1" />
     <PackageVersion Include="FluentValidation.DependencyInjectionExtensions" Version="11.9.0" />
+    <PackageVersion Include="Hangfire.InMemory" Version="0.8.1" />
     <PackageVersion Include="MediatR" Version="12.2.0" />
     <PackageVersion Include="Microsoft.AspNetCore.SpaProxy" Version="8.0.3" />
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.3">
@@ -19,6 +21,7 @@
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.2-dev-00336" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10382" />
     <PackageVersion Include="Serilog.Sinks.Console" Version="5.1.0-dev-00943" />
+    <PackageVersion Include="Volo.Abp.BackgroundJobs.HangFire" Version="8.1.0" />
     <PackageVersion Include="Volo.Abp.BlobStoring" Version="8.1.0" />
     <PackageVersion Include="Volo.Abp.BlobStoring.FileSystem" Version="8.1.0" />
     <PackageVersion Include="Volo.Abp.Core" Version="8.1.0" />
@@ -29,6 +32,7 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="Volo.Abp.Ddd.Domain.Shared" Version="8.1.0" />
+    <PackageVersion Include="Volo.Abp.MailKit" Version="8.1.0" />
     <PackageVersion Include="Volo.Abp.OpenIddict.Domain" Version="8.1.0" />
     <PackageVersion Include="Volo.Abp.OpenIddict.Domain.Shared" Version="8.1.0" />
     <PackageVersion Include="Volo.Abp.OpenIddict.EntityFrameworkCore" Version="8.1.0" />

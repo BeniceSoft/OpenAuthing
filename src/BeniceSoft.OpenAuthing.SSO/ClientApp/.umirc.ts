@@ -36,6 +36,7 @@ export default defineConfig({
                     { path: '/account/login', component: 'account/login' },
                     { path: '/account/loginwith2fa', component: 'account/loginwith2fa' },
                     { path: '/account/loginwithrecoverycode', component: 'account/loginwithrecoverycode' },
+                    { path: '/account/forgot-password', component: 'account/forgotpassword' },
                     { path: '/account/reset-password', component: 'account/resetpassword' },
                 ]
             }, {

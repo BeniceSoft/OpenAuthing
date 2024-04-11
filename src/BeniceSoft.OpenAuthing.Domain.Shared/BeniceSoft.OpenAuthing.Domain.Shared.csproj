@@ -11,6 +11,7 @@
     </PropertyGroup>
 
     <ItemGroup>
+        <PackageReference Include="BeniceSoft.Abp.Core" />
         <PackageReference Include="Volo.Abp.Ddd.Domain.Shared" />
         <PackageReference Include="Volo.Abp.OpenIddict.Domain.Shared" />
         <PackageReference Include="Volo.Abp.SettingManagement.Domain.Shared" />

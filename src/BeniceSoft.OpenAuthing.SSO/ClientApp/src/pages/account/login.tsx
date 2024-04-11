@@ -79,7 +79,7 @@ const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
                             <label htmlFor="password" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
                                 <FormattedMessage id="account.login.input.password.label" />
                             </label>
-                            <Link to={{ pathname: "/account/reset-password", search: "?returnUrl=" + returnUrl }} className="text-xs text-gray-500 hover:underline">
+                            <Link to={{ pathname: "/account/forgot-password", search: "?returnUrl=" + returnUrl }} className="text-xs text-gray-500 hover:underline">
                                 <FormattedMessage id="account.login.link.forgotPassword.text" />
                             </Link>
                         </div>

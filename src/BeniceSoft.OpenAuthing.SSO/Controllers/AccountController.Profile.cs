@@ -7,6 +7,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 
 public partial class AccountController
 {
+    // GET: /api/account/me
     [HttpGet]
     public async Task<IActionResult> Me()
     {
@@ -19,6 +20,7 @@ public partial class AccountController
         return Ok(user.ToViewModel().ToSucceed());
     }
 
+    // GET: /api/account/profile
     [HttpGet]
     public async Task<IActionResult> Profile()
     {
@@ -31,8 +33,9 @@ public partial class AccountController
         return Ok(user.Adapt<ProfileViewModel>().ToSucceed());
     }
 
+    // PUT: /api/account/uploadavatar
     [HttpPut]
-    public async Task<IActionResult> UploadAvatarAsync([FromForm] UploadAvatarViewModel req)
+    public async Task<IActionResult> UploadAvatar([FromForm] UploadAvatarViewModel req)
     {
         var user = await UserManager.GetUserAsync(User);
         if (user is null)
