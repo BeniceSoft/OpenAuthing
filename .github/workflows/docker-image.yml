@@ -17,7 +17,7 @@ jobs:
       matrix:
         include:
           - dockerfile: ./src/BeniceSoft.OpenAuthing.SSO/Dockerfile
-            image: ghcr.io/benicesoft/openauthing-sso:$(date +%s)
+            image: ghcr.io/benicesoft/openauthing-sso
           # - dockerfile: ./src/Dockerfile-dril4net-distribution
           #   image: ghcr.io/username/image2
     permissions:
