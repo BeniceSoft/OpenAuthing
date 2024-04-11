@@ -1,11 +1,6 @@
-using System.Net;
 using System.Text.Encodings.Web;
-using BeniceSoft.OpenAuthing.Models.Accounts;
-using BeniceSoft.Abp.Core.Extensions;
-using BeniceSoft.Abp.Core.Models;
 using BeniceSoft.OpenAuthing.Entities.IdentityProviders;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
 using Volo.Abp.BlobStoring;
 using Volo.Abp.Domain.Repositories;
 
@@ -26,17 +21,4 @@ public partial class AccountController : AuthControllerBase
         _idPRepository = idPRepository;
         _blobContainer = blobContainer;
     }
-
-#if DEBUG
-    [HttpGet, AllowAnonymous, Route("/account/login")]
-    public IActionResult Login(string? returnUrl = null)
-    {
-        if (!string.IsNullOrEmpty(returnUrl))
-        {
-            returnUrl = _urlEncoder.Encode(returnUrl);
-        }
-
-        return Redirect($"http://localhost:8000/account/login?returnUrl={returnUrl}");
-    }
-#endif
 }

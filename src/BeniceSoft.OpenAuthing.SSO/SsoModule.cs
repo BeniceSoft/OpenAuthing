@@ -5,6 +5,7 @@ using BeniceSoft.Abp.AspNetCore.Middlewares;
 using BeniceSoft.Abp.Auth;
 using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.BackgroundTasks;
+using BeniceSoft.OpenAuthing.Middlewares;
 using Hangfire;
 using Microsoft.AspNetCore.Localization;
 using Microsoft.IdentityModel.Logging;
@@ -114,10 +115,8 @@ public class SsoModule : AbpModule
 
         app.UseStaticFiles();
 
-        // 路由
         app.UseRouting();
 
-        // 跨域
         app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
         app.UseBeniceSoftExceptionHandlingMiddleware(new()
@@ -125,15 +124,14 @@ public class SsoModule : AbpModule
             
         });
 
-        // 身份验证
         app.UseBeniceSoftAuthentication();
-
-        // 认证授权
         app.UseBeniceSoftAuthorization();
 
         app.UseHangfireDashboard();
 
-        app.UseAuditing();
+        // app.UseAuditing();
+
+        app.UseDevelopmentSapProxy(env);
 
         // 路由映射
         app.UseConfiguredEndpoints(endpoints =>

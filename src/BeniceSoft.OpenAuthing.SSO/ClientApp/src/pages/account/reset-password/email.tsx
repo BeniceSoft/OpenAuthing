@@ -1,12 +1,11 @@
 import { ResetPasswordReq, ResetPasswordValidationMethod } from "@/@types/user"
-import useReturnUrl from "@/hooks/useReturnUrl"
 import { getSearchParam } from "@/lib/misc"
 import AccountService from "@/services/account.service"
 import { CheckIcon, XIcon } from "lucide-react"
 import { HSStrongPassword } from "preline/preline"
 import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
-import { FormattedMessage, Link, useRequest, useSearchParams } from "umi"
+import { FormattedMessage, Link, history, useRequest, useSearchParams } from "umi"
 
 export default () => {
     const [searchparams] = useSearchParams()
@@ -15,7 +14,6 @@ export default () => {
     const { handleSubmit, register, formState: { isSubmitting, isValid }, setValue } = useForm<ResetPasswordReq>()
     const { run: resetPassword } = useRequest(AccountService.resetPassword, {
         manual: true, onSuccess: (data) => {
-
         }
     })
 

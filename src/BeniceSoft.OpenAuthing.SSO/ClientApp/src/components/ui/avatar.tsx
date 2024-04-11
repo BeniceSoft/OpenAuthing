@@ -34,6 +34,7 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>(
   ({ className, variant, size, ...props }, ref) => {
 
     const handleError: React.ReactEventHandler<HTMLImageElement> = ({ currentTarget }) => {
+      console.log('error')
       const { fallback } = props
       if (fallback) {
         currentTarget.onerror = null; // prevents looping
@@ -41,14 +42,15 @@ const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>(
       }
     }
 
-
+    const src = props.src ?? props.fallback;
 
     return (
       <img
+        {...props}
         className={cn(avatarVariants({ variant, size, className }))}
         onError={handleError}
         ref={ref}
-        {...props}
+        src={src}
       />
     )
   }

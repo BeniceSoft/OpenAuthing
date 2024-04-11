@@ -109,5 +109,11 @@
     "account.resetpassword.input.confirmpassword.label": "Confimation password",
     "account.resetpassword.button.resetpassword.text": "Reset password",
     "account.resetpassword.didnotforgot": "You didn’t forget your password?",
-    "account.resetpassword.link.gotosignin": "Sign in"
+    "account.resetpassword.link.gotosignin": "Sign in",
+    "account.emailverification.title.text": "Verify your email",
+    "account.emailverification.desc1.text": "We've sent a link to your email address: <span class=\"text-black font-medium\">{email}</span>",
+    "account.emailverification.desc2.text": "Please follow the link inside to continue.",
+    "account.emailverification.btn.continue": "Continue",
+    "account.emailverification.didtrecieved": "Didn't receive an email?",
+    "account.emailverification.btn.resend": "Resend"
 }

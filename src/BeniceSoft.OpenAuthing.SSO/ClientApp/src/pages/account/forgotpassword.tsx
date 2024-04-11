@@ -3,7 +3,7 @@ import useReturnUrl from "@/hooks/useReturnUrl"
 import AccountService from "@/services/account.service"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { FormattedMessage, Link, useRequest } from "umi"
+import { FormattedMessage, Link, history, useRequest } from "umi"
 
 export default () => {
     const [validationMethod, setValidationMethod] = useState<ResetPasswordValidationMethod>('email')
@@ -11,8 +11,11 @@ export default () => {
 
     const { handleSubmit, register, formState: { isSubmitting, isValid } } = useForm<ForgotPasswordReq>()
     const { run: forgotPassword } = useRequest(AccountService.forgotPassword, {
-        manual: true, onSuccess: (data) => {
-            console.log(data)
+        manual: true, onSuccess: (data, params) => {
+            history.push({
+                pathname: "/account/email-verification",
+                search: "?email=" + params[0].email
+            })
         }
     })
 
@@ -48,7 +51,7 @@ export default () => {
                     </div>
                     <div>
                         <button type="submit"
-                            className="p-3 inline-flex justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                            className="px-3 py-2.5 inline-flex justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                             aria-disabled={isSubmitting || !isValid}
                             disabled={isSubmitting || !isValid}>
                             <FormattedMessage id="account.forgotpassword.button.verify.text" />
