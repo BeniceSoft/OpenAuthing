@@ -119,10 +119,7 @@ public class SsoModule : AbpModule
 
         app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
-        app.UseBeniceSoftExceptionHandlingMiddleware(new()
-        {
-            
-        });
+        app.UseBeniceSoftExceptionHandlingMiddleware();
 
         app.UseBeniceSoftAuthentication();
         app.UseBeniceSoftAuthorization();

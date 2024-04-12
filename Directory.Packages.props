@@ -55,7 +55,7 @@
     <PackageVersion Include="BeniceSoft.Abp.Http.Client" Version="8.1.0" />
     <PackageVersion Include="AlibabaCloud.SDK.Dingtalk" Version="2.0.95" />
     <PackageVersion Include="dingtalk-sdk-netCore" Version="1.0.4" />
-    <PackageVersion Include="BeniceSoft.Abp.AspNetCore" Version="8.1.1-dev.2024041101" />
+    <PackageVersion Include="BeniceSoft.Abp.AspNetCore" Version="8.1.1-dev.2024041201" />
     <PackageVersion Include="BeniceSoft.Abp.Auth" Version="8.1.1-preview.1" />
     <PackageVersion Include="Microsoft.Extensions.PlatformAbstractions" Version="1.1.0" />
     <PackageVersion Include="OpenIddict.Quartz" Version="5.4.0" />

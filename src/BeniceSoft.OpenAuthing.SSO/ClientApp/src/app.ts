@@ -1,8 +1,9 @@
-import { RuntimeConfig, AxiosResponse, getIntl, AxiosRequestConfig, getLocale, history } from 'umi';
+import { RuntimeConfig, AxiosResponse, getIntl, AxiosRequestConfig, getLocale, history, UseRequestProvider } from 'umi';
 import AuthService from '@/services/auth.service'
 import { toast } from 'react-hot-toast';
 import { ResponseResult } from '@/@types';
 import 'preline/preline';
+import React from 'react';
 
 export const request: RuntimeConfig['request'] = {
     timeout: 10000,
@@ -13,18 +14,19 @@ export const request: RuntimeConfig['request'] = {
     // other axios options you want
     errorConfig: {
         // 错误抛出
-        errorThrower: (res: ResponseResult) => {
+        errorThrower: (res: any) => {
+            console.error('errorThrower', res)
             const { success, data, errorCode, errorMessage } = res;
-            console.log('success: ', success)
             if (!success) {
                 const error: any = new Error(errorMessage);
                 error.name = 'BizError';
-                error.info = { errorCode, errorMessage, data };
+                error.info = { code: errorCode, errorMessage, data };
                 throw error; // 抛出自制的错误
             }
         },
         // 错误接收及处理
         errorHandler: async (error: any, opts) => {
+            console.error('errorHandler', error)
             const intl = getIntl()
             // 取消请求时跳过全局错误处理
             if (error.name === 'CanceledError') return
@@ -33,7 +35,7 @@ export const request: RuntimeConfig['request'] = {
             if (error.name === 'BizError') {
                 const errorInfo: ResponseResult | undefined = error.info;
                 if (errorInfo) {
-                    const { errorCode, errorMessage } = errorInfo;
+                    const { code, errorMessage } = errorInfo;
                     errorMessage && toast.error(errorMessage);
 
                     // todo 使用errorcode 搭配多语言返回错误信息
@@ -79,6 +81,12 @@ export const request: RuntimeConfig['request'] = {
     ],
     responseInterceptors: [
         (response: AxiosResponse) => {
+            if (response.status === 401) {
+                const unauthorizedError = new Error('Unauthorized');
+                unauthorizedError.name = 'UnauthorizedError';
+                throw unauthorizedError;
+            }
+
             const { code: errorCode, message: errorMessage, data } = response.data;
             response.data = {
                 errorCode,
@@ -100,4 +108,8 @@ export const getInitialState: RuntimeConfig['getInitialState'] = async () => {
         isAuthenticated,
         currentUser: user
     })
+}
+
+export const rootContainer: RuntimeConfig['rootContainer'] = (container, args) => {
+    return React.createElement(UseRequestProvider, { value: { throwOnError: true } }, container);
 }

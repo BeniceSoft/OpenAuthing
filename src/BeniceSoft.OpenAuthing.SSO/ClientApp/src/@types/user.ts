@@ -35,3 +35,9 @@ export interface ResetPasswordReq {
     code?: string
     validationMethod: ResetPasswordValidationMethod
 }
+
+export interface ChangePasswordReq {
+    currentPassword: string
+    newPassword: string
+    confirmPassword: string
+}

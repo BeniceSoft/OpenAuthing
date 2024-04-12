@@ -1,4 +1,4 @@
-import { ForgotPasswordReq, ResetPasswordReq } from "@/@types/user"
+import { ChangePasswordReq, ForgotPasswordReq, ResetPasswordReq } from "@/@types/user"
 import { request } from "@/lib/request"
 
 const AccountService = {
@@ -19,12 +19,17 @@ const AccountService = {
     },
 
     forgotPassword: async (input: ForgotPasswordReq) => {
-        return await request('/api/account/forgotpassword', { method: 'post', data: input })
+        const { code, data, ...response } = await request('/api/account/forgotpassword', { method: 'post', data: input })
+        console.log(response)
+
+        return response
     },
 
     resetPassword: async (input: ResetPasswordReq) => {
         return await request('/api/account/resetpassword', { method: 'post', data: input })
     },
+
+    changePassword: (input: ChangePasswordReq) => request('/api/account/changepassword', { method: 'post', data: input })
 }
 
 export default AccountService

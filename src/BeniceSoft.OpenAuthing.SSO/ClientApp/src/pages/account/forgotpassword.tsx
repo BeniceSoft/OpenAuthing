@@ -1,15 +1,17 @@
 import { ForgotPasswordReq, ResetPasswordValidationMethod } from "@/@types/user"
+import { Input, InputLabel } from "@/components/ui/input"
 import useReturnUrl from "@/hooks/useReturnUrl"
 import AccountService from "@/services/account.service"
 import { useState } from "react"
 import { useForm } from "react-hook-form"
-import { FormattedMessage, Link, history, useRequest } from "umi"
+import { FormattedMessage, Link, history, useIntl, useRequest } from "umi"
 
 export default () => {
+    const intl = useIntl()
     const [validationMethod, setValidationMethod] = useState<ResetPasswordValidationMethod>('email')
     const returnUrl = useReturnUrl()
 
-    const { handleSubmit, register, formState: { isSubmitting, isValid } } = useForm<ForgotPasswordReq>()
+    const { handleSubmit, register, formState: { errors, isSubmitting, isValid } } = useForm<ForgotPasswordReq>()
     const { run: forgotPassword } = useRequest(AccountService.forgotPassword, {
         manual: true, onSuccess: (data, params) => {
             history.push({
@@ -33,14 +35,12 @@ export default () => {
             </p>
             <form className="my-5" onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-5">
-                    <div>
-                        <label htmlFor="emailaddress" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
-                            <FormattedMessage id="account.forgotpassword.input.emailaddress.label" />
-                        </label>
-                        <input type="email"
+                    <InputLabel text={intl.formatMessage({ id: 'account.forgotpassword.input.emailaddress.label' })}>
+                        <Input type="email"
                             id="emailaddress"
-                            className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
                             placeholder="you@sample.com"
+                            autoComplete="new-password"
+                            aria-invalid={!!errors?.email}
                             {...register('email', {
                                 required: 'Email address is required',
                                 pattern: {
@@ -48,7 +48,7 @@ export default () => {
                                     message: 'Invalid email address',
                                 }
                             })} />
-                    </div>
+                    </InputLabel>
                     <div>
                         <button type="submit"
                             className="px-3 py-2.5 inline-flex justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"

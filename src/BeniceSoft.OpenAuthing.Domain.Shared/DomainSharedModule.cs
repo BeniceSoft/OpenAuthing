@@ -1,6 +1,7 @@
 using BeniceSoft.OpenAuthing.Localization;
 using Volo.Abp.Domain;
 using Volo.Abp.Localization;
+using Volo.Abp.Localization.ExceptionHandling;
 using Volo.Abp.Modularity;
 using Volo.Abp.OpenIddict;
 using Volo.Abp.SettingManagement;
@@ -25,12 +26,14 @@ public class DomainSharedModule : AbpModule
         {
             options.Resources
                 .Add<AuthingResource>("en-US")
-                // .AddBaseTypes(typeof(AbpValidationResource))
                 .AddVirtualJson("/Localization/Authing");
+
+            options.Resources
+                .Add<AuthingErrorResource>("en-US")
+                .AddVirtualJson("/Localization/AuthingError");
 
             options.DefaultResourceType = typeof(AuthingResource);
         });
-
         // Configure<AbpExceptionLocalizationOptions>(options => { options.MapCodeNamespace("MyProjectName", typeof(MyProjectNameResource)); });
     }
 }

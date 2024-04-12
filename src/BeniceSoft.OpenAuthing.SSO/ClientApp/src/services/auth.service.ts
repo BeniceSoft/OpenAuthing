@@ -14,23 +14,21 @@ class AuthService {
     }
 
     public getExternalIdPs = async (): Promise<ResponseResultWithT<any>> => {
-        const { data } = await request(API_ROOT + '/getexternalloginproviders')
-        return data ?? []
+        return await request<any>(API_ROOT + '/getexternalloginproviders')
     }
 
     public logout = async (returnUrl?: string): Promise<void> => {
-        if (await this.isAuthenticated()) {
-            await request('/connect/logout')
-        }
-
         localStorage.removeItem(UserStoreName)
+
+        window.location.href = '/connect/logout?returnUrl=' + returnUrl ?? ''
     }
 
     public login = async (model: LoginWithPasswordModel): Promise<ResponseResultWithT<any>> => {
-        const response = await request(API_ROOT + '/login', {
+        const response = await request<any>(API_ROOT + '/login', {
             method: 'POST',
             data: model
         })
+        console.log('login', response)
         const { data } = response
 
         if (data && data.loginSuccess) {
@@ -42,7 +40,7 @@ class AuthService {
     }
 
     loginWith2Fa = async (model: LoginWith2FaModel) => {
-        const response = await request(API_ROOT + '/loginwith2fa', {
+        const response = await request<any>(API_ROOT + '/loginwith2fa', {
             method: 'POST',
             data: model
         })
@@ -58,7 +56,7 @@ class AuthService {
     }
 
     loginWithRecoveryCode = async (model: LoginWithRecoveryCode) => {
-        const response = await request(API_ROOT + '/loginWithRecoveryCode', {
+        const response = await request<any>(API_ROOT + '/loginWithRecoveryCode', {
             method: 'POST',
             data: model
         })
@@ -72,7 +70,7 @@ class AuthService {
         return response
     }
 
-    getUser = async (fromCache: boolean = true): Promise<CurrentUserInfo | null> => {
+    getUser = async (fromCache: boolean = true): Promise<CurrentUserInfo | undefined> => {
         try {
             if (fromCache) {
                 const json = localStorage.getItem(UserStoreName)
@@ -81,7 +79,7 @@ class AuthService {
 
             } else {
 
-                const { data } = await request(API_ROOT + '/me')
+                const { data } = await request<CurrentUserInfo>(API_ROOT + '/me')
                 this.storeUser(data)
 
                 return data
@@ -90,15 +88,15 @@ class AuthService {
             console.error(e)
         }
 
-        return null
+        return undefined
     }
 
     storeUser = (user: any) => {
         localStorage.setItem(UserStoreName, JSON.stringify(user))
     }
 
-    generateAuthenticatorUri = async (): Promise<string> => {
-        const response = await request(API_ROOT + '/generateAuthenticatorUri')
+    generateAuthenticatorUri = async (): Promise<ResponseResultWithT<any>> => {
+        const response = await request<any>(API_ROOT + '/generateAuthenticatorUri')
         const { data } = response
         if (data && data.authenticatorUri) {
             return response
@@ -108,7 +106,7 @@ class AuthService {
     }
 
     enableAuthenticator = async (code: string) => {
-        return await request(API_ROOT + '/enableAuthenticator', {
+        return await request<any>(API_ROOT + '/enableAuthenticator', {
             method: 'POST',
             data: {
                 code
@@ -117,15 +115,15 @@ class AuthService {
     }
 
     getTwoFactorState = async () => {
-        return await request(API_ROOT + '/towFactorAuthentication')
+        return await request<any>(API_ROOT + '/towFactorAuthentication')
     }
 
     disableTwoFactor = async () => {
-        return await request(API_ROOT + '/disable2Fa', { method: 'POST' })
+        return await request<any>(API_ROOT + '/disable2Fa', { method: 'POST' })
     }
 
     getRecoveryCodes = async (): Promise<ResponseResultWithT<string[] | null>> => {
-        return await request(API_ROOT + '/getRecoveryCodes', { method: 'GET' })
+        return await request<any>(API_ROOT + '/getRecoveryCodes', { method: 'GET' })
     }
 }
 

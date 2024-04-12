@@ -72,10 +72,9 @@ public partial class AccountController
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordInputModel input)
     {
         var user = await UserManager.FindByEmailAsync(input.Email);
+        if (user is null) ThrowLocalizedAuthingBizException(ErrorCodes.UserNotFound);
 
-        if (user is null) throw new BizException(ErrorCodes.UserNotFound);
-
-        var code = await UserManager.GeneratePasswordResetTokenAsync(user);
+        var code = await UserManager.GeneratePasswordResetTokenAsync(user!);
         code = WebEncoders.Base64UrlEncode(Encoding.UTF8.GetBytes(code));
         var link = AppUrl.EnsureEndsWith('/') + $"account/reset-password?uid={user.Id}&code={code}";
         var emailAddress = await UserManager.GetEmailAsync(user);
@@ -89,15 +88,31 @@ public partial class AccountController
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordInputModel input)
     {
         var user = await UserManager.FindByIdAsync(input.Uid);
-        if (user is null) throw new BizException(ErrorCodes.UserNotFound);
+        if (user is null) ThrowLocalizedAuthingBizException(ErrorCodes.UserNotFound);
 
         var token = Encoding.UTF8.GetString(WebEncoders.Base64UrlDecode(input.Code));
-        var result = await UserManager.ResetPasswordAsync(user, token, input.Password);
+        var result = await UserManager.ResetPasswordAsync(user!, token, input.Password);
         if (result.Succeeded)
         {
             return Ok();
         }
 
         return BadRequest();
+    }
+
+    // POST: /api/account/changepassword
+    [HttpPost]
+    public async Task<IActionResult> ChangePassword([FromBody] ChangePasswordInputModel input)
+    {
+        var user = await UserManager.GetUserAsync(User);
+        ThrowUnauthorizedIfUserIsNull(user);
+
+        var result = await UserManager.ChangePasswordAsync(user!, input.CurrentPassword, input.NewPassword);
+        if (!result.Succeeded)
+        {
+            ThrowLocalizedAuthingBizException(ErrorCodes.ChangePasswordFailed);
+        }
+
+        return Ok();
     }
 }

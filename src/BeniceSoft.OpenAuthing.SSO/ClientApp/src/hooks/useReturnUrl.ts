@@ -4,7 +4,7 @@ import { useSearchParams } from "umi"
 
 const useReturnUrl = () => {
     const [searchParams] = useSearchParams()
-    const returnUrl = useMemo(() => getSearchParam(searchParams, 'returnUrl'), [searchParams]) ?? ""
+    const returnUrl = useMemo(() => getSearchParam(searchParams, 'returnUrl'), [searchParams]) ?? "/"
 
     return encodeURIComponent(returnUrl)
 }
