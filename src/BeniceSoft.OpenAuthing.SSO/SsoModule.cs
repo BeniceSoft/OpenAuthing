@@ -75,10 +75,8 @@ public class SsoModule : AbpModule
 
         Configure<AbpAntiForgeryOptions>(options => { options.AutoValidate = false; });
 
-        context.Services
-            .AddJsonFormatResponse()
-            .AddDesensitizeResponse();
-        
+        context.Services.AddJsonFormatResponse().AddDesensitizeResponse();
+
         context.Services.AddBeniceSoftAuthentication();
 
         context.Services.ConfigureIdentity();
@@ -88,15 +86,15 @@ public class SsoModule : AbpModule
         context.Services.AddDetection();
         context.Services.AddHostedService<LoadEnabledExternalIdentityProvidersBackgroundTask>();
     }
-    
+
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
     {
         var app = context.GetApplicationBuilder();
         var env = context.GetEnvironment();
-        
+
         app.UseBeniceSoftRequestLocalization(options =>
         {
-            options.DefaultRequestCulture = new("en-US","en-US");
+            options.DefaultRequestCulture = new("en-US", "en-US");
             options.AddSupportedCultures("en-US", "zh-CN");
             options.AddSupportedUICultures("en-US", "zh-CN");
             options.ApplyCurrentCultureToResponseHeaders = true;

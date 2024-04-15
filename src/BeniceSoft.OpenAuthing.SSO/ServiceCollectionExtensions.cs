@@ -13,6 +13,12 @@ namespace BeniceSoft.OpenAuthing;
 
 internal static class ServiceCollectionExtensions
 {
+    // ReSharper disable UnusedMember.Local
+    private const string SigningCertificateFileConfigKey = "OPENAUTHING_SIGNING_CERTIFICATE_FILE";
+    private const string SigningCertificatePasswordConfigKey = "OPENAUTHING_SIGNING_CERTIFICATE_PASSWORD";
+    private const string EncryptionCertificateFileConfigKey = "OPENAUTHING_ENCRYPTION_CERTIFICATE_FILE";
+    private const string EncryptionCertificatePasswordConfigKey = "OPENAUTHING_ENCRYPTION_CERTIFICATE_PASSWORD";
+
     internal static void ConfigureIdentity(this IServiceCollection services)
     {
         services.Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
@@ -48,18 +54,15 @@ internal static class ServiceCollectionExtensions
 
         services.AddTransient<IEmailSender<User>, SmtpEmailSender>();
     }
-    
+
     internal static void ConfigureOpeniddict(this IServiceCollection services, IConfiguration configuration)
     {
-        services.Configure<OpenIddictClaimDestinationsOptions>(options =>
-        {
-            options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>();
-        });
-        
-        var appUrl = configuration.GetValue<string>("AppUrl")?.EnsureEndsWith('/') ?? string.Empty;
+        services.Configure<OpenIddictClaimDestinationsOptions>(options => { options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>(); });
+
         services.AddOpenIddict()
             .AddServer(builder =>
             {
+                var appUrl = configuration.GetValue<string>("AppUrl")?.EnsureEndsWith('/') ?? string.Empty;
                 if (!string.IsNullOrWhiteSpace(appUrl))
                 {
                     builder.SetIssuer(appUrl);
@@ -115,9 +118,15 @@ internal static class ServiceCollectionExtensions
                 builder.AddDevelopmentEncryptionCertificate()
                     .AddDevelopmentSigningCertificate();
 #else
+                var signingCertificatePath = configuration.EnsureGetValue<string>(SigningCertificateFileConfigKey);
+                var signingCertificatePassword = configuration.GetValue<string>(SigningCertificatePasswordConfigKey);
+
+                var encryptionCertificatePath = configuration.EnsureGetValue<string>(EncryptionCertificateFileConfigKey);
+                var encryptionCertificatePassword = configuration.GetValue<string>(EncryptionCertificatePasswordConfigKey);
+
                 // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
-                builder.AddSigningCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2("certs/signing-certificate.pfx"))
-                    .AddEncryptionCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2("certs/encryption-certificate.pfx"));
+                builder.AddSigningCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2(signingCertificatePath, signingCertificatePassword))
+                    .AddEncryptionCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2(encryptionCertificatePath, encryptionCertificatePassword));
 #endif
 
                 builder.DisableAccessTokenEncryption();

@@ -54,9 +54,6 @@
         <Content Remove="$(SpaRoot)**"/>
         <None Remove="$(SpaRoot)**"/>
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**"/>
-        <None Update="certs\NewFile1.txt">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -89,15 +86,6 @@
             </ResolvedFileToPublish>
         </ItemGroup>
     </Target>
-
-    <ItemGroup>
-        <None Update="signing-certificate.pfx">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="encryption-certificate.pfx">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
 
     <ItemGroup>
         <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml"/>
