@@ -13,14 +13,15 @@
 1. 创建证书
    > 可是使用 OpenAuthing Tools 创建加密和签名证书
 
-```bash
-$ dotnet run --project src/BeniceSoft.OpenAuthing.Tools/ certificate && mkdir certs && mv *.pfx ./certs
-```
+   ```bash
+   $ dotnet run --project src/BeniceSoft.OpenAuthing.Tools/ certificate && mkdir certs && mv *.pfx ./certs
+   ```
 
-证书文件存放在当前目录的 `certs` 文件夹内
+   证书文件存放在当前目录的 `certs` 文件夹内
 
 2. 启动时配置加密和签名证书文件位置
    > 使用环境变量或者配置文件等方式配置
+
     * `OPENAUTHING_SIGNING_CERTIFICATE_FILE`: 签名证书文件位置
     * `OPENAUTHING_SIGNING_CERTIFICATE_PASSWORD`: 签名证书密码
     * `OPENAUTHING_ENCRYPTION_CERTIFICATE_FILE`: 加密证书文件位置

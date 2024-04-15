@@ -21,7 +21,9 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](./screenshots/home.png)
+![Home](./screenshots/home.png)
+
+![Login Page](./screenshots/login.png)
 
 ## Demo
 
