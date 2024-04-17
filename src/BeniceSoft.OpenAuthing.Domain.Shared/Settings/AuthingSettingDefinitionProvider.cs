@@ -1,6 +1,6 @@
 using Volo.Abp.Settings;
 
-namespace BeniceSoft.OpenAuthing;
+namespace BeniceSoft.OpenAuthing.Settings;
 
 public class AuthingSettingDefinitionProvider : SettingDefinitionProvider
 {

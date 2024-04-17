@@ -43,11 +43,11 @@ public class UserInfoController : AuthOpenIddictControllerBase
             claims[OpenIddictConstants.Claims.Picture] = user.Avatar ?? string.Empty;
         }
 
-        // if (User.HasScope(OpenIddictConstants.Scopes.Email))
-        // {
-        //     claims[OpenIddictConstants.Claims.Email] = await UserManager.GetEmailAsync(user) ?? string.Empty;
-        //     claims[OpenIddictConstants.Claims.EmailVerified] = await UserManager.IsEmailConfirmedAsync(user);
-        // }
+        if (User.HasScope(OpenIddictConstants.Scopes.Email))
+        {
+            claims[OpenIddictConstants.Claims.Email] = await UserManager.GetEmailAsync(user) ?? string.Empty;
+            claims[OpenIddictConstants.Claims.EmailVerified] = await UserManager.IsEmailConfirmedAsync(user);
+        }
 
         if (User.HasScope(OpenIddictConstants.Scopes.Phone))
         {

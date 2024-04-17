@@ -59,8 +59,9 @@ internal static class ServiceCollectionExtensions
     {
         services.Configure<OpenIddictClaimDestinationsOptions>(options => { options.ClaimDestinationsProvider.Add<DefaultOpenIddictClaimDestinationsProvider>(); });
 
-        services.AddOpenIddict()
-            .AddServer(builder =>
+        services.AddOpenIddict(x =>
+        {
+            x.AddServer(builder =>
             {
                 var appUrl = configuration.GetValue<string>("AppUrl")?.EnsureEndsWith('/') ?? string.Empty;
                 if (!string.IsNullOrWhiteSpace(appUrl))
@@ -139,6 +140,7 @@ internal static class ServiceCollectionExtensions
                 // 移除通过授权code获取token的时候 验证重定向地址
                 builder.RemoveEventHandler(OpenIddictServerHandlers.Exchange.ValidateRedirectUri.Descriptor);
             });
+        });
     }
 
     internal static void ConfigureHangfire(this IServiceCollection services, IConfiguration configuration)

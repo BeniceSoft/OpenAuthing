@@ -2,8 +2,6 @@ using BeniceSoft.OpenAuthing.Localization;
 using BeniceSoft.Abp.AspNetCore;
 using BeniceSoft.Abp.AspNetCore.Localizations;
 using BeniceSoft.Abp.AspNetCore.Middlewares;
-using BeniceSoft.Abp.Auth;
-using BeniceSoft.Abp.Auth.Extensions;
 using BeniceSoft.OpenAuthing.BackgroundTasks;
 using BeniceSoft.OpenAuthing.Middlewares;
 using Hangfire;
@@ -28,7 +26,6 @@ namespace BeniceSoft.OpenAuthing;
     typeof(AbpBlobStoringFileSystemModule),
     typeof(AbpBackgroundJobsHangfireModule),
     typeof(AbpMailKitModule),
-    typeof(BeniceSoftAbpAuthModule),
     typeof(EntityFrameworkCoreModule),
     typeof(ApplicationModule),
     typeof(RemoteServiceModule),
@@ -77,8 +74,6 @@ public class SsoModule : AbpModule
 
         context.Services.AddJsonFormatResponse().AddDesensitizeResponse();
 
-        context.Services.AddBeniceSoftAuthentication();
-
         context.Services.ConfigureIdentity();
         context.Services.ConfigureOpeniddict(configuration);
         context.Services.ConfigureHangfire(configuration);
@@ -119,8 +114,8 @@ public class SsoModule : AbpModule
 
         app.UseBeniceSoftExceptionHandlingMiddleware();
 
-        app.UseBeniceSoftAuthentication();
-        app.UseBeniceSoftAuthorization();
+        app.UseAuthentication();
+        app.UseAuthorization();
 
         app.UseHangfireDashboard();
 
