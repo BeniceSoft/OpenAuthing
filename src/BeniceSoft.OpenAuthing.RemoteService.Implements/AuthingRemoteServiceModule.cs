@@ -5,7 +5,7 @@ namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
 )]
-public class RemoteServiceModule : AbpModule
+public class AuthingRemoteServiceModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

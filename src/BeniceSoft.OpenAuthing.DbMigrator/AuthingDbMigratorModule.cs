@@ -14,10 +14,10 @@ namespace BeniceSoft.OpenAuthing.DbMigrator;
 
 [DependsOn(
     typeof(AbpAutofacModule),
-    typeof(EntityFrameworkCoreModule),
-    typeof(ApplicationContractsModule)
+    typeof(AuthingEntityFrameworkCoreModule),
+    typeof(AuthingApplicationContractsModule)
 )]
-public class DbMigratorModule : AbpModule
+public class AuthingDbMigratorModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {

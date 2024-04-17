@@ -31,7 +31,7 @@ try
         .AddAppSettingsSecretsJson()
         .UseAutofac()
         .UseSerilog();
-    await builder.AddApplicationAsync<AdminApiModule>();
+    await builder.AddApplicationAsync<AuthingAdminApiModule>();
     var app = builder.Build();
     await app.InitializeApplicationAsync();
     await app.RunAsync();

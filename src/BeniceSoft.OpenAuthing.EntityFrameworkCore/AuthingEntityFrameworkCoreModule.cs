@@ -18,11 +18,11 @@ namespace BeniceSoft.OpenAuthing;
 [DependsOn(
     typeof(AbpEntityFrameworkCoreMySQLModule),
     typeof(BeniceSoftAbpEntityFrameworkCoreModule),
-    typeof(DomainModule),
+    typeof(AuthingDomainModule),
     typeof(AbpSettingManagementEntityFrameworkCoreModule),
     typeof(AbpOpenIddictEntityFrameworkCoreModule)
 )]
-public class EntityFrameworkCoreModule : AbpModule
+public class AuthingEntityFrameworkCoreModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

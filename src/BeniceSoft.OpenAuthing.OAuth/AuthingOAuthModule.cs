@@ -4,7 +4,7 @@ using Volo.Abp.Modularity;
 
 namespace BeniceSoft.OpenAuthing;
 
-public class OAuthModule : AbpModule
+public class AuthingOAuthModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {

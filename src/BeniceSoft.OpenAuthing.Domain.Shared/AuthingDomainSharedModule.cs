@@ -1,8 +1,6 @@
 using BeniceSoft.OpenAuthing.Localization;
-using BeniceSoft.OpenAuthing.Permissions;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Volo.Abp.Authorization.Permissions;
 using Volo.Abp.Domain;
 using Volo.Abp.Localization;
 using Volo.Abp.Modularity;
@@ -17,7 +15,7 @@ namespace BeniceSoft.OpenAuthing;
     typeof(AbpSettingManagementDomainSharedModule),
     typeof(AbpOpenIddictDomainSharedModule)
 )]
-public class DomainSharedModule : AbpModule
+public class AuthingDomainSharedModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
@@ -25,7 +23,7 @@ public class DomainSharedModule : AbpModule
 
         Configure<AuthingOptions>(options => configuration.GetSection("OpenAuthing").Bind(options));
 
-        Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<DomainSharedModule>("BeniceSoft.OpenAuthing"); });
+        Configure<AbpVirtualFileSystemOptions>(options => { options.FileSets.AddEmbedded<AuthingDomainSharedModule>("BeniceSoft.OpenAuthing"); });
 
         Configure<AbpLocalizationOptions>(options =>
         {
@@ -44,8 +42,6 @@ public class DomainSharedModule : AbpModule
             options.DefaultResourceType = typeof(AuthingResource);
         });
         // Configure<AbpExceptionLocalizationOptions>(options => { options.MapCodeNamespace("MyProjectName", typeof(MyProjectNameResource)); });
-
-        Configure<AbpPermissionOptions>(options => { options.ValueProviders.Insert(0, typeof(SystemAdminPermissionValueProvider)); });
     }
 
     public override void PostConfigureServices(ServiceConfigurationContext context)

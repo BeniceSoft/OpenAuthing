@@ -21,7 +21,7 @@ public class DbMigratorHostedService : IHostedService
 
     public async Task StartAsync(CancellationToken cancellationToken)
     {
-        using var application = await AbpApplicationFactory.CreateAsync<DbMigratorModule>(options =>
+        using var application = await AbpApplicationFactory.CreateAsync<AuthingDbMigratorModule>(options =>
         {
             options.Services.ReplaceConfiguration(_configuration);
             options.UseAutofac();

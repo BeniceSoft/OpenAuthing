@@ -16,11 +16,11 @@ namespace BeniceSoft.OpenAuthing;
     typeof(BeniceSoftAbpAspNetCoreModule),
     typeof(AbpAutofacModule),
     typeof(AbpBlobStoringFileSystemModule),
-    typeof(EntityFrameworkCoreModule),
-    typeof(ApplicationModule),
-    typeof(RemoteServiceModule)
+    typeof(AuthingEntityFrameworkCoreModule),
+    typeof(AuthingApplicationModule),
+    typeof(AuthingRemoteServiceModule)
 )]
-public class AdminApiModule : AbpModule
+public class AuthingAdminApiModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
@@ -51,6 +51,7 @@ public class AdminApiModule : AbpModule
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
 
         context.Services
+            .AddJsonFormatResponse().AddDesensitizeResponse()
             .ConfigureSwaggerServices()
             .ConfigureAuthentication(configuration)
             .AddDetection();
@@ -69,10 +70,8 @@ public class AdminApiModule : AbpModule
 
         app.UseStaticFiles();
 
-        // 路由
         app.UseRouting();
 
-        // 跨域
         app.UseCors(p => p.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
 
         app.UseBeniceSoftExceptionHandlingMiddleware();
@@ -81,10 +80,10 @@ public class AdminApiModule : AbpModule
         app.UseAuthorization();
 
         app.UseAuditing();
+        
         app.UseSwagger();
         app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1.0/swagger.json", "OpenAuthing API"); });
 
-        // 路由映射
         app.UseConfiguredEndpoints(builder => { builder.MapDefaultControllerRoute(); });
     }
 }

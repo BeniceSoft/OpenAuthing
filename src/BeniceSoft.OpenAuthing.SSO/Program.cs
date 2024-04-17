@@ -36,7 +36,7 @@ public class Program
                 .AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
-            await builder.AddApplicationAsync<SsoModule>();
+            await builder.AddApplicationAsync<AuthingSsoModule>();
             var app = builder.Build();
             await app.InitializeApplicationAsync();
             await app.RunAsync();

@@ -459,6 +459,92 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Permissions.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ParentName")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<Guid>("PermissionSpaceId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Providers")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("StateCheckers")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentName");
+
+                    b.HasIndex("PermissionSpaceId", "Name")
+                        .IsUnique();
+
+                    b.ToTable("OAuthing_PermissionGroups", (string)null);
+                });
+
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Permissions.PermissionGrant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<Guid>("PermissionSpaceId")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ProviderKey")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("ProviderName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("PermissionSpaceId", "Name", "ProviderName", "ProviderKey")
+                        .IsUnique();
+
+                    b.ToTable("OAuthing_PermissionGrants", (string)null);
+                });
+
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")

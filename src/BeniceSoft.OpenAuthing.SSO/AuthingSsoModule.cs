@@ -26,23 +26,23 @@ namespace BeniceSoft.OpenAuthing;
     typeof(AbpBlobStoringFileSystemModule),
     typeof(AbpBackgroundJobsHangfireModule),
     typeof(AbpMailKitModule),
-    typeof(EntityFrameworkCoreModule),
-    typeof(ApplicationModule),
-    typeof(RemoteServiceModule),
-    typeof(OAuthModule)
+    typeof(AuthingEntityFrameworkCoreModule),
+    typeof(AuthingApplicationModule),
+    typeof(AuthingRemoteServiceModule),
+    typeof(AuthingOAuthModule)
 )]
-public class SsoModule : AbpModule
+public class AuthingSsoModule : AbpModule
 {
     public override void PreConfigureServices(ServiceConfigurationContext context)
     {
         PreConfigure<AbpMvcDataAnnotationsLocalizationOptions>(options =>
         {
             options.AddAssemblyResource(typeof(AuthingResource),
-                typeof(DomainModule).Assembly,
-                typeof(DomainSharedModule).Assembly,
-                typeof(ApplicationModule).Assembly,
-                typeof(ApplicationContractsModule).Assembly,
-                typeof(SsoModule).Assembly);
+                typeof(AuthingDomainModule).Assembly,
+                typeof(AuthingDomainSharedModule).Assembly,
+                typeof(AuthingApplicationModule).Assembly,
+                typeof(AuthingApplicationContractsModule).Assembly,
+                typeof(AuthingSsoModule).Assembly);
         });
     }
 

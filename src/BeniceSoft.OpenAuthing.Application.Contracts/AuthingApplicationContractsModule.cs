@@ -6,9 +6,9 @@ namespace BeniceSoft.OpenAuthing;
 
 [DependsOn(
     typeof(BeniceSoftAbpDddApplicationContractsModule),
-    typeof(DomainSharedModule),
+    typeof(AuthingDomainSharedModule),
     typeof(AbpSettingManagementApplicationContractsModule)
 )]
-public class ApplicationContractsModule : AbpModule
+public class AuthingApplicationContractsModule : AbpModule
 {
 }
