@@ -14,11 +14,11 @@ public class PermissionQueries : BaseQueries, IPermissionQueries, ITransientDepe
     private IPermissionManager PermissionManager => LazyServiceProvider.LazyGetRequiredService<IPermissionManager>();
     private IPermissionRepository PermissionRepository => LazyServiceProvider.LazyGetRequiredService<IPermissionRepository>();
 
-    public async Task<List<PermissionRes>> GetAllAsync(Guid permissionSpaceId)
+    public async Task<List<PermissionRes>> GetAllAsync(Guid systemId)
     {
         var queryable =
             from permission in await PermissionRepository.GetQueryableAsync()
-            where permission.PermissionSpaceId == permissionSpaceId
+            where permission.SystemId == systemId
             select new PermissionRes
             {
                 Id = permission.Id,

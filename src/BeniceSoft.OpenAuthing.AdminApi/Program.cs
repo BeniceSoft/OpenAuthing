@@ -10,14 +10,13 @@ var configuration = new ConfigurationBuilder()
     .Build();
 Log.Logger = new LoggerConfiguration()
 #if DEBUG
-    .MinimumLevel.Debug()
+    .MinimumLevel.Verbose()
     .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
     .MinimumLevel.Override("Microsoft.AspNetCore.Identity", LogEventLevel.Debug)
 #else
     .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
 #endif
-    .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
     .Enrich.FromLogContext()
     .ReadFrom.Configuration(configuration)
     .WriteTo.Console()

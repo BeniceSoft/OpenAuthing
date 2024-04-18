@@ -4,7 +4,7 @@ namespace BeniceSoft.OpenAuthing.Entities.Permissions;
 
 public class PermissionGrant : Entity<Guid>
 {
-    public Guid PermissionSpaceId { get; private set; }
+    public string SystemCode { get; private set; }
     public string Name { get; private set; }
 
     public string ProviderName { get; private set; }
@@ -15,9 +15,9 @@ public class PermissionGrant : Entity<Guid>
     {
     }
 
-    public PermissionGrant(Guid id, Guid permissionSpaceId, string name, string providerName, string providerKey) : this(id)
+    public PermissionGrant(Guid id, string systemCode, string name, string providerName, string providerKey) : this(id)
     {
-        PermissionSpaceId = permissionSpaceId;
+        SystemCode = systemCode;
         Name = name;
         ProviderName = providerName;
         ProviderKey = providerKey;

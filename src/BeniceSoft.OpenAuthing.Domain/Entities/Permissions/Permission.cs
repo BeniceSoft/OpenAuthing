@@ -4,10 +4,9 @@ namespace BeniceSoft.OpenAuthing.Entities.Permissions;
 
 public class Permission : AggregateRoot<Guid>
 {
-    /// <summary>
-    /// 权限空间
-    /// </summary>
-    public Guid PermissionSpaceId { get; set; }
+    public Guid SystemId { get; private set; }
+    
+    public string SystemCode { get; private set; }
 
     public string Name { get; private set; }
 
@@ -32,11 +31,12 @@ public class Permission : AggregateRoot<Guid>
         IsEnabled = true;
     }
 
-    public Permission(Guid id, Guid permissionSpaceId, string name, string displayName, string? parentName, bool isEnabled,
+    public Permission(Guid id, Guid systemId, string systemCode, string name, string displayName, string? parentName, bool isEnabled,
         string providers, string stateCheckers)
         : this(id)
     {
-        PermissionSpaceId = permissionSpaceId;
+        SystemId = systemId;
+        SystemCode = systemCode;
         Name = name;
         DisplayName = displayName;
         ParentName = parentName;

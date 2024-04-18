@@ -41,7 +41,6 @@ public class AuthingDomainSharedModule : AbpModule
 
             options.DefaultResourceType = typeof(AuthingResource);
         });
-        // Configure<AbpExceptionLocalizationOptions>(options => { options.MapCodeNamespace("MyProjectName", typeof(MyProjectNameResource)); });
     }
 
     public override void PostConfigureServices(ServiceConfigurationContext context)

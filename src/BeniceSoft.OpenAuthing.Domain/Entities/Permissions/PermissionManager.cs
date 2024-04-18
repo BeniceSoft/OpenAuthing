@@ -9,30 +9,36 @@ using Volo.Abp.SimpleStateChecking;
 
 namespace BeniceSoft.OpenAuthing.Entities.Permissions;
 
-public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IPermissionManager, ISingletonDependency
+public class PermissionManager : IPermissionManager, ISingletonDependency
 {
-    private IPermissionGrantRepository PermissionGrantRepository => lazyServiceProvider.LazyGetRequiredService<IPermissionGrantRepository>();
-    private IPermissionDefinitionManager PermissionDefinitionManager => lazyServiceProvider.LazyGetRequiredService<IPermissionDefinitionManager>();
+    public IAbpLazyServiceProvider LazyServiceProvider { get; set; } = null!;
+
+    private IPermissionGrantRepository PermissionGrantRepository => LazyServiceProvider.LazyGetRequiredService<IPermissionGrantRepository>();
+    private IPermissionDefinitionManager PermissionDefinitionManager => LazyServiceProvider.LazyGetRequiredService<IPermissionDefinitionManager>();
 
     private ISimpleStateCheckerManager<PermissionDefinition> SimpleStateCheckerManager =>
-        lazyServiceProvider.LazyGetRequiredService<ISimpleStateCheckerManager<PermissionDefinition>>();
+        LazyServiceProvider.LazyGetRequiredService<ISimpleStateCheckerManager<PermissionDefinition>>();
 
-    private IGuidGenerator GuidGenerator => lazyServiceProvider.LazyGetRequiredService<IGuidGenerator>();
+    private IGuidGenerator GuidGenerator => LazyServiceProvider.LazyGetRequiredService<IGuidGenerator>();
 
-    private IDistributedCache<PermissionGrantCacheItem> Cache => lazyServiceProvider.LazyGetRequiredService<IDistributedCache<PermissionGrantCacheItem>>();
+    private IDistributedCache<PermissionGrantCacheItem> Cache => LazyServiceProvider.LazyGetRequiredService<IDistributedCache<PermissionGrantCacheItem>>();
     private IReadOnlyList<IPermissionManagementProvider> ManagementProviders => _lazyProviders.Value;
-    private AuthingPermissionOptions Options => lazyServiceProvider.LazyGetRequiredService<IOptions<AuthingPermissionOptions>>().Value;
+    private AuthingPermissionOptions Options => LazyServiceProvider.LazyGetRequiredService<IOptions<AuthingPermissionOptions>>().Value;
 
-    private readonly Lazy<List<IPermissionManagementProvider>> _lazyProviders = new(
-        () => lazyServiceProvider.LazyGetRequiredService<IOptions<AuthingPermissionOptions>>().Value
-            .ManagementProviders
-            .Select(c => lazyServiceProvider.GetRequiredService(c) as IPermissionManagementProvider)
-            .ToList()!,
-        true
-    );
+    private readonly Lazy<List<IPermissionManagementProvider>> _lazyProviders;
 
+    public PermissionManager()
+    {
+        _lazyProviders = new(
+            () => Options
+                .ManagementProviders
+                .Select(c => LazyServiceProvider.GetRequiredService(c) as IPermissionManagementProvider)
+                .ToList()!,
+            true
+        );
+    }
 
-    public async Task<PermissionWithGrantedProviders> GetAsync(Guid permissionSpaceId, string permissionName, string providerName, string providerKey)
+    public async Task<PermissionWithGrantedProviders> GetAsync(string systemCode, string permissionName, string providerName, string providerKey)
     {
         var permission = await PermissionDefinitionManager.GetOrNullAsync(permissionName);
         if (permission == null)
@@ -41,14 +47,14 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
         }
 
         return await GetInternalAsync(
-            permissionSpaceId,
+            systemCode,
             permission,
             providerName,
             providerKey
         );
     }
 
-    public async Task<MultiplePermissionWithGrantedProviders> GetAsync(Guid permissionSpaceId, string[] permissionNames, string providerName, string providerKey)
+    public async Task<MultiplePermissionWithGrantedProviders> GetAsync(string systemCode, string[] permissionNames, string providerName, string providerKey)
     {
         var permissions = new List<PermissionDefinition>();
         var undefinedPermissions = new List<string>();
@@ -72,7 +78,7 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
         }
 
         var result = await GetInternalAsync(
-            permissionSpaceId,
+            systemCode,
             permissions.ToArray(),
             providerName,
             providerKey
@@ -86,16 +92,16 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
         return result;
     }
 
-    public async Task<List<PermissionWithGrantedProviders>> GetAllAsync(Guid permissionSpaceId, string providerName, string providerKey)
+    public async Task<List<PermissionWithGrantedProviders>> GetAllAsync(string systemCode, string providerName, string providerKey)
     {
         var permissionDefinitions = (await PermissionDefinitionManager.GetPermissionsAsync()).ToArray();
 
-        var multiplePermissionWithGrantedProviders = await GetInternalAsync(permissionSpaceId, permissionDefinitions, providerName, providerKey);
+        var multiplePermissionWithGrantedProviders = await GetInternalAsync(systemCode, permissionDefinitions, providerName, providerKey);
 
         return multiplePermissionWithGrantedProviders.Result;
     }
 
-    public async Task SetAsync(Guid permissionSpaceId, string permissionName, string providerName, string providerKey, bool isGranted)
+    public async Task SetAsync(string systemCode, string permissionName, string providerName, string providerKey, bool isGranted)
     {
         var permission = await PermissionDefinitionManager.GetOrNullAsync(permissionName);
         if (permission == null)
@@ -117,7 +123,7 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
             throw new ApplicationException($"The permission named '{permission.Name}' has not compatible with the provider named '{providerName}'");
         }
 
-        var currentGrantInfo = await GetInternalAsync(permissionSpaceId, permission, providerName, providerKey);
+        var currentGrantInfo = await GetInternalAsync(systemCode, permission, providerName, providerKey);
         if (currentGrantInfo.IsGranted == isGranted)
         {
             return;
@@ -130,10 +136,10 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
             throw new AbpException("Unknown permission management provider: " + providerName);
         }
 
-        await provider.SetAsync(permissionSpaceId, permissionName, providerKey, isGranted);
+        await provider.SetAsync(systemCode, permissionName, providerKey, isGranted);
     }
 
-    public async Task<PermissionGrant> UpdateProviderKeyAsync(Guid permissionSpaceId, PermissionGrant permissionGrant, string providerKey)
+    public async Task<PermissionGrant> UpdateProviderKeyAsync(string systemCode, PermissionGrant permissionGrant, string providerKey)
     {
         //Invalidating the cache for the old key
         await Cache.RemoveAsync(
@@ -148,9 +154,9 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
         return await PermissionGrantRepository.UpdateAsync(permissionGrant);
     }
 
-    public async Task DeleteAsync(Guid permissionSpaceId, string providerName, string providerKey)
+    public async Task DeleteAsync(string systemCode, string providerName, string providerKey)
     {
-        var permissionGrants = await PermissionGrantRepository.GetListAsync(permissionSpaceId, providerName, providerKey);
+        var permissionGrants = await PermissionGrantRepository.GetListAsync(systemCode, providerName, providerKey);
         foreach (var permissionGrant in permissionGrants)
         {
             await PermissionGrantRepository.DeleteAsync(permissionGrant);
@@ -158,13 +164,13 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
     }
 
     protected virtual async Task<PermissionWithGrantedProviders> GetInternalAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         PermissionDefinition permission,
         string providerName,
         string providerKey)
     {
         var multiplePermissionWithGrantedProviders = await GetInternalAsync(
-            permissionSpaceId,
+            systemCode,
             [permission],
             providerName,
             providerKey
@@ -174,7 +180,7 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
     }
 
     protected virtual async Task<MultiplePermissionWithGrantedProviders> GetInternalAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         PermissionDefinition[] permissions,
         string providerName,
         string providerKey)
@@ -202,7 +208,7 @@ public class PermissionManager(IAbpLazyServiceProvider lazyServiceProvider) : IP
         foreach (var provider in ManagementProviders)
         {
             permissionNames = neededCheckPermissions.Select(x => x.Name).ToArray();
-            var multiplePermissionValueProviderGrantInfo = await provider.CheckAsync(permissionSpaceId, permissionNames, providerName, providerKey);
+            var multiplePermissionValueProviderGrantInfo = await provider.CheckAsync(systemCode, permissionNames, providerName, providerKey);
 
             foreach (var providerResultDict in multiplePermissionValueProviderGrantInfo.Result)
             {

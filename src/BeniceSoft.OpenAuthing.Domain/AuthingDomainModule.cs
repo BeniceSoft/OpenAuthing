@@ -1,6 +1,6 @@
 using BeniceSoft.Abp.Ddd.Domain;
+using BeniceSoft.OpenAuthing.Entities.Permissions;
 using BeniceSoft.OpenAuthing.Entities.Users;
-using BeniceSoft.OpenAuthing.Permissions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.DependencyInjection.Extensions;
 using Volo.Abp.Authorization.Permissions;
@@ -21,7 +21,9 @@ public class AuthingDomainModule : AbpModule
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         context.Services.TryAddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
-        
-        Configure<AbpPermissionOptions>(options => { options.ValueProviders.Insert(0, typeof(SystemAdminPermissionValueProvider)); });
+
+        // Configure<AbpPermissionOptions>(options => { options.ValueProviders.Insert(0, typeof(SystemAdminPermissionValueProvider)); });
+
+        Configure<AuthingPermissionOptions>(options => { options.ManagementProviders.Add<RolePermissionManagementProvider>(); });
     }
 }

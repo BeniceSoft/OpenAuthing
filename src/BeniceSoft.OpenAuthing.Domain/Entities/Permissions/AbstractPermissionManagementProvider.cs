@@ -13,14 +13,14 @@ public abstract class AbstractPermissionManagementProvider(IAbpLazyServiceProvid
     protected IGuidGenerator GuidGenerator => lazyServiceProvider.LazyGetRequiredService<IGuidGenerator>();
 
 
-    public virtual async Task<PermissionGrantInfo> CheckAsync(Guid permissionSpaceId, string name, string providerName, string providerKey)
+    public virtual async Task<PermissionGrantInfo> CheckAsync(string systemCode, string name, string providerName, string providerKey)
     {
-        var multiplePermissionValueProviderGrantInfo = await CheckAsync(permissionSpaceId, new[] { name }, providerName, providerKey);
+        var multiplePermissionValueProviderGrantInfo = await CheckAsync(systemCode, new[] { name }, providerName, providerKey);
 
         return multiplePermissionValueProviderGrantInfo.Result.First().Value;
     }
 
-    public virtual async Task<MultiplePermissionGrantInfo> CheckAsync(Guid permissionSpaceId, string[] names, string providerName, string providerKey)
+    public virtual async Task<MultiplePermissionGrantInfo> CheckAsync(string systemCode, string[] names, string providerName, string providerKey)
     {
         var multiplePermissionValueProviderGrantInfo = new MultiplePermissionGrantInfo(names);
         if (providerName != Name)
@@ -28,7 +28,7 @@ public abstract class AbstractPermissionManagementProvider(IAbpLazyServiceProvid
             return multiplePermissionValueProviderGrantInfo;
         }
 
-        var permissionGrants = await PermissionGrantRepository.GetListAsync(permissionSpaceId, names, providerName, providerKey);
+        var permissionGrants = await PermissionGrantRepository.GetListAsync(systemCode, names, providerName, providerKey);
 
         foreach (var permissionName in names)
         {
@@ -39,16 +39,16 @@ public abstract class AbstractPermissionManagementProvider(IAbpLazyServiceProvid
         return multiplePermissionValueProviderGrantInfo;
     }
 
-    public virtual Task SetAsync(Guid permissionSpaceId, string name, string providerKey, bool isGranted)
+    public virtual Task SetAsync(string systemCode, string name, string providerKey, bool isGranted)
     {
         return isGranted
-            ? GrantAsync(permissionSpaceId, name, providerKey)
-            : RevokeAsync(permissionSpaceId, name, providerKey);
+            ? GrantAsync(systemCode, name, providerKey)
+            : RevokeAsync(systemCode, name, providerKey);
     }
 
-    protected virtual async Task GrantAsync(Guid permissionSpaceId, string name, string providerKey)
+    protected virtual async Task GrantAsync(string systemCode, string name, string providerKey)
     {
-        var permissionGrant = await PermissionGrantRepository.FindAsync(permissionSpaceId, name, Name, providerKey);
+        var permissionGrant = await PermissionGrantRepository.FindAsync(systemCode, name, Name, providerKey);
         if (permissionGrant != null)
         {
             return;
@@ -57,7 +57,7 @@ public abstract class AbstractPermissionManagementProvider(IAbpLazyServiceProvid
         await PermissionGrantRepository.InsertAsync(
             new PermissionGrant(
                 GuidGenerator.Create(),
-                permissionSpaceId,
+                systemCode,
                 name,
                 Name,
                 providerKey
@@ -65,9 +65,9 @@ public abstract class AbstractPermissionManagementProvider(IAbpLazyServiceProvid
         );
     }
 
-    protected virtual async Task RevokeAsync(Guid permissionSpaceId, string name, string providerKey)
+    protected virtual async Task RevokeAsync(string systemCode, string name, string providerKey)
     {
-        var permissionGrant = await PermissionGrantRepository.FindAsync(permissionSpaceId, name, Name, providerKey);
+        var permissionGrant = await PermissionGrantRepository.FindAsync(systemCode, name, Name, providerKey);
         if (permissionGrant == null)
         {
             return;

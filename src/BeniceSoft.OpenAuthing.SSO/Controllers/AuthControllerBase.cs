@@ -28,7 +28,7 @@ public abstract class AuthControllerBase : AbpController
     {
         if (user is null)
         {
-            throw new NoAuthorizationException();
+            throw new UnauthorizedException(message!);
         }
     }
 

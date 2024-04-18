@@ -1,6 +1,6 @@
 using Volo.Abp.Authorization.Permissions;
 
-namespace BeniceSoft.OpenAuthing.Permissions;
+namespace BeniceSoft.OpenAuthing.Entities.Permissions;
 
 public class SystemAdminPermissionValueProvider : PermissionValueProvider
 {

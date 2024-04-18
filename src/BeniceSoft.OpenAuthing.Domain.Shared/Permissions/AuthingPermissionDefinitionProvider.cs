@@ -8,7 +8,13 @@ public class AuthingPermissionDefinitionProvider : PermissionDefinitionProvider
 {
     public override void Define(IPermissionDefinitionContext context)
     {
-        var moduleGroup = context.AddGroup(AuthingPermissions.GroupName, F("OpenAuthing"));
+        context.AddGroup(AuthingPermissions.Dashboard)
+            .AddPermission(AuthingPermissions.ViewDashboard);
+
+        context.AddGroup(AuthingPermissions.Organization)
+            .AddPermission(AuthingPermissions.ManageDepartment)
+            .AddChild(AuthingPermissions.CreateDepartment)
+            .AddChild(AuthingPermissions.UpdateDepartment);
     }
 
     private static ILocalizableString L(string name)

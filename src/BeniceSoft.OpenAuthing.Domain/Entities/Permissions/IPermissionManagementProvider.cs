@@ -5,21 +5,21 @@ public interface IPermissionManagementProvider
     string Name { get; }
 
     Task<PermissionGrantInfo> CheckAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         string name,
         string providerName,
         string providerKey
     );
 
     Task<MultiplePermissionGrantInfo> CheckAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         string[] names,
         string providerName,
         string providerKey
     );
 
     Task SetAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         string name,
         string providerKey,
         bool isGranted

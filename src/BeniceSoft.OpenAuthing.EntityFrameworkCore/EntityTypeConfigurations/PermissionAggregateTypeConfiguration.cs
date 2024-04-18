@@ -15,7 +15,7 @@ internal static class PermissionAggregateTypeConfiguration
 
     private static void ConfigurePermission(EntityTypeBuilder<Permission> builder)
     {
-        builder.ToTable(AuthingDbProperties.DbTablePrefix + "PermissionGroups", AuthingDbProperties.DbSchema);
+        builder.ToTable(AuthingDbProperties.DbTablePrefix + "Permissions", AuthingDbProperties.DbSchema);
 
         builder.ConfigureByConvention();
 
@@ -23,10 +23,11 @@ internal static class PermissionAggregateTypeConfiguration
         builder.Property(x => x.Id).ValueGeneratedNever();
         builder.Property(x => x.Name).HasMaxLength(128).IsRequired();
         builder.Property(x => x.DisplayName).HasMaxLength(256).IsRequired();
-        builder.Property(x => x.PermissionSpaceId).IsRequired();
+        builder.Property(x => x.SystemId).IsRequired();
+        builder.Property(x => x.SystemCode).HasMaxLength(64).IsRequired();
         builder.Property(x => x.ParentName).IsRequired(false).HasMaxLength(128);
 
-        builder.HasIndex(x => new { x.PermissionSpaceId, x.Name }).IsUnique();
+        builder.HasIndex(x => new { x.SystemId, x.SystemCode, x.Name }).IsUnique();
         builder.HasIndex(x => x.ParentName);
 
         builder.ApplyObjectExtensionMappings();
@@ -43,9 +44,10 @@ internal static class PermissionAggregateTypeConfiguration
         builder.Property(x => x.Name).HasMaxLength(128).IsRequired();
         builder.Property(x => x.ProviderName).HasMaxLength(64).IsRequired();
         builder.Property(x => x.ProviderKey).HasMaxLength(64).IsRequired();
+        builder.Property(x => x.SystemCode).HasMaxLength(64).IsRequired();
 
-        builder.HasIndex(x => new { x.PermissionSpaceId, x.Name, x.ProviderName, x.ProviderKey }).IsUnique();
-        
+        builder.HasIndex(x => new { x.SystemCode, x.Name, x.ProviderName, x.ProviderKey }).IsUnique();
+
         builder.ApplyObjectExtensionMappings();
     }
 }

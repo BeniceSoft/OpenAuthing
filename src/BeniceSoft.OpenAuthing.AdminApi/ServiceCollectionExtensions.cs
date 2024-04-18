@@ -50,14 +50,13 @@ public static class ServiceCollectionExtensions
         return files.Select(a => Path.Combine(basePath, a.FullName)).ToList();
     }
 
-    public static IServiceCollection ConfigureAuthentication(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection ConfigureAuthentication(this IServiceCollection services)
     {
         // default scheme is Bearer
         services
             .AddAuthentication(options =>
             {
                 options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-                options.DefaultSignInScheme = JwtBearerDefaults.AuthenticationScheme;
                 options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
             })
             .AddJwtBearer(options =>

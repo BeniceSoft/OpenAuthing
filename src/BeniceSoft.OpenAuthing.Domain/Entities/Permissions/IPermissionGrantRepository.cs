@@ -5,7 +5,7 @@ namespace BeniceSoft.OpenAuthing.Entities.Permissions;
 public interface IPermissionGrantRepository : IRepository<PermissionGrant, Guid>
 {
     Task<PermissionGrant?> FindAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         string name,
         string providerName,
         string providerKey,
@@ -13,14 +13,14 @@ public interface IPermissionGrantRepository : IRepository<PermissionGrant, Guid>
     );
 
     Task<List<PermissionGrant>> GetListAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         string providerName,
         string providerKey,
         CancellationToken cancellationToken = default
     );
 
     Task<List<PermissionGrant>> GetListAsync(
-        Guid permissionSpaceId,
+        string systemCode,
         string[] names,
         string providerName,
         string providerKey,

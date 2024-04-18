@@ -2,7 +2,9 @@
 using BeniceSoft.OpenAuthing.Commands.Departments;
 using BeniceSoft.OpenAuthing.Dtos.Departments;
 using BeniceSoft.OpenAuthing.Models.Departments;
+using BeniceSoft.OpenAuthing.Permissions;
 using BeniceSoft.OpenAuthing.Queries;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BeniceSoft.OpenAuthing.Controllers;
@@ -26,6 +28,7 @@ public partial class DepartmentsController : AuthingApiControllerBase
     /// <param name="parentId"></param>
     /// <returns></returns>
     [HttpGet]
+    [Authorize(AuthingPermissions.ManageDepartment)]
     [ProducesResponseType(typeof(ResponseResult<List<DepartmentDto>>),200)]
     public async Task<List<DepartmentDto>> GetAsync(Guid? parentId = null)
     {
@@ -38,6 +41,7 @@ public partial class DepartmentsController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [Authorize(AuthingPermissions.ManageDepartment)]
     [ProducesResponseType(typeof(ResponseResult<DepartmentDto>),200)]
     public async Task<DepartmentDto> GetAsync(Guid id)
     {
@@ -50,6 +54,7 @@ public partial class DepartmentsController : AuthingApiControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
+    [Authorize(AuthingPermissions.CreateDepartment)]
     public async Task<Guid> PostAsync([FromBody] CreateDepartmentReq req)
     {
         var command = new CreateDepartmentCommand(req.Code, req.Name, req.ParentId, req.Seq);
@@ -63,6 +68,7 @@ public partial class DepartmentsController : AuthingApiControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [Authorize(AuthingPermissions.UpdateDepartment)]
     public async Task<bool> PutAsync(Guid id, [FromBody] UpdateDepartmentReq req)
     {
         throw new NotImplementedException();
@@ -74,6 +80,7 @@ public partial class DepartmentsController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
+    [Authorize(AuthingPermissions.DeleteDepartment)]
     public async Task<bool> DeleteAsync(Guid id)
     {
         throw new NotImplementedException();

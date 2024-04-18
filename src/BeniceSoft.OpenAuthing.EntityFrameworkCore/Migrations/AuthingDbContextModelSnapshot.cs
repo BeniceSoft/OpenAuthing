@@ -493,9 +493,6 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<Guid>("PermissionSpaceId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("Providers")
                         .IsRequired()
                         .HasColumnType("longtext");
@@ -504,14 +501,22 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .IsRequired()
                         .HasColumnType("longtext");
 
+                    b.Property<string>("SystemCode")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<Guid>("SystemId")
+                        .HasColumnType("char(36)");
+
                     b.HasKey("Id");
 
                     b.HasIndex("ParentName");
 
-                    b.HasIndex("PermissionSpaceId", "Name")
+                    b.HasIndex("SystemId", "SystemCode", "Name")
                         .IsUnique();
 
-                    b.ToTable("OAuthing_PermissionGroups", (string)null);
+                    b.ToTable("OAuthing_Permissions", (string)null);
                 });
 
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Permissions.PermissionGrant", b =>
@@ -524,9 +529,6 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .HasMaxLength(128)
                         .HasColumnType("varchar(128)");
 
-                    b.Property<Guid>("PermissionSpaceId")
-                        .HasColumnType("char(36)");
-
                     b.Property<string>("ProviderKey")
                         .IsRequired()
                         .HasMaxLength(64)
@@ -537,9 +539,14 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .HasMaxLength(64)
                         .HasColumnType("varchar(64)");
 
+                    b.Property<string>("SystemCode")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
                     b.HasKey("Id");
 
-                    b.HasIndex("PermissionSpaceId", "Name", "ProviderName", "ProviderKey")
+                    b.HasIndex("SystemCode", "Name", "ProviderName", "ProviderKey")
                         .IsUnique();
 
                     b.ToTable("OAuthing_PermissionGrants", (string)null);

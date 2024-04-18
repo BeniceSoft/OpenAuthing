@@ -53,7 +53,7 @@ public class AuthingAdminApiModule : AbpModule
         context.Services
             .AddJsonFormatResponse().AddDesensitizeResponse()
             .ConfigureSwaggerServices()
-            .ConfigureAuthentication(configuration)
+            .ConfigureAuthentication()
             .AddDetection();
     }
 

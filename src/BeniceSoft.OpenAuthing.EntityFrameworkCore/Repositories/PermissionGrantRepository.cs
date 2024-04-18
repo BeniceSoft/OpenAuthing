@@ -11,13 +11,13 @@ public class PermissionGrantRepository : EfCoreRepository<AuthingDbContext, Perm
     {
     }
 
-    public async Task<PermissionGrant?> FindAsync(Guid permissionSpaceId, string name, string providerName, string providerKey, CancellationToken cancellationToken = default)
+    public async Task<PermissionGrant?> FindAsync(string systemCode, string name, string providerName, string providerKey, CancellationToken cancellationToken = default)
     {
         cancellationToken = GetCancellationToken(cancellationToken);
         return await (await GetQueryableAsync())
             .OrderBy(x => x.Id)
             .FirstOrDefaultAsync(s =>
-                    s.PermissionSpaceId == permissionSpaceId &&
+                    s.SystemCode == systemCode &&
                     s.Name == name &&
                     s.ProviderName == providerName &&
                     s.ProviderKey == providerKey,
@@ -25,24 +25,24 @@ public class PermissionGrantRepository : EfCoreRepository<AuthingDbContext, Perm
             );
     }
 
-    public async Task<List<PermissionGrant>> GetListAsync(Guid permissionSpaceId, string providerName, string providerKey, CancellationToken cancellationToken = default)
+    public async Task<List<PermissionGrant>> GetListAsync(string systemCode, string providerName, string providerKey, CancellationToken cancellationToken = default)
     {
         cancellationToken = GetCancellationToken(cancellationToken);
         return await (await GetQueryableAsync())
             .Where(s =>
-                s.PermissionSpaceId == permissionSpaceId &&
+                s.SystemCode == systemCode &&
                 s.ProviderName == providerName &&
                 s.ProviderKey == providerKey
             ).ToListAsync(cancellationToken);
     }
 
-    public async Task<List<PermissionGrant>> GetListAsync(Guid permissionSpaceId, string[] names, string providerName, string providerKey,
+    public async Task<List<PermissionGrant>> GetListAsync(string systemCode, string[] names, string providerName, string providerKey,
         CancellationToken cancellationToken = default)
     {
         cancellationToken = GetCancellationToken(cancellationToken);
         return await (await GetQueryableAsync())
             .Where(s =>
-                s.PermissionSpaceId == permissionSpaceId &&
+                s.SystemCode == systemCode &&
                 names.Contains(s.Name) &&
                 s.ProviderName == providerName &&
                 s.ProviderKey == providerKey
