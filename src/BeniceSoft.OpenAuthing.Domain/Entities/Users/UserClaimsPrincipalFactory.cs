@@ -52,8 +52,11 @@ public class UserClaimsPrincipalFactory : IUserClaimsPrincipalFactory<User>, ISc
             _options.ClaimsIdentity.UserNameClaimType,
             _options.ClaimsIdentity.RoleClaimType);
 
+        // REVIEW: configurable audience
+        id.SetAudiences(AuthingConstants.Audience);
+
         id.AddClaim(new Claim(_options.ClaimsIdentity.UserIdClaimType, userId));
-        id.AddClaim(new Claim(_options.ClaimsIdentity.UserNameClaimType, userName));
+        id.AddClaim(new Claim(_options.ClaimsIdentity.UserNameClaimType, userName!));
         id.AddClaim(new Claim(OpenIddictConstants.Claims.Name, user.Nickname));
         id.AddClaim(new Claim(BeniceSoftAuthConstants.ClaimTypes.Avatar, user.Avatar ?? string.Empty));
         id.AddClaim(new Claim(OpenIddictConstants.Claims.PhoneNumber, user.PhoneNumber ?? string.Empty));

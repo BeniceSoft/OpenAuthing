@@ -1,50 +1,60 @@
-"use client"
-
 import * as React from "react"
-import * as AvatarPrimitive from "@radix-ui/react-avatar"
+import { cva, type VariantProps } from "class-variance-authority"
 
 import { cn } from "@/lib/utils"
 
-const Avatar = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Root>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Root>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Root
-    ref={ref}
-    className={cn(
-      "relative flex h-10 w-10 shrink-0 overflow-hidden rounded-full",
-      className
-    )}
-    {...props}
-  />
-))
-Avatar.displayName = AvatarPrimitive.Root.displayName
+const avatarVariants = cva(
+  "border-none overflow-hidden",
+  {
+    variants: {
+      variant: {
+        circle: "rounded-full"
+      },
+      size: {
+        default: "size-8",
+        xs: "size-7",
+        sm: "size-10",
+        lg: "size-20"
+      }
+    },
+    defaultVariants: {
+      variant: "circle",
+      size: "default",
+    },
+  }
+)
 
-const AvatarImage = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Image>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Image>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Image
-    ref={ref}
-    className={cn("aspect-square h-full w-full", className)}
-    {...props}
-  />
-))
-AvatarImage.displayName = AvatarPrimitive.Image.displayName
+export interface AvatarProps extends React.ImgHTMLAttributes<HTMLImageElement>, VariantProps<typeof avatarVariants> {
+  src?: string
+  alt?: string
+  fallback?: string
+}
 
-const AvatarFallback = React.forwardRef<
-  React.ElementRef<typeof AvatarPrimitive.Fallback>,
-  React.ComponentPropsWithoutRef<typeof AvatarPrimitive.Fallback>
->(({ className, ...props }, ref) => (
-  <AvatarPrimitive.Fallback
-    ref={ref}
-    className={cn(
-      "flex h-full w-full items-center justify-center rounded-full bg-muted",
-      className
-    )}
-    {...props}
-  />
-))
-AvatarFallback.displayName = AvatarPrimitive.Fallback.displayName
+const Avatar = React.forwardRef<HTMLImageElement, AvatarProps>(
+  ({ className, variant, size, ...props }, ref) => {
 
-export { Avatar, AvatarImage, AvatarFallback }
+    const handleError: React.ReactEventHandler<HTMLImageElement> = ({ currentTarget }) => {
+      console.log('error')
+      const { fallback } = props
+      if (fallback) {
+        currentTarget.onerror = null; // prevents looping
+        currentTarget.src = fallback;
+      }
+    }
+
+    const src = props.src ?? props.fallback;
+
+    return (
+      <img
+        {...props}
+        className={cn(avatarVariants({ variant, size, className }))}
+        onError={handleError}
+        ref={ref}
+        src={src}
+      />
+    )
+  }
+)
+Avatar.displayName = "Avatar"
+
+export { Avatar, avatarVariants }

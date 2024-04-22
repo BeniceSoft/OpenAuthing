@@ -1,0 +1,15 @@
+{
+    "culture": "en-US",
+    "texts": {
+        "90001": "The user is not found.",
+        "90002": "The user is locked.",
+        "90003": "The user is disabled.",
+        "90004": "The user is not active.",
+        "90005": "The user is not confirmed.",
+        "90006": "The user is not verified.",
+        "90007": "The user is not authenticated.",
+        "90008": "The user is not authorized.",
+        "90009": "The user is not authorized to perform this action.",
+        "90010": "The user is not authorized to perform this action."
+    }
+}

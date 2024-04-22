@@ -8,7 +8,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 
 public partial class AccountController
 {
-    // GET: /account/getexternalloginproviders
+    // GET: /api/account/getexternalloginproviders
     [HttpGet, AllowAnonymous]
     public async Task<IActionResult> GetExternalLoginProvidersAsync()
     {
@@ -34,7 +34,7 @@ public partial class AccountController
         return Ok(results.ToSucceed());
     }
 
-    // POST: /account/externallogin
+    // POST: /api/account/externallogin
     [HttpPost, HttpGet, AllowAnonymous]
     public async Task<IActionResult> ExternalLogin(string provider, string? returnUrl = null)
     {
@@ -44,7 +44,7 @@ public partial class AccountController
         return new ChallengeResult(provider, properties);
     }
 
-    // GET: /account/externallogincallback
+    // GET: /api/account/externallogincallback
     [HttpGet, AllowAnonymous]
     public async Task<IActionResult> ExternalLoginCallback(string? returnUrl = null, string? remoteError = null)
     {

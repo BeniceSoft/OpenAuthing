@@ -12,12 +12,12 @@ public sealed class User : FullAuditedAggregateRoot<Guid>
     /// <summary>
     /// 用户名
     /// </summary>
-    public string UserName { get; protected internal set; }
+    public string UserName { get; internal set; }
 
     /// <summary>
     /// 归一化用户名
     /// </summary>
-    public string NormalizedUserName { get; protected internal set; }
+    public string NormalizedUserName { get; internal set; }
 
     /// <summary>
     /// 昵称
@@ -27,17 +27,32 @@ public sealed class User : FullAuditedAggregateRoot<Guid>
     /// <summary>
     /// 哈希后的密码
     /// </summary>
-    public string PasswordHash { get; protected internal set; }
+    public string PasswordHash { get; internal set; }
 
     /// <summary>
     /// 手机号码
     /// </summary>
-    public string? PhoneNumber { get; protected internal set; }
+    public string? PhoneNumber { get; internal set; }
 
     /// <summary>
     /// 手机号码是否确认
     /// </summary>
-    public bool PhoneNumberConfirmed { get; protected internal set; }
+    public bool PhoneNumberConfirmed { get; internal set; }
+
+    /// <summary>
+    /// 邮箱地址
+    /// </summary>
+    public string? Email { get; internal set; }
+    
+    /// <summary>
+    /// 归一化邮箱地址
+    /// </summary>
+    public string? NormalizedEmail { get; internal set; }
+
+    /// <summary>
+    /// 邮箱是否确认
+    /// </summary>
+    public bool EmailConfirmed { get; internal set; }
 
     /// <summary>
     /// 头像
@@ -62,27 +77,27 @@ public sealed class User : FullAuditedAggregateRoot<Guid>
     /// <summary>
     /// 锁定结束时间
     /// </summary>
-    public DateTimeOffset? LockoutEnd { get; protected internal set; }
+    public DateTimeOffset? LockoutEnd { get; internal set; }
 
     /// <summary>
     /// 锁定状态
     /// </summary>
-    public bool LockoutEnabled { get; protected internal set; }
+    public bool LockoutEnabled { get; internal set; }
 
     /// <summary>
     /// 错误次数
     /// </summary>
-    public int AccessFailedCount { get; protected internal set; }
+    public int AccessFailedCount { get; internal set; }
 
     /// <summary>
     /// 安全凭证
     /// </summary>
-    public string SecurityStamp { get; protected internal set; }
+    public string SecurityStamp { get; internal set; }
 
     /// <summary>
     /// 是否启用 2FA
     /// </summary>
-    public bool TwoFactorEnabled { get; protected internal set; }
+    public bool TwoFactorEnabled { get; internal set; }
 
     /// <summary>
     /// 是否系统内置
@@ -201,5 +216,20 @@ public sealed class User : FullAuditedAggregateRoot<Guid>
     public void UpdateAvatar(string avatar)
     {
         Avatar = avatar;
+    }
+    
+    public void SetEmailConfirmed(bool confirmed)
+    {
+        EmailConfirmed = confirmed;
+    }
+
+    public void SetPhoneNumberConfirmed(bool confirmed)
+    {
+        PhoneNumberConfirmed = confirmed;
+    }
+
+    public override string ToString()
+    {
+        return $"{base.ToString()}, UserName = {UserName}";
     }
 }

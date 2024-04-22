@@ -10,7 +10,6 @@
     <ItemGroup>
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy" />
         <PackageReference Include="BeniceSoft.Abp.AspNetCore" />
-        <PackageReference Include="BeniceSoft.Abp.Auth" />
         <PackageReference Include="Microsoft.Extensions.PlatformAbstractions" />
         <PackageReference Include="OpenIddict.Quartz" />
         <PackageReference Include="OpenIddict.Server.AspNetCore" />

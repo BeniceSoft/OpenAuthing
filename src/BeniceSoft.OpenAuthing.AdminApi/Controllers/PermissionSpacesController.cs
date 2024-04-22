@@ -9,14 +9,10 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 /// <summary>
 /// 权限空间
 /// </summary>
-public class PermissionSpacesController : AuthingApiControllerBase
+public partial class PermissionSpacesController : AuthingApiControllerBase
 {
-    private readonly IPermissionSpaceQueries _queries;
+    private IPermissionSpaceQueries PermissionSpaceQueries => LazyServiceProvider.LazyGetRequiredService<IPermissionSpaceQueries>();
 
-    public PermissionSpacesController(IPermissionSpaceQueries queries)
-    {
-        _queries = queries;
-    }
 
     /// <summary>
     /// 列表查询
@@ -29,7 +25,7 @@ public class PermissionSpacesController : AuthingApiControllerBase
         {
             SearchKey = searchKey
         };
-        return await _queries.ListAllAsync(req);
+        return await PermissionSpaceQueries.ListAllAsync(req);
     }
 
     /// <summary>
@@ -40,7 +36,7 @@ public class PermissionSpacesController : AuthingApiControllerBase
     [HttpGet("{id}")]
     public async Task<GetPermissionSpaceRes> GetAsync(Guid id)
     {
-        return await _queries.GetDetailAsync(id);
+        return await PermissionSpaceQueries.GetDetailAsync(id);
     }
 
     /// <summary>

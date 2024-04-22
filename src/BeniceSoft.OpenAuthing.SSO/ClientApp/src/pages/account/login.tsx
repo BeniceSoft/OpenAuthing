@@ -1,10 +1,11 @@
 import { useForm } from "react-hook-form";
 import React, { useEffect } from "react";
-import { useSearchParams, FormattedMessage, FormattedHTMLMessage, useModel, Link } from 'umi'
+import { useSearchParams, FormattedMessage, FormattedHTMLMessage, useModel, Link, useIntl } from 'umi'
 import { ExternalLoginProvider, LoginWithPasswordModel } from "@/@types/auth";
 import { EyeIcon, EyeOffIcon } from "lucide-react";
 import { HSTogglePassword } from 'preline/preline'
 import useReturnUrl from "@/hooks/useReturnUrl";
+import { Input, InputLabel } from "@/components/ui/input";
 
 function renderExternalProviderIcon(providerName: string) {
     switch (providerName.toLowerCase()) {
@@ -29,14 +30,9 @@ function renderExternalProviderIcon(providerName: string) {
     }
 }
 
-type LoginPageProps = {
-    externalLoginProvidersLoading: boolean
-    isLoggingIn: boolean
-    externalLoginProviders?: ExternalLoginProvider[]
-}
-
-const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
-    const { register, formState: { isValid, isSubmitting }, handleSubmit } = useForm<LoginWithPasswordModel>()
+const LoginPage: React.FC = () => {
+    const intl = useIntl()
+    const { register, formState: { errors, isValid, isSubmitting }, handleSubmit } = useForm<LoginWithPasswordModel>()
     const returnUrl = useReturnUrl()
 
     useEffect(() => {
@@ -64,22 +60,19 @@ const LoginPage: React.FC<LoginPageProps> = (props: LoginPageProps) => {
             </p>
             <form className="my-5" onSubmit={handleSubmit(onSubmit)}>
                 <div className="space-y-5">
-                    <div>
-                        <label htmlFor="username" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
-                            <FormattedMessage id="account.login.input.username.label" />
-                        </label>
-                        <input type="text"
+                    <InputLabel text={intl.formatMessage({ id: 'account.login.input.username.label' })}>
+                        <Input type="text"
                             id="username"
-                            className="py-3 px-4 block w-full border-gray-200 rounded-lg text-sm focus:border-blue-500 focus:ring-blue-500 disabled:opacity-50 disabled:pointer-events-none dark:bg-slate-900 dark:border-gray-700 dark:text-gray-400 dark:focus:ring-gray-600"
-                            placeholder="administrator"
+                            placeholder="you@sample.com"
+                            aria-invalid={!!errors?.userName}
                             {...register('userName', { required: true })} />
-                    </div>
+                    </InputLabel>
                     <div>
                         <div className="flex justify-between">
                             <label htmlFor="password" className="block text-gray-700 text-sm mb-2 font-medium dark:text-white">
                                 <FormattedMessage id="account.login.input.password.label" />
                             </label>
-                            <Link to={{ pathname: "/account/reset-password", search: "?returnUrl=" + returnUrl }} className="text-xs text-gray-500 hover:underline">
+                            <Link to={{ pathname: "/account/forgot-password", search: "?returnUrl=" + returnUrl }} className="text-xs text-gray-500 hover:underline">
                                 <FormattedMessage id="account.login.link.forgotPassword.text" />
                             </Link>
                         </div>

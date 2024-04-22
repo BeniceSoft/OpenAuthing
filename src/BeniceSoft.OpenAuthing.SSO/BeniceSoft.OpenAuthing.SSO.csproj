@@ -22,14 +22,16 @@
     <PropertyGroup Condition=" '$(RunConfiguration)' == 'BeniceSoft.OpenAuthing.SSO' "/>
     <ItemGroup>
         <PackageReference Include="BeniceSoft.Abp.AspNetCore"/>
-        <PackageReference Include="BeniceSoft.Abp.Auth"/>
+        <PackageReference Include="Hangfire.InMemory" />
         <PackageReference Include="Microsoft.Extensions.PlatformAbstractions"/>
         <PackageReference Include="OpenIddict.Quartz"/>
         <PackageReference Include="OpenIddict.Server.AspNetCore"/>
         <PackageReference Include="Serilog.AspNetCore"/>
         <PackageReference Include="Volo.Abp.Autofac"/>
         <PackageReference Include="Microsoft.AspNetCore.SpaProxy"/>
+        <PackageReference Include="Volo.Abp.BackgroundJobs.HangFire" />
         <PackageReference Include="Volo.Abp.BlobStoring.FileSystem"/>
+        <PackageReference Include="Volo.Abp.MailKit" />
     </ItemGroup>
 
     <ItemGroup>
@@ -51,9 +53,6 @@
         <Content Remove="$(SpaRoot)**"/>
         <None Remove="$(SpaRoot)**"/>
         <None Include="$(SpaRoot)**" Exclude="$(SpaRoot)node_modules\**"/>
-        <None Update="certs\NewFile1.txt">
-            <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-        </None>
     </ItemGroup>
 
     <ItemGroup>
@@ -86,15 +85,6 @@
             </ResolvedFileToPublish>
         </ItemGroup>
     </Target>
-
-    <ItemGroup>
-        <None Update="signing-certificate.pfx">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-        <None Update="encryption-certificate.pfx">
-            <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-        </None>
-    </ItemGroup>
 
     <ItemGroup>
         <_ContentIncludedByDefault Remove="Views\Shared\_Layout.cshtml"/>

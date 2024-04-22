@@ -21,7 +21,9 @@
   <a href="#license">License</a>
 </p>
 
-![screenshot](./screenshots/home.png)
+![Home](./screenshots/home.png)
+
+![Login Page](./screenshots/login.png)
 
 ## Demo
 
@@ -30,7 +32,7 @@
 
 ## ✨ 关键特性
 
-* **SSO**
+* [**SSO**](./src/BeniceSoft.OpenAuthing.SSO/README.md)
 * **动态外部身份源**
 * **MFA**
 * **数据权限**

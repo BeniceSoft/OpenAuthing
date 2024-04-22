@@ -1,7 +1,7 @@
 export interface ResponseResultWithT<TData> {
     success: boolean
-    errorCode: number
-    errorMessage: string,
+    code: number
+    errorMessage?: string,
     data?: TData
 }
 

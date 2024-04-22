@@ -21,7 +21,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                 .HasAnnotation("ProductVersion", "8.0.3")
                 .HasAnnotation("Relational:MaxIdentifierLength", 64);
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.DepartmentMembers.DepartmentMember", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.DepartmentMembers.DepartmentMember", b =>
                 {
                     b.Property<Guid>("DepartmentId")
                         .HasColumnType("char(36)")
@@ -79,7 +79,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Departments.Department", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Departments.Department", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -162,7 +162,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviderTemplates.ExternalIdentityProviderTemplate", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates.ExternalIdentityProviderTemplate", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -213,7 +213,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviderTemplates.ExternalIdentityProviderTemplateField", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates.ExternalIdentityProviderTemplateField", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -270,7 +270,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviders.ExternalIdentityProvider", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviders.ExternalIdentityProvider", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -347,7 +347,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviders.ExternalIdentityProviderOption", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviders.ExternalIdentityProviderOption", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -375,7 +375,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.PermissionSpaces.PermissionSpace", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.PermissionSpaces.PermissionSpace", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -459,7 +459,100 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Roles.Role", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Permissions.Permission", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<string>("DisplayName")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<bool>("IsEnabled")
+                        .HasColumnType("tinyint(1)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ParentName")
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("Providers")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("StateCheckers")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("SystemCode")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<Guid>("SystemId")
+                        .HasColumnType("char(36)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ParentName");
+
+                    b.HasIndex("SystemId", "SystemCode", "Name")
+                        .IsUnique();
+
+                    b.ToTable("OAuthing_Permissions", (string)null);
+                });
+
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Permissions.PermissionGrant", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(128)
+                        .HasColumnType("varchar(128)");
+
+                    b.Property<string>("ProviderKey")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("ProviderName")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.Property<string>("SystemCode")
+                        .IsRequired()
+                        .HasMaxLength(64)
+                        .HasColumnType("varchar(64)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("SystemCode", "Name", "ProviderName", "ProviderKey")
+                        .IsUnique();
+
+                    b.ToTable("OAuthing_PermissionGrants", (string)null);
+                });
+
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -555,7 +648,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Roles.RoleSubject", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Roles.RoleSubject", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -593,7 +686,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.UserGroups.UserGroup", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.UserGroups.UserGroup", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -670,7 +763,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.UserGroups.UserGroupMember", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.UserGroups.UserGroupMember", b =>
                 {
                     b.Property<Guid>("UserGroupId")
                         .HasColumnType("char(36)");
@@ -694,7 +787,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.User", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Users.User", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("char(36)");
@@ -732,6 +825,15 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.Property<DateTime?>("DeletionTime")
                         .HasColumnType("datetime(6)")
                         .HasColumnName("DeletionTime");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasComment("邮箱");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("tinyint(1)")
+                        .HasComment("邮箱是否确认");
 
                     b.Property<bool>("Enabled")
                         .HasColumnType("tinyint(1)");
@@ -785,6 +887,11 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .HasColumnType("varchar(200)")
                         .HasComment("昵称");
 
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(50)
+                        .HasColumnType("varchar(50)")
+                        .HasComment("归一化后的邮箱");
+
                     b.Property<string>("NormalizedUserName")
                         .IsRequired()
                         .HasMaxLength(200)
@@ -831,7 +938,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.UserLogin", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Users.UserLogin", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)")
@@ -861,7 +968,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         });
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.UserToken", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Users.UserToken", b =>
                 {
                     b.Property<Guid>("UserId")
                         .HasColumnType("char(36)");
@@ -1320,59 +1427,59 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.ToTable("OAuthing_SettingDefinitions", (string)null);
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Departments.Department", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Departments.Department", b =>
                 {
-                    b.HasOne("BeniceSoft.OpenAuthing.Departments.Department", "Parent")
+                    b.HasOne("BeniceSoft.OpenAuthing.Entities.Departments.Department", "Parent")
                         .WithMany("Children")
                         .HasForeignKey("ParentId");
 
                     b.Navigation("Parent");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviderTemplates.ExternalIdentityProviderTemplateField", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates.ExternalIdentityProviderTemplateField", b =>
                 {
-                    b.HasOne("BeniceSoft.OpenAuthing.IdentityProviderTemplates.ExternalIdentityProviderTemplate", null)
+                    b.HasOne("BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates.ExternalIdentityProviderTemplate", null)
                         .WithMany("Fields")
                         .HasForeignKey("ExternalIdentityProviderTemplateId");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviders.ExternalIdentityProviderOption", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviders.ExternalIdentityProviderOption", b =>
                 {
-                    b.HasOne("BeniceSoft.OpenAuthing.IdentityProviders.ExternalIdentityProvider", null)
+                    b.HasOne("BeniceSoft.OpenAuthing.Entities.IdentityProviders.ExternalIdentityProvider", null)
                         .WithMany("Options")
                         .HasForeignKey("ExternalIdentityProviderId");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Roles.RoleSubject", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Roles.RoleSubject", b =>
                 {
-                    b.HasOne("BeniceSoft.OpenAuthing.Roles.Role", null)
+                    b.HasOne("BeniceSoft.OpenAuthing.Entities.Roles.Role", null)
                         .WithMany("Subjects")
                         .HasForeignKey("RoleId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.UserGroups.UserGroupMember", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.UserGroups.UserGroupMember", b =>
                 {
-                    b.HasOne("BeniceSoft.OpenAuthing.UserGroups.UserGroup", null)
+                    b.HasOne("BeniceSoft.OpenAuthing.Entities.UserGroups.UserGroup", null)
                         .WithMany("Members")
                         .HasForeignKey("UserGroupId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.UserLogin", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Users.UserLogin", b =>
                 {
-                    b.HasOne("BeniceSoft.OpenAuthing.Users.User", null)
+                    b.HasOne("BeniceSoft.OpenAuthing.Entities.Users.User", null)
                         .WithMany("Logins")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.UserToken", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Users.UserToken", b =>
                 {
-                    b.HasOne("BeniceSoft.OpenAuthing.Users.User", null)
+                    b.HasOne("BeniceSoft.OpenAuthing.Entities.Users.User", null)
                         .WithMany("Tokens")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1397,32 +1504,32 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .HasForeignKey("AuthorizationId");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Departments.Department", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Departments.Department", b =>
                 {
                     b.Navigation("Children");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviderTemplates.ExternalIdentityProviderTemplate", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates.ExternalIdentityProviderTemplate", b =>
                 {
                     b.Navigation("Fields");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.IdentityProviders.ExternalIdentityProvider", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.IdentityProviders.ExternalIdentityProvider", b =>
                 {
                     b.Navigation("Options");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Roles.Role", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Roles.Role", b =>
                 {
                     b.Navigation("Subjects");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.UserGroups.UserGroup", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.UserGroups.UserGroup", b =>
                 {
                     b.Navigation("Members");
                 });
 
-            modelBuilder.Entity("BeniceSoft.OpenAuthing.Users.User", b =>
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Users.User", b =>
                 {
                     b.Navigation("Logins");
 

@@ -79,7 +79,7 @@ const LoginWith2FaPage: React.FC = function () {
                     </div>
                     <div className="pt-0">
                         <button type="submit"
-                            className="p-3 inline-flex justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
+                            className="px-3 py-2.5 inline-flex justify-center gap-x-2 text-sm font-semibold rounded-lg border border-transparent bg-blue-600 text-white hover:bg-blue-700 disabled:opacity-50 disabled:pointer-events-none"
                             aria-disabled={isSubmitting || !isValid}
                             disabled={isSubmitting || !isValid}>
                             <FormattedMessage id="account.loginwith2fa.button.verify.text" />

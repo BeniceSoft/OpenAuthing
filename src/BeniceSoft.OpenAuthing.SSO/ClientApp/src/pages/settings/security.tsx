@@ -1,117 +1,67 @@
-import { ChangePasswordModel } from '@/@types/settings';
 import ContentBlock from '@/components/ContentBlock';
 import { Button } from '@/components/ui/button';
 import { Input, InputLabel } from '@/components/ui/input';
-import { CheckIcon, Key, Smartphone, XIcon } from 'lucide-react';
-import React, { useEffect } from 'react'
+import { Key, Smartphone } from 'lucide-react';
+import React from 'react'
 import { useForm } from 'react-hook-form';
 import { FormattedMessage, Link, useIntl, useRequest } from 'umi';
 import AuthService from '@/services/auth.service'
 import Mask from '@/components/Mask';
-import { HSStrongPassword } from 'preline/preline'
+import PasswordInput from '@/components/password-input';
+import AccountService from '@/services/account.service';
+import { ChangePasswordReq } from '@/@types/user';
+import toast from 'react-hot-toast';
 
 type ChangePasswordFormProps = {
-    onSubmit: (data: ChangePasswordModel) => Promise<void>
 }
 
 const ChangePasswordForm = ({
-    onSubmit
 }: ChangePasswordFormProps) => {
-    const { register, handleSubmit, formState: { errors, isValid } } = useForm<ChangePasswordModel>()
     const intl = useIntl()
+    const { register, handleSubmit, watch, formState: { isSubmitting, errors, isValid }, reset } = useForm<ChangePasswordReq>({ mode: 'onBlur' })
 
-    useEffect(() => {
-        HSStrongPassword.autoInit()
-    }, [])
+    const { run: changePassword } = useRequest(AccountService.changePassword, {
+        manual: true, onSuccess(data, params) {
+            toast.success('password changed')
+            reset()
+        },
+    })
+
+    const onSubmit = async (input: ChangePasswordReq) => {
+        await changePassword(input)
+    }
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-y-4 lg:max-w-md">
-                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.current" })} required={true}>
+                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.current" })}>
                     <Input type="password"
+                        id="oa-security-old-password"
                         autoComplete="disabled"
-                        {...register('oldPassword', { required: true, minLength: 6 })} />
+                        {...register('currentPassword', { required: true, minLength: 6 })} />
                 </InputLabel>
-                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.new" })} required={true}
-                    className="relative">
-                    <Input type="password"
-                        id="new-password"
-                        autoComplete="disabled"
-                        {...register('newPassword', { required: true, minLength: 6 })} />
-                    <div id="new-password-strong-popover"
-                        className="hidden absolute z-10 w-full bg-white shadow-xl rounded-lg p-4 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700">
-                        <div id="hs-strong-password-in-popover" data-hs-strong-password='{
-                                "target": "#new-password",
-                                "hints": "#new-password-strong-popover",
-                                "stripClasses": "hs-strong-password:opacity-100 hs-strong-password-accepted:bg-teal-500 h-2 flex-auto rounded-full bg-blue-500 opacity-50 mx-1",
-                                "mode": "popover"
-                            }'
-                            className="flex mt-2 -mx-1">
-                        </div>
-
-                        <h4 className="mt-3 text-sm font-semibold text-gray-800 dark:text-white">
-                            <FormattedMessage id="settings.secrity.password.rule" />
-                        </h4>
-
-                        <ul className="space-y-1 text-sm text-gray-500">
-                            <li data-hs-strong-password-hints-rule-text="min-length" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
-                                <span className="hidden" data-check="">
-                                    <CheckIcon className="w-4 h-4" />
-                                </span>
-                                <span data-uncheck="">
-                                    <XIcon className="w-4 h-4" />
-                                </span>
-                                <FormattedMessage id="settings.secrity.password.rule.length" />
-                            </li>
-                            <li data-hs-strong-password-hints-rule-text="lowercase" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
-                                <span className="hidden" data-check="">
-                                    <CheckIcon className="w-4 h-4" />
-                                </span>
-                                <span data-uncheck="">
-                                    <XIcon className="w-4 h-4" />
-                                </span>
-                                <FormattedMessage id="settings.secrity.password.rule.lowercase" />
-                            </li>
-                            <li data-hs-strong-password-hints-rule-text="uppercase" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
-                                <span className="hidden" data-check="">
-                                    <CheckIcon className="w-4 h-4" />
-                                </span>
-                                <span data-uncheck="">
-                                    <XIcon className="w-4 h-4" />
-                                </span>
-                                <FormattedMessage id="settings.secrity.password.rule.uppercase" />
-                            </li>
-                            <li data-hs-strong-password-hints-rule-text="numbers" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
-                                <span className="hidden" data-check="">
-                                    <CheckIcon className="w-4 h-4" />
-                                </span>
-                                <span data-uncheck="">
-                                    <XIcon className="w-4 h-4" />
-                                </span>
-                                <FormattedMessage id="settings.secrity.password.rule.numbers" />
-                            </li>
-                            <li data-hs-strong-password-hints-rule-text="special-characters" className="hs-strong-password-active:text-teal-500 flex items-center gap-x-2">
-                                <span className="hidden" data-check="">
-                                    <CheckIcon className="w-4 h-4" />
-                                </span>
-                                <span data-uncheck="">
-                                    <XIcon className="w-4 h-4" />
-                                </span>
-                                <FormattedMessage id="settings.secrity.password.rule.specialchar" />
-                            </li>
-                        </ul>
-                    </div>
+                <InputLabel text={intl.formatMessage({ id: 'settings.secrity.password.new' })}>
+                    <PasswordInput id="oa-security-new-password" name="newPassword" register={register} invalid={!!errors?.newPassword} />
                 </InputLabel>
-                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.confirm" })} required={true}
-                    errorMessage={errors.confirmationPassword?.message?.toString()}>
+                <InputLabel text={intl.formatMessage({ id: "settings.secrity.password.confirm" })}
+                    errorMessage={errors.confirmPassword?.message?.toString()}>
                     <Input type="password"
+                        id="oa-security-confirm-password"
                         autoComplete="disabled"
-                        {...register('confirmationPassword', { required: { value: true, message: "Confirmation password is required" } })} />
+                        aria-invalid={!!errors?.confirmPassword}
+                        {...register('confirmPassword', {
+                            required: "Confirm password is required", validate: (value) => {
+                                if (watch('newPassword') !== value) {
+                                    return "Your passwords do no match";
+                                }
+                            }
+                        })} />
                 </InputLabel>
                 <div className="flex items-center justify-between gap-x-3">
                     <Button variant="secondary"
                         type="submit"
-                        disabled={!isValid}>
+                        disabled={isSubmitting || !isValid}
+                        aria-disabled={isSubmitting || !isValid}>
                         <FormattedMessage id="settings.secrity.password.submit" />
                     </Button>
                     <Link to="/account/reset-password"
@@ -257,15 +207,12 @@ export interface SecurityPageProps {
 const SecurityPage: React.FC<SecurityPageProps> = (props: SecurityPageProps) => {
     const intl = useIntl()
     const { data: twoFactorState = {}, loading: twoFactorStateLoading } = useRequest(AuthService.getTwoFactorState)
-
     const { is2FaEnabled } = twoFactorState;
-
-    const handleChangePasswordSubmit = async (data: any) => { }
 
     return (
         <div className="grid gap-y-8">
             <ContentBlock title={intl.formatMessage({ id: "settings.secrity.password.title" })}>
-                <ChangePasswordForm onSubmit={handleChangePasswordSubmit} />
+                <ChangePasswordForm />
             </ContentBlock>
             <ContentBlock title={<TwoFactorContentBlockTitle is2FaEnabled={is2FaEnabled}
                 buttonDisabled={false} />}>

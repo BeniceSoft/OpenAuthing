@@ -22,8 +22,22 @@ export interface UserProfile {
 
 export type ResetPasswordValidationMethod = 'email' | 'phone'
 
-export interface ResetPasswordReq {
-    emailAddress?: string
+export interface ForgotPasswordReq {
+    email?: string
     phoneNumber?: string
     validationMethod: ResetPasswordValidationMethod
+}
+
+export interface ResetPasswordReq {
+    uid?: string
+    password?: string
+    confirmPassword?: string
+    code?: string
+    validationMethod: ResetPasswordValidationMethod
+}
+
+export interface ChangePasswordReq {
+    currentPassword: string
+    newPassword: string
+    confirmPassword: string
 }

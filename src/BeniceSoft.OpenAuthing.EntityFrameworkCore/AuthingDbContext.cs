@@ -2,6 +2,7 @@ using BeniceSoft.OpenAuthing.Entities.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Entities.Departments;
 using BeniceSoft.OpenAuthing.Entities.IdentityProviders;
 using BeniceSoft.OpenAuthing.Entities.IdentityProviderTemplates;
+using BeniceSoft.OpenAuthing.Entities.Permissions;
 using BeniceSoft.OpenAuthing.Entities.PermissionSpaces;
 using BeniceSoft.OpenAuthing.Entities.Roles;
 using BeniceSoft.OpenAuthing.Entities.UserGroups;
@@ -66,10 +67,13 @@ public class AuthingDbContext : AbpDbContext<AuthingDbContext>, ISettingManageme
 
     public virtual DbSet<PermissionSpace> PermissionSpaces { get; set; }
 
+    public virtual DbSet<Permission> Permissions { get; set; }
+    public virtual DbSet<PermissionGrant> PermissionGrants { get; set; }
+
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
         base.OnModelCreating(modelBuilder);
-        
+
         modelBuilder.ConfigureSettingManagement();
         modelBuilder.ConfigureOpenIddict();
 
@@ -81,5 +85,6 @@ public class AuthingDbContext : AbpDbContext<AuthingDbContext>, ISettingManageme
         modelBuilder.ConfigureExternalIdentityProviderAggregate();
         modelBuilder.ConfigureExternalIdentityProviderTemplateAggregate();
         modelBuilder.ConfigurePermissionSpaceAggregate();
+        modelBuilder.ConfigurePermissionAggregate();
     }
 }
