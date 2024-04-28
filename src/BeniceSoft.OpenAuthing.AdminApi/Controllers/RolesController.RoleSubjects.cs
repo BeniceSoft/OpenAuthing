@@ -1,3 +1,4 @@
+using BeniceSoft.Abp.Core.Models;
 using BeniceSoft.OpenAuthing.Commands.Roles;
 using BeniceSoft.OpenAuthing.Dtos.Roles;
 using BeniceSoft.OpenAuthing.Models.Roles;
@@ -13,6 +14,7 @@ public partial class RolesController
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/subjects")]
+    [ProducesResponseType<ResponseResult<List<RoleSubjectRes>>>(StatusCodes.Status200OK)]
     public async Task<List<RoleSubjectRes>> GetSubjectsAsync(Guid id)
     {
         return await _roleQueries.ListRoleSubjectsAsync(id);
@@ -25,6 +27,7 @@ public partial class RolesController
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPut("{id}/subjects")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> SaveSubjectsAsync(Guid id, [FromBody] SaveRoleSubjectsReq req)
     {
         var command = new SaveRoleSubjectsCommand(id, req.Subjects);
@@ -38,6 +41,7 @@ public partial class RolesController
     /// <param name="roleSubjectId"></param>
     /// <returns></returns>
     [HttpDelete("{id}/subjects/{roleSubjectId}")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> RemoveSubjectAsync(Guid id, Guid roleSubjectId)
     {
         var command = new RemoveRoleSubjectCommand(id, roleSubjectId);

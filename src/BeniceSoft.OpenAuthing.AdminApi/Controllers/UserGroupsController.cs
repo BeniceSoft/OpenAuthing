@@ -1,3 +1,4 @@
+using BeniceSoft.Abp.Core.Models;
 using BeniceSoft.OpenAuthing.Dtos.UserGroups;
 using BeniceSoft.OpenAuthing.Queries;
 using Microsoft.AspNetCore.Mvc;
@@ -25,6 +26,7 @@ public class UserGroupsController : AuthingApiControllerBase
     /// <param name="pageSize"></param>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType<ResponseResult<PagedResultDto<UserGroupPagedRes>>>(StatusCodes.Status200OK)]
     public async Task<PagedResultDto<UserGroupPagedRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20)
     {
         var req = new UserGroupPagedReq
@@ -42,6 +44,7 @@ public class UserGroupsController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [ProducesResponseType<ResponseResult<GetUserGroupRes>>(StatusCodes.Status200OK)]
     public async Task<GetUserGroupRes> GetAsync(Guid id)
     {
         return await _userGroupQueries.GetDetailAsync(id);

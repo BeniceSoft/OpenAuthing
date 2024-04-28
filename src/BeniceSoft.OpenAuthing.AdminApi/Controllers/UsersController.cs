@@ -1,4 +1,5 @@
-﻿using BeniceSoft.OpenAuthing.Commands.Users;
+﻿using BeniceSoft.Abp.Core.Models;
+using BeniceSoft.OpenAuthing.Commands.Users;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Dtos.Users;
 using BeniceSoft.OpenAuthing.Models.Users;
@@ -30,6 +31,7 @@ public class UsersController : AuthingApiControllerBase
     /// <param name="onlyEnabled"></param>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType<ResponseResult<PagedResultDto<UserPagedRes>>>(StatusCodes.Status200OK)]
     public async Task<PagedResultDto<UserPagedRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20,
         Guid? excludeDepartmentId = null, bool onlyEnabled = false)
     {
@@ -50,6 +52,7 @@ public class UsersController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [ProducesResponseType<ResponseResult<UserDetailRes>>(StatusCodes.Status200OK)]
     public async Task<UserDetailRes> GetAsync(Guid id)
     {
         return await _userQueries.GetDetailAsync(id);
@@ -61,6 +64,7 @@ public class UsersController : AuthingApiControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
+    [ProducesResponseType<ResponseResult<Guid>>(StatusCodes.Status200OK)]
     public async Task<Guid> PostAsync([FromBody] CreateUserReq req)
     {
         var command = new CreateUserCommand(req.UserName, req.PhoneNumber, req.Password, req.PhoneNumberConfirmed);
@@ -74,6 +78,7 @@ public class UsersController : AuthingApiControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPut("{id}/avatar")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> UploadUserAvatarAsync(Guid id, [FromForm] UpdateUserAvatarReq req)
     {
         await using var stream = req.File.OpenReadStream();
@@ -93,6 +98,7 @@ public class UsersController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/departments")]
+    [ProducesResponseType<ResponseResult<List<UserDepartmentDto>>>(StatusCodes.Status200OK)]
     public async Task<List<UserDepartmentDto>> GetUserDepartmentsAsync(Guid id)
     {
         return await _userQueries.ListUserDepartmentsAsync(id);
@@ -104,6 +110,7 @@ public class UsersController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/roles")]
+    [ProducesResponseType<ResponseResult<List<UserRoleRes>>>(StatusCodes.Status200OK)]
     public async Task<List<UserRoleRes>> GetUserRolesAsync(Guid id)
     {
         throw new NotImplementedException();

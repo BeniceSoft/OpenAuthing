@@ -1,6 +1,8 @@
 using BeniceSoft.Abp.Auth.Core;
 using BeniceSoft.OpenAuthing.Entities.Roles;
 using BeniceSoft.OpenAuthing.Entities.Users;
+// ReSharper disable once RedundantUsingDirective
+using BeniceSoft.OpenAuthing.Extensions;
 using BeniceSoft.OpenAuthing.Identity;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions;
 using BeniceSoft.OpenAuthing.OpenIddictExtensions.ClaimDestinations;

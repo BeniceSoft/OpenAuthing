@@ -1,3 +1,4 @@
+using BeniceSoft.Abp.Core.Models;
 using BeniceSoft.OpenAuthing.Commands.Roles;
 using BeniceSoft.OpenAuthing.Dtos.Roles;
 using BeniceSoft.OpenAuthing.Models.Roles;
@@ -27,6 +28,7 @@ public partial class RolesController : AuthingApiControllerBase
     /// <param name="pageSize"></param>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType<ResponseResult<PagedResultDto<RoleSimpleRes>>>(StatusCodes.Status200OK)]
     public async Task<PagedResultDto<RoleSimpleRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20)
     {
         var req = new RolePageQueryReq
@@ -44,6 +46,7 @@ public partial class RolesController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
+    [ProducesResponseType<ResponseResult<PagedResultDto<RoleDetailRes>>>(StatusCodes.Status200OK)]
     public async Task<RoleDetailRes> GetAsync(Guid id)
     {
         return await _roleQueries.GetDetailAsync(id);
@@ -55,6 +58,7 @@ public partial class RolesController : AuthingApiControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
+    [ProducesResponseType<ResponseResult<Guid>>(StatusCodes.Status200OK)]
     public async Task<Guid> PostAsync([FromBody] InputRoleReq req)
     {
         var command = new CreateRoleCommand(req.Name, req.DisplayName, req.Description ?? string.Empty, req.PermissionSpaceId);
@@ -68,6 +72,7 @@ public partial class RolesController : AuthingApiControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> PusAsync(Guid id, [FromBody] InputRoleReq req)
     {
         var command = new UpdateRoleCommand(id, req.Name, req.DisplayName, req.Description);
@@ -80,6 +85,7 @@ public partial class RolesController : AuthingApiControllerBase
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> DeleteAsync(Guid id)
     {
         var command = new DeleteRoleCommand(id);
@@ -93,6 +99,7 @@ public partial class RolesController : AuthingApiControllerBase
     /// <param name="enabled"></param>
     /// <returns></returns>
     [HttpPut("{id}/toggle-enabled")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> ToggleEnabled(Guid id, bool enabled)
     {
         var command = new ToggleRoleEnabledCommand(id, enabled);
