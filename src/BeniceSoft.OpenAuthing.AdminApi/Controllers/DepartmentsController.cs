@@ -83,6 +83,7 @@ public partial class DepartmentsController : AuthingApiControllerBase
     [Authorize(AuthingPermissions.DeleteDepartment)]
     public async Task<bool> DeleteAsync(Guid id)
     {
-        throw new NotImplementedException();
+        var command = new DeleteDepartmentCommand(id);
+        return await Mediator.Send(command);
     }
 }

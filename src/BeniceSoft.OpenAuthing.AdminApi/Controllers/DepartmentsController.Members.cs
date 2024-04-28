@@ -1,3 +1,4 @@
+using BeniceSoft.Abp.Core.Models;
 using BeniceSoft.OpenAuthing.Commands.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Dtos.DepartmentMembers;
 using BeniceSoft.OpenAuthing.Queries;
@@ -19,6 +20,7 @@ public partial class DepartmentsController
     /// <param name="pageSize"></param>
     /// <returns></returns>
     [HttpGet("{departmentId}/members")]
+    [ProducesResponseType<ResponseResult<PagedResultDto<QueryDepartmentMembersRes>>>(StatusCodes.Status200OK)]
     public async Task<PagedResultDto<QueryDepartmentMembersRes>> GetMemberAsync(Guid departmentId, bool onlyDirectUsers = false, int pageIndex = 1,
         int pageSize = 20)
     {
@@ -37,6 +39,7 @@ public partial class DepartmentsController
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost("{departmentId}/members")]
+    [ProducesResponseType<ResponseResult<int>>(StatusCodes.Status200OK)]
     public async Task<int> PostMemberAsync(Guid departmentId, [FromBody] AddDepartmentMembersReq req)
     {
         var command = new AddDepartmentMembersCommand
@@ -55,6 +58,7 @@ public partial class DepartmentsController
     /// <param name="isLeader"></param>
     /// <returns></returns>
     [HttpPut("{departmentId}/members/{userId}/leader")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> SetLeaderAsync(Guid departmentId, Guid userId, [FromQuery] bool isLeader)
     {
         var command = new SetLeaderCommand
@@ -74,6 +78,7 @@ public partial class DepartmentsController
     /// <param name="isMain"></param>
     /// <returns></returns>
     [HttpPut("{departmentId}/members/{userId}/main")]
+    [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public async Task<bool> SetMainAsync(Guid departmentId, Guid userId, [FromQuery] bool isMain)
     {
         var command = new SetMainDepartmentCommand

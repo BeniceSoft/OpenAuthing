@@ -13,7 +13,7 @@ public static class ServiceCollectionExtensions
         return services.AddSwaggerGen(options =>
         {
             options.SwaggerDoc("v1.0", new OpenApiInfo { Title = "OpenAuthing API", Version = "1.0" });
-            options.DocInclusionPredicate((doc, description) => true);
+            // options.DocInclusionPredicate((doc, description) => true);
             options.CustomSchemaIds(type => type.FullName);
             foreach (var item in GetXmlCommentsFilePath())
             {

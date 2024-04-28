@@ -51,10 +51,14 @@ public class AuthingAdminApiModule : AbpModule
         Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
 
         context.Services
-            .AddJsonFormatResponse().AddDesensitizeResponse()
+            .AddJsonFormatResponse()
+            .AddDesensitizeResponse();
+
+        context.Services
             .ConfigureSwaggerServices()
-            .ConfigureAuthentication()
-            .AddDetection();
+            .ConfigureAuthentication();
+
+        context.Services.AddDetection();
     }
 
     public override void OnApplicationInitialization(ApplicationInitializationContext context)
@@ -80,7 +84,7 @@ public class AuthingAdminApiModule : AbpModule
         app.UseAuthorization();
 
         app.UseAuditing();
-        
+
         app.UseSwagger();
         app.UseSwaggerUI(options => { options.SwaggerEndpoint("/swagger/v1.0/swagger.json", "OpenAuthing API"); });
 

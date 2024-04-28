@@ -1,3 +1,4 @@
+using BeniceSoft.Abp.Core.Models;
 using BeniceSoft.OpenAuthing.Commands.Applications;
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Requests;
 using BeniceSoft.OpenAuthing.Dtos.OpenIddict.Responses;
@@ -24,6 +25,7 @@ public class ApplicationsController : AuthingApiControllerBase
     /// <param name="searchKey"></param>
     /// <returns></returns>
     [HttpGet]
+    [ProducesResponseType<ResponseResult<List<QueryApplicationRes>>>(StatusCodes.Status200OK)]
     public async Task<List<QueryApplicationRes>> GetAsync(string? searchKey = null)
     {
         return await _applicationQueries.ListQueryAsync(searchKey);
@@ -35,6 +37,7 @@ public class ApplicationsController : AuthingApiControllerBase
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
+    [ProducesResponseType<ResponseResult<Guid>>(StatusCodes.Status200OK)]
     public async Task<Guid> PostAsync([FromBody] CreateApplicationReq req)
     {
         var command = new CreateApplicationCommand(req.ClientId, req.DisplayName, req.ClientType);
