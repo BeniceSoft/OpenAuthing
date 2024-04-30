@@ -63,9 +63,19 @@ jobs:
     needs: build-and-push-image
     runs-on: self-hosted
     steps:
+      - name: Get last tag or use latest
+        id: last_tag
+        run: |
+          TAGS="${{ needs.build-and-push-image.outputs.tags }}"
+          LAST_TAG=$(echo "$TAGS" | awk -F',' '{print $NF}')
+          if [ -z "$LAST_TAG" ]; then
+            LAST_TAG="latest"
+          fi
+          echo "::set-output name=tag::$LAST_TAG"
+      
       - name: Deploy SSO to production
-        run: docker service update --image benicesoft/openauthing-sso:${{ needs.build-and-push-image.outputs.tags }} --update-parallelism 1 --update-delay 10s --with-registry-auth openauthing_sso
+        run: docker service update --image ${{ steps.last_tag.outputs.tag }} --update-parallelism 1 --update-delay 10s --with-registry-auth openauthing_sso
       
       - name: Deploy API to production
-        run: docker service update --image benicesoft/openauthing-api:${{ needs.build-and-push-image.outputs.tags }} --update-parallelism 1 --update-delay 10s --with-registry-auth openauthing_api
+        run: docker service update --image ${{ steps.last_tag.outputs.tag }} --update-parallelism 1 --update-delay 10s --with-registry-auth openauthing_api
        
