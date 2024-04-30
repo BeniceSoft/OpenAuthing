@@ -5,6 +5,7 @@
         <Nullable>enable</Nullable>
         <ImplicitUsings>enable</ImplicitUsings>
         <RootNamespace>BeniceSoft.OpenAuthing</RootNamespace>
+        <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
     </PropertyGroup>
 
     <ItemGroup>
@@ -23,6 +24,12 @@
         <ProjectReference Include="..\BeniceSoft.OpenAuthing.Application\BeniceSoft.OpenAuthing.Application.csproj" />
         <ProjectReference Include="..\BeniceSoft.OpenAuthing.EntityFrameworkCore\BeniceSoft.OpenAuthing.EntityFrameworkCore.csproj" />
         <ProjectReference Include="..\BeniceSoft.OpenAuthing.RemoteService.Implements\BeniceSoft.OpenAuthing.RemoteService.Implements.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <Content Include="..\..\.dockerignore">
+        <Link>.dockerignore</Link>
+      </Content>
     </ItemGroup>
 
 
