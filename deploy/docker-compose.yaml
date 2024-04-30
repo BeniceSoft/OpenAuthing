@@ -10,27 +10,17 @@ services:
     environment:
       ASPNETCORE_ENVIRONMENT: ${ASPNETCORE_ENVIRONMENT}
       ConnectionStrings__Default: ${CONNECTION_STRING}
-      AppUrl: https://110.41.18.47:8433/
+      AppUrl: http://110.41.18.47:8433/
     volumes:
       - sso_certs:/app/certs:ro
     deploy:
       mode: replicated
       replicas: 1
 
-  # api:
-  #   image: ghcr.io/benicesoft/openauthing-api:${ADMINUI_TAG:-latest}
-  #   ports:
-  #     - "8082:80"
-  #   networks:
-  #     - net
-  #   deploy:
-  #     mode: replicated
-  #     replicas: 1
-
-  adminui:
-    image: zengande/openauthing-adminui:${ADMINUI_TAG:-latest}
+  api:
+    image: ghcr.io/benicesoft/openauthing-api:${API_TAG:-latest}
     ports:
-      - "8080:80"
+      - "8082:80"
     networks:
       - net
     deploy:

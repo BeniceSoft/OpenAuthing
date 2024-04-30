@@ -552,6 +552,37 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.ToTable("OAuthing_PermissionGrants", (string)null);
                 });
 
+            modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Positions.Position", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .HasColumnType("char(36)");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .IsRequired()
+                        .HasMaxLength(40)
+                        .HasColumnType("varchar(40)")
+                        .HasColumnName("ConcurrencyStamp");
+
+                    b.Property<string>("Description")
+                        .HasMaxLength(512)
+                        .HasColumnType("varchar(512)");
+
+                    b.Property<string>("ExtraProperties")
+                        .IsRequired()
+                        .HasColumnType("longtext")
+                        .HasColumnName("ExtraProperties");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(256)
+                        .HasColumnType("varchar(256)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("OAuthing_Positions", (string)null);
+                });
+
             modelBuilder.Entity("BeniceSoft.OpenAuthing.Entities.Roles.Role", b =>
                 {
                     b.Property<Guid>("Id")

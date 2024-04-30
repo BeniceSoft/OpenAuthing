@@ -12,7 +12,7 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 
 [ApiController]
 [Route("api/admin/[controller]")]
-[Authorize(Roles = AuthingConstants.AdminRoleName)]
+// [Authorize(Roles = AuthingConstants.AdminRoleName)]
 [Produces("application/json")]
 public abstract class AuthingApiControllerBase : AbpController
 {

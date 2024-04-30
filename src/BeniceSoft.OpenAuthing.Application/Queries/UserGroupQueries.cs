@@ -14,9 +14,9 @@ public class UserGroupQueries : BaseQueries, IUserGroupQueries
     private readonly IRepository<UserGroup, Guid> _userGroupRepository;
     private readonly IUserRepository _userRepository;
 
-    public UserGroupQueries(IAbpLazyServiceProvider lazyServiceProvider, IRepository<UserGroup, Guid> userGroupRepository,
+    public UserGroupQueries(
+        IRepository<UserGroup, Guid> userGroupRepository,
         IUserRepository userRepository)
-        : base(lazyServiceProvider)
     {
         _userGroupRepository = userGroupRepository;
         _userRepository = userRepository;

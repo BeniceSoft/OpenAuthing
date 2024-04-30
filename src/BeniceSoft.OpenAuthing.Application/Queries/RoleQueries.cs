@@ -21,9 +21,12 @@ public class RoleQueries : BaseQueries, IRoleQueries
     private readonly IRepository<UserGroup, Guid> _userGroupRepository;
     private readonly IRepository<PermissionSpace, Guid> _spaceRepository;
 
-    public RoleQueries(IAbpLazyServiceProvider lazyServiceProvider, IRoleRepository roleRepository,
-        IRepository<RoleSubject, Guid> roleSubjectRepository, IUserRepository userRepository, IRepository<UserGroup, Guid> userGroupRepository, IRepository<PermissionSpace, Guid> spaceRepository)
-        : base(lazyServiceProvider)
+    public RoleQueries(
+        IRoleRepository roleRepository,
+        IRepository<RoleSubject, Guid> roleSubjectRepository, 
+        IUserRepository userRepository, 
+        IRepository<UserGroup, Guid> userGroupRepository,
+        IRepository<PermissionSpace, Guid> spaceRepository)
     {
         _roleRepository = roleRepository;
         _roleSubjectRepository = roleSubjectRepository;

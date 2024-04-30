@@ -12,4 +12,5 @@ public interface IUserQueries : ITransientDependency
     Task<UserDetailRes> GetDetailAsync(Guid id);
 
     Task<List<UserDepartmentDto>> ListUserDepartmentsAsync(Guid userId);
+    Task<List<UserRoleRes>> ListUserRolesAsync(Guid userId);
 }

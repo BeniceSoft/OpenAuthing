@@ -8,13 +8,7 @@ namespace BeniceSoft.OpenAuthing.Queries;
 
 public abstract class BaseQueries
 {
-    protected IAbpLazyServiceProvider LazyServiceProvider;
-
-    protected BaseQueries(IAbpLazyServiceProvider lazyServiceProvider)
-    {
-        LazyServiceProvider = lazyServiceProvider;
-    }
-
+    public IAbpLazyServiceProvider LazyServiceProvider { get; set; } = null!;
 
     protected Type? ObjectMapperContext { get; set; }
 

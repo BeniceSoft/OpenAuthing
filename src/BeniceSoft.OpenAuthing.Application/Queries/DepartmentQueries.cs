@@ -8,7 +8,7 @@ public class DepartmentQueries : BaseQueries, IDepartmentQueries
 {
     private readonly DepartmentManager _departmentManager;
 
-    public DepartmentQueries(IAbpLazyServiceProvider lazyServiceProvider, DepartmentManager departmentManager) : base(lazyServiceProvider)
+    public DepartmentQueries(DepartmentManager departmentManager)
     {
         _departmentManager = departmentManager;
     }

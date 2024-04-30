@@ -1,3 +1,5 @@
+using BeniceSoft.OpenAuthing.Enums;
+
 namespace BeniceSoft.OpenAuthing.Dtos.Users;
 
 public class UserRoleRes
@@ -6,5 +8,9 @@ public class UserRoleRes
 
     public string RoleName { get; set; }
 
-    public string RoleDisplayName { get; set; }
+    public string RoleDescription { get; set; }
+
+    public RoleSubjectType AssignmentSubjectType { get; set; }
+    public Guid AssignmentSubjectId { get; set; }
+    public string? AssignmentSubjectName { get; set; }
 }

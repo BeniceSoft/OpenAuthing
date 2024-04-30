@@ -6,11 +6,6 @@ namespace BeniceSoft.OpenAuthing.Queries;
 
 public class PermissionQueries : BaseQueries, IPermissionQueries, ITransientDependency
 {
-    public PermissionQueries(IAbpLazyServiceProvider lazyServiceProvider)
-        : base(lazyServiceProvider)
-    {
-    }
-
     private IPermissionManager PermissionManager => LazyServiceProvider.LazyGetRequiredService<IPermissionManager>();
     private IPermissionRepository PermissionRepository => LazyServiceProvider.LazyGetRequiredService<IPermissionRepository>();
 

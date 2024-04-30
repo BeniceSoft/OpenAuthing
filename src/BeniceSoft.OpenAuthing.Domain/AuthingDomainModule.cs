@@ -22,7 +22,7 @@ public class AuthingDomainModule : AbpModule
     {
         context.Services.TryAddTransient<IPasswordHasher<User>, PasswordHasher<User>>();
 
-        // Configure<AbpPermissionOptions>(options => { options.ValueProviders.Insert(0, typeof(SystemAdminPermissionValueProvider)); });
+        Configure<AbpPermissionOptions>(options => { options.ValueProviders.Insert(0, typeof(SystemAdminPermissionValueProvider)); });
 
         Configure<AuthingPermissionOptions>(options => { options.ManagementProviders.Add<RolePermissionManagementProvider>(); });
     }

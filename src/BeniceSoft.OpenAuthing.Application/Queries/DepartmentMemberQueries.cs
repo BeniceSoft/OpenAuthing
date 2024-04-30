@@ -15,9 +15,10 @@ public class DepartmentMemberQueries : BaseQueries, IDepartmentMemberQueries
     private readonly IRepository<Department, Guid> _departmentRepository;
     private readonly IUserRepository _userRepository;
 
-    public DepartmentMemberQueries(IAbpLazyServiceProvider lazyServiceProvider, IRepository<DepartmentMember> departmentMemberRepository,
-        IRepository<Department, Guid> departmentRepository, IUserRepository userRepository) : base(
-        lazyServiceProvider)
+    public DepartmentMemberQueries(
+        IRepository<DepartmentMember> departmentMemberRepository,
+        IRepository<Department, Guid> departmentRepository, 
+        IUserRepository userRepository)
     {
         _departmentMemberRepository = departmentMemberRepository;
         _departmentRepository = departmentRepository;

@@ -10,8 +10,7 @@ public class PermissionSpaceQueries : BaseQueries, IPermissionSpaceQueries
 {
     private readonly IRepository<PermissionSpace, Guid> _spaceRepository;
 
-    public PermissionSpaceQueries(IAbpLazyServiceProvider lazyServiceProvider, IRepository<PermissionSpace, Guid> spaceRepository)
-        : base(lazyServiceProvider)
+    public PermissionSpaceQueries(IRepository<PermissionSpace, Guid> spaceRepository)
     {
         _spaceRepository = spaceRepository;
     }

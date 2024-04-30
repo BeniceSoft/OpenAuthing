@@ -113,6 +113,6 @@ public class UsersController : AuthingApiControllerBase
     [ProducesResponseType<ResponseResult<List<UserRoleRes>>>(StatusCodes.Status200OK)]
     public async Task<List<UserRoleRes>> GetUserRolesAsync(Guid id)
     {
-        throw new NotImplementedException();
+        return await _userQueries.ListUserRolesAsync(id);
     }
 }

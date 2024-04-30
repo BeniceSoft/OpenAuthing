@@ -10,8 +10,7 @@ public class ApplicationQueries : BaseQueries, IApplicationQueries
 {
     private readonly IRepository<OpenIddictApplication> _applicationRepository;
 
-    public ApplicationQueries(IAbpLazyServiceProvider lazyServiceProvider, IRepository<OpenIddictApplication> applicationRepository) : base(
-        lazyServiceProvider)
+    public ApplicationQueries(IRepository<OpenIddictApplication> applicationRepository)
     {
         _applicationRepository = applicationRepository;
     }
