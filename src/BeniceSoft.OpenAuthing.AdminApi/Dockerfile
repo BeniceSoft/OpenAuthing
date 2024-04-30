@@ -7,6 +7,8 @@ EXPOSE 8081
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
+COPY ["Directory.Packages.props", "Directory.Packages.props"]
+COPY ["NuGet.Config", "NuGet.Config"]
 COPY ["src/BeniceSoft.OpenAuthing.AdminApi/BeniceSoft.OpenAuthing.AdminApi.csproj", "src/BeniceSoft.OpenAuthing.AdminApi/"]
 COPY ["src/BeniceSoft.OpenAuthing.Application/BeniceSoft.OpenAuthing.Application.csproj", "src/BeniceSoft.OpenAuthing.Application/"]
 COPY ["src/BeniceSoft.OpenAuthing.Application.Contracts/BeniceSoft.OpenAuthing.Application.Contracts.csproj", "src/BeniceSoft.OpenAuthing.Application.Contracts/"]
