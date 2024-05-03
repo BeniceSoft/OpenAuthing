@@ -613,20 +613,12 @@ namespace BeniceSoft.OpenAuthing.Migrations
 
                     b.Property<string>("Description")
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
-                        .HasComment("描述");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
-                        .HasComment("显示名");
+                        .HasColumnType("varchar(500)");
 
                     b.Property<bool>("Enabled")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(true)
-                        .HasComment("是否启用");
+                        .HasDefaultValue(true);
 
                     b.Property<string>("ExtraProperties")
                         .IsRequired()
@@ -642,8 +634,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.Property<bool>("IsSystemBuiltIn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasDefaultValue(false)
-                        .HasComment("是否系统内置");
+                        .HasDefaultValue(false);
 
                     b.Property<DateTime?>("LastModificationTime")
                         .HasColumnType("datetime(6)")
@@ -656,26 +647,21 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
-                        .HasComment("角色名");
+                        .HasColumnType("varchar(200)");
 
                     b.Property<string>("NormalizedName")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
-                        .HasComment("归一化后的角色名");
-
-                    b.Property<Guid>("PermissionSpaceId")
-                        .HasColumnType("char(36)")
-                        .HasComment("所属权限空间");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PermissionSpaceId");
+                    b.HasIndex("NormalizedName")
+                        .IsUnique();
 
                     b.ToTable("OAuthing_Roles", null, t =>
                         {
-                            t.HasComment("角色");
+                            t.HasComment("Roles");
                         });
                 });
 
@@ -693,16 +679,14 @@ namespace BeniceSoft.OpenAuthing.Migrations
                         .HasColumnName("CreatorId");
 
                     b.Property<Guid>("RoleId")
-                        .HasColumnType("char(36)")
-                        .HasComment("角色id");
+                        .HasColumnType("char(36)");
 
                     b.Property<Guid>("SubjectId")
-                        .HasColumnType("char(36)")
-                        .HasComment("主体id");
+                        .HasColumnType("char(36)");
 
                     b.Property<int>("SubjectType")
                         .HasColumnType("int")
-                        .HasComment("主体类型(0:用户 1:用户组)");
+                        .HasComment("0:User 1:UserGroup");
 
                     b.HasKey("Id");
 
@@ -713,7 +697,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
 
                     b.ToTable("OAuthing_RoleSubjects", null, t =>
                         {
-                            t.HasComment("角色主体");
+                            t.HasComment("Role Subjects");
                         });
                 });
 

@@ -477,3 +477,6 @@ $RECYCLE.BIN/
 
 # Windows shortcuts
 *.lnk
+
+
+*/**/appsettings.override.json

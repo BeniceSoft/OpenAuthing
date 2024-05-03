@@ -15,7 +15,7 @@ public class PositionsController : AuthingApiControllerBase
     private IPositionQueries PositionQueries => LazyServiceProvider.LazyGetRequiredService<IPositionQueries>();
 
     /// <summary>
-    /// Get positions (pagination)
+    /// Get positions (Pagination)
     /// </summary>
     /// <param name="searchKey"></param>
     /// <param name="pageIndex"></param>

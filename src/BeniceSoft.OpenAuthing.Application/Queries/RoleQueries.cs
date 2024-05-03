@@ -15,52 +15,37 @@ namespace BeniceSoft.OpenAuthing.Queries;
 
 public class RoleQueries : BaseQueries, IRoleQueries
 {
-    private readonly IRoleRepository _roleRepository;
-    private readonly IRepository<RoleSubject, Guid> _roleSubjectRepository;
-    private readonly IUserRepository _userRepository;
-    private readonly IRepository<UserGroup, Guid> _userGroupRepository;
-    private readonly IRepository<PermissionSpace, Guid> _spaceRepository;
-
-    public RoleQueries(
-        IRoleRepository roleRepository,
-        IRepository<RoleSubject, Guid> roleSubjectRepository, 
-        IUserRepository userRepository, 
-        IRepository<UserGroup, Guid> userGroupRepository,
-        IRepository<PermissionSpace, Guid> spaceRepository)
-    {
-        _roleRepository = roleRepository;
-        _roleSubjectRepository = roleSubjectRepository;
-        _userRepository = userRepository;
-        _userGroupRepository = userGroupRepository;
-        _spaceRepository = spaceRepository;
-    }
+    private IRoleRepository RoleRepository => LazyServiceProvider.LazyGetRequiredService<IRoleRepository>();
+    private IRepository<RoleSubject, Guid> RoleSubjectRepository => LazyServiceProvider.LazyGetRequiredService<IRepository<RoleSubject, Guid>>();
+    private IUserRepository UserRepository => LazyServiceProvider.LazyGetRequiredService<IUserRepository>();
+    private IRepository<UserGroup, Guid> UserGroupRepository => LazyServiceProvider.LazyGetRequiredService<IRepository<UserGroup, Guid>>();
 
     public async Task<PagedResultDto<RoleSimpleRes>> PageQueryAsync(RolePageQueryReq req)
     {
-        var roleQueryable = await _roleRepository.GetQueryableAsync();
-        var spaceQueryable = await _spaceRepository.GetQueryableAsync();
+        var roleQueryable = await RoleRepository.GetQueryableAsync();
         var queryable =
             from role in roleQueryable
-            join space in spaceQueryable on role.PermissionSpaceId equals space.Id
-            select new
+            select new RoleSimpleRes
             {
-                role.Id, role.Name, role.DisplayName, role.Description, role.CreationTime, role.Enabled, role.IsSystemBuiltIn,
-                PermissionSpaceName = space.DisplayName
+                Id = role.Id,
+                Name = role.Name,
+                Description = role.Description,
+                CreationTime = role.CreationTime,
+                Enabled = role.Enabled,
+                IsSystemBuiltIn = role.IsSystemBuiltIn
             };
         var queryableWrapper = QueryableWrapperFactory.CreateWrapper(queryable)
-            .SearchByKey(req.SearchKey, x => x.Name, x => x.DisplayName)
+            .SearchByKey(req.SearchKey, x => x.Name, x => x.Description)
             .AsNoTracking();
 
         var totalCount = await queryableWrapper.CountAsync();
         var items = new List<RoleSimpleRes>();
         if (totalCount > 0)
         {
-            var roles = await queryableWrapper
+            items = await queryableWrapper
                 .OrderByDescending(x => x.CreationTime)
                 .PagedBy(req.PageIndex, req.PageSize)
                 .ToListAsync();
-
-            items = roles.Adapt<List<RoleSimpleRes>>();
         }
 
         return new(totalCount, items);
@@ -68,22 +53,17 @@ public class RoleQueries : BaseQueries, IRoleQueries
 
     public async Task<RoleDetailRes> GetDetailAsync(Guid roleId)
     {
-        var roleQueryable = await _roleRepository.GetQueryableAsync();
-        var spaceQueryable = await _spaceRepository.GetQueryableAsync();
+        var roleQueryable = await RoleRepository.GetQueryableAsync();
         var queryable =
             from role in roleQueryable
-            join space in spaceQueryable on role.PermissionSpaceId equals space.Id
             where role.Id == roleId
             select new RoleDetailRes
             {
                 Id = role.Id,
-                Name = role.Name, 
-                DisplayName = role.DisplayName,
+                Name = role.Name,
                 Description = role.Description,
-                Enabled = role.Enabled, 
-                IsSystemBuiltIn = role.IsSystemBuiltIn,
-                PermissionSpaceId = role.PermissionSpaceId, 
-                PermissionSpaceName = space.DisplayName
+                Enabled = role.Enabled,
+                IsSystemBuiltIn = role.IsSystemBuiltIn
             };
 
         var entity = await AsyncExecuter.FirstOrDefaultAsync(queryable);
@@ -97,7 +77,7 @@ public class RoleQueries : BaseQueries, IRoleQueries
 
     public async Task<List<RoleSubjectRes>> ListRoleSubjectsAsync(Guid roleId)
     {
-        var subjects = await _roleSubjectRepository.GetQueryableAsync();
+        var subjects = await RoleSubjectRepository.GetQueryableAsync();
 
         var roleSubjects = await AsyncExecuter.ToListAsync(subjects
             .Where(x => x.RoleId == roleId)
@@ -110,10 +90,10 @@ public class RoleQueries : BaseQueries, IRoleQueries
             .ToList();
         if (userIds.Any())
         {
-            var userQueryable = await _userRepository.GetQueryableAsync();
+            var userQueryable = await UserRepository.GetQueryableAsync();
             var users = await AsyncExecuter.ToListAsync(userQueryable
                 .Where(x => userIds.Contains(x.Id))
-                .Select(x => new { x.Id, x.Nickname, x.UserName, x.Avatar }));
+                .Select(x => new {x.Id, x.Nickname, x.UserName, x.Avatar}));
             foreach (var item in roleSubjects.Where(x => x.SubjectType == RoleSubjectType.User))
             {
                 var subject = item.Adapt<RoleSubjectRes>();
@@ -131,10 +111,10 @@ public class RoleQueries : BaseQueries, IRoleQueries
             .ToList();
         if (userGroupIds.Any())
         {
-            var userGroupQueryable = await _userGroupRepository.GetQueryableAsync();
+            var userGroupQueryable = await UserGroupRepository.GetQueryableAsync();
             var userGroups = await AsyncExecuter.ToListAsync(userGroupQueryable
                 .Where(x => userGroupIds.Contains(x.Id))
-                .Select(x => new { x.Id, x.Name }));
+                .Select(x => new {x.Id, x.Name}));
             foreach (var item in roleSubjects.Where(x => x.SubjectType == RoleSubjectType.UserGroup))
             {
                 var subject = item.Adapt<RoleSubjectRes>();

@@ -65,7 +65,6 @@ public class UserInfoController : AuthOpenIddictControllerBase
             {
                 RoleId = x.Id,
                 RoleName = x.NormalizedName,
-                RoleDisplayName = x.DisplayName
             });
         }
 

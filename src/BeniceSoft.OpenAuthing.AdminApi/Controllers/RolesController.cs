@@ -9,19 +9,14 @@ using Volo.Abp.Application.Dtos;
 namespace BeniceSoft.OpenAuthing.Controllers;
 
 /// <summary>
-/// 角色
+/// Roles
 /// </summary>
 public partial class RolesController : AuthingApiControllerBase
 {
-    private readonly IRoleQueries _roleQueries;
-
-    public RolesController(IRoleQueries roleQueries)
-    {
-        _roleQueries = roleQueries;
-    }
+    private IRoleQueries RoleQueries => LazyServiceProvider.LazyGetRequiredService<IRoleQueries>();
 
     /// <summary>
-    /// 分页查询
+    /// Query roles
     /// </summary>
     /// <param name="searchKey"></param>
     /// <param name="pageIndex"></param>
@@ -29,7 +24,7 @@ public partial class RolesController : AuthingApiControllerBase
     /// <returns></returns>
     [HttpGet]
     [ProducesResponseType<ResponseResult<PagedResultDto<RoleSimpleRes>>>(StatusCodes.Status200OK)]
-    public async Task<PagedResultDto<RoleSimpleRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20)
+    public Task<PagedResultDto<RoleSimpleRes>> GetAsync(string? searchKey = null, int pageIndex = 1, int pageSize = 20)
     {
         var req = new RolePageQueryReq
         {
@@ -37,72 +32,72 @@ public partial class RolesController : AuthingApiControllerBase
             PageSize = pageSize,
             SearchKey = searchKey
         };
-        return await _roleQueries.PageQueryAsync(req);
+        return RoleQueries.PageQueryAsync(req);
     }
 
     /// <summary>
-    /// 获取详情
+    /// Get role details
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}")]
     [ProducesResponseType<ResponseResult<PagedResultDto<RoleDetailRes>>>(StatusCodes.Status200OK)]
-    public async Task<RoleDetailRes> GetAsync(Guid id)
+    public Task<RoleDetailRes> GetAsync(Guid id)
     {
-        return await _roleQueries.GetDetailAsync(id);
+        return RoleQueries.GetDetailAsync(id);
     }
 
     /// <summary>
-    /// 创建
+    /// Create a role
     /// </summary>
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPost]
     [ProducesResponseType<ResponseResult<Guid>>(StatusCodes.Status200OK)]
-    public async Task<Guid> PostAsync([FromBody] InputRoleReq req)
+    public Task<Guid> PostAsync([FromBody] InputRoleReq req)
     {
-        var command = new CreateRoleCommand(req.Name, req.DisplayName, req.Description ?? string.Empty, req.PermissionSpaceId);
-        return await Mediator.Send(command);
+        var command = new CreateRoleCommand(req.Name, req.Description ?? string.Empty);
+        return Mediator.Send(command);
     }
 
     /// <summary>
-    /// 更新
+    /// Update role
     /// </summary>
     /// <param name="id"></param>
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPut("{id}")]
     [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
-    public async Task<bool> PusAsync(Guid id, [FromBody] InputRoleReq req)
+    public Task<bool> PusAsync(Guid id, [FromBody] InputRoleReq req)
     {
-        var command = new UpdateRoleCommand(id, req.Name, req.DisplayName, req.Description);
-        return await Mediator.Send(command);
+        var command = new UpdateRoleCommand(id, req.Name, req.Description);
+        return Mediator.Send(command);
     }
 
     /// <summary>
-    /// 删除
+    /// Delete a role
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpDelete("{id}")]
     [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
-    public async Task<bool> DeleteAsync(Guid id)
+    public Task<bool> DeleteAsync(Guid id)
     {
         var command = new DeleteRoleCommand(id);
-        return await Mediator.Send(command);
+        return Mediator.Send(command);
     }
 
     /// <summary>
-    /// 修改启用状态
+    /// Set role enabled status
     /// </summary>
     /// <param name="id"></param>
     /// <param name="enabled"></param>
     /// <returns></returns>
     [HttpPut("{id}/toggle-enabled")]
     [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
-    public async Task<bool> ToggleEnabled(Guid id, bool enabled)
+    public Task<bool> ToggleEnabled(Guid id, bool enabled)
     {
         var command = new ToggleRoleEnabledCommand(id, enabled);
-        return await Mediator.Send(command);
+        return Mediator.Send(command);
     }
 }

@@ -10,42 +10,32 @@ namespace BeniceSoft.OpenAuthing.Entities.Roles;
 public class Role : FullAuditedAggregateRoot<Guid>
 {
     /// <summary>
-    /// 名称
+    /// Role Name
     /// </summary>
     public string Name { get; private set; }
 
     /// <summary>
-    /// 归一化名称
+    /// Normalized Role Name
     /// </summary>
     public string NormalizedName { get; private set; }
 
     /// <summary>
-    /// 显示名称
-    /// </summary>
-    public string DisplayName { get; private set; }
-
-    /// <summary>
-    /// 描述
+    /// Role Description
     /// </summary>
     public string Description { get; private set; }
 
     /// <summary>
-    /// 启用/禁用
+    /// true: Enabled false: Disabled
     /// </summary>
     public bool Enabled { get; private set; }
 
     /// <summary>
-    /// 是否系统内置
+    /// Is System Built-In
     /// </summary>
     public bool IsSystemBuiltIn { get; private set; }
 
     /// <summary>
-    /// 所属权限空间
-    /// </summary>
-    public Guid PermissionSpaceId { get; private set; }
-
-    /// <summary>
-    /// 主体
+    /// Role Subjects
     /// </summary>
     public IReadOnlyCollection<RoleSubject> Subjects => _subjects;
 
@@ -56,13 +46,11 @@ public class Role : FullAuditedAggregateRoot<Guid>
         _subjects = new();
     }
 
-    public Role(Guid id, string name, string displayName, string description, Guid permissionSpaceId, bool enabled = true, bool isSystemBuiltIn = false)
+    public Role(Guid id, string name, string description, bool enabled = true, bool isSystemBuiltIn = false)
         : this(id)
     {
         Name = name;
-        DisplayName = displayName;
         Description = description;
-        PermissionSpaceId = permissionSpaceId;
         Enabled = enabled;
         IsSystemBuiltIn = isSystemBuiltIn;
     }
@@ -84,12 +72,11 @@ public class Role : FullAuditedAggregateRoot<Guid>
         Enabled = enabled;
     }
 
-    public void Update(string name, string displayName, string description)
+    public void Update(string name, string description)
     {
         ThrowIfIsBuiltInSystem();
 
         Name = name;
-        DisplayName = displayName;
         Description = description;
     }
 

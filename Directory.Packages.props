@@ -16,7 +16,9 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageVersion>
     <PackageVersion Include="Microsoft.EntityFrameworkCore.Relational" Version="8.0.3" />
+    <PackageVersion Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
     <PackageVersion Include="Microsoft.Extensions.Hosting" Version="8.0.0" />
+    <PackageVersion Include="Microsoft.Extensions.Hosting.Abstractions" Version="8.0.0" />
     <PackageVersion Include="OpenIddict.Core" Version="5.4.0" />
     <PackageVersion Include="Serilog.AspNetCore" Version="8.0.2-dev-00336" />
     <PackageVersion Include="Serilog.Extensions.Logging" Version="8.0.1-dev-10382" />

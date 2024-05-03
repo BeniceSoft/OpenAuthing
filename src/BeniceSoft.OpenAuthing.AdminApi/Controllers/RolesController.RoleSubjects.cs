@@ -9,42 +9,42 @@ namespace BeniceSoft.OpenAuthing.Controllers;
 public partial class RolesController
 {
     /// <summary>
-    /// 获取角色对象列表
+    /// List role subjects
     /// </summary>
     /// <param name="id"></param>
     /// <returns></returns>
     [HttpGet("{id}/subjects")]
     [ProducesResponseType<ResponseResult<List<RoleSubjectRes>>>(StatusCodes.Status200OK)]
-    public async Task<List<RoleSubjectRes>> GetSubjectsAsync(Guid id)
+    public Task<List<RoleSubjectRes>> GetSubjectsAsync(Guid id)
     {
-        return await _roleQueries.ListRoleSubjectsAsync(id);
+        return RoleQueries.ListRoleSubjectsAsync(id);
     }
 
     /// <summary>
-    /// 保存角色对象
+    /// Add subjects
     /// </summary>
     /// <param name="id"></param>
     /// <param name="req"></param>
     /// <returns></returns>
     [HttpPut("{id}/subjects")]
     [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
-    public async Task<bool> SaveSubjectsAsync(Guid id, [FromBody] SaveRoleSubjectsReq req)
+    public Task<bool> SaveSubjectsAsync(Guid id, [FromBody] SaveRoleSubjectsReq req)
     {
         var command = new SaveRoleSubjectsCommand(id, req.Subjects);
-        return await Mediator.Send(command);
+        return Mediator.Send(command);
     }
 
     /// <summary>
-    /// 移除角色对象
+    /// Remove a subject
     /// </summary>
     /// <param name="id"></param>
     /// <param name="roleSubjectId"></param>
     /// <returns></returns>
     [HttpDelete("{id}/subjects/{roleSubjectId}")]
     [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
-    public async Task<bool> RemoveSubjectAsync(Guid id, Guid roleSubjectId)
+    public Task<bool> RemoveSubjectAsync(Guid id, Guid roleSubjectId)
     {
         var command = new RemoveRoleSubjectCommand(id, roleSubjectId);
-        return await Mediator.Send(command);
+        return Mediator.Send(command);
     }
 }
