@@ -26,7 +26,7 @@ public partial class RolesController
     /// <param name="id"></param>
     /// <param name="req"></param>
     /// <returns></returns>
-    [HttpPut("{id}/subjects")]
+    [HttpPost("{id}/subjects")]
     [ProducesResponseType<ResponseResult<bool>>(StatusCodes.Status200OK)]
     public Task<bool> SaveSubjectsAsync(Guid id, [FromBody] SaveRoleSubjectsReq req)
     {
