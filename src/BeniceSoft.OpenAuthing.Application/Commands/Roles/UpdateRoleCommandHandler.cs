@@ -18,8 +18,8 @@ public class UpdateRoleCommandHandler
     {
         var role = await _roleManager.FindByIdAsync(request.Id.ToString());
         if (role is null) return false;
-        
-        role.Update(request.Name, request.DisplayName, request.Description ?? string.Empty);
+
+        role.Update(request.Name, request.Description ?? string.Empty);
 
         var result = await _roleManager.UpdateAsync(role);
 

@@ -29,7 +29,8 @@ public class AuthingDesignTimeDbContextFactory : IDesignTimeDbContextFactory<Aut
     {
         var builder = new ConfigurationBuilder()
             .SetBasePath(Path.Combine(Directory.GetCurrentDirectory(), "../BeniceSoft.OpenAuthing.AdminApi/"))
-            .AddJsonFile("appsettings.json", optional: false);
+            .AddJsonFile("appsettings.json", optional: false)
+            .AddJsonFile("appsettings.override.json", optional: true);
 
         return builder.Build();
     }

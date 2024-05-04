@@ -1,5 +1,6 @@
 using System.Text;
 using BeniceSoft.OpenAuthing;
+using BeniceSoft.OpenAuthing.Configuration.Extensions;
 using Serilog;
 using Serilog.Events;
 
@@ -28,6 +29,7 @@ try
     var builder = WebApplication.CreateBuilder(args);
     builder.Host
         .AddAppSettingsSecretsJson()
+        .AddAppSettingsOverrideJson()
         .UseAutofac()
         .UseSerilog();
     await builder.AddApplicationAsync<AuthingAdminApiModule>();

@@ -1,4 +1,5 @@
 using BeniceSoft.OpenAuthing.Entities.Roles;
+using BeniceSoft.OpenAuthing.Exceptions;
 using MediatR;
 using Volo.Abp;
 using Volo.Abp.DependencyInjection;
@@ -20,12 +21,13 @@ public class CreateRoleCommandHandler
 
     public async Task<Guid> Handle(CreateRoleCommand request, CancellationToken cancellationToken)
     {
-        var role = new Role(_guidGenerator.Create(), request.Name, request.DisplayName, request.Description, request.PermissionSpaceId);
+        var role = new Role(_guidGenerator.Create(), request.Name, request.Description );
         var result = await _roleManager.CreateAsync(role);
         
         if (!result.Succeeded)
         {
-            throw new UserFriendlyException(result.Errors.Select(x => x.Description).JoinAsString(";"));
+            var error = result.Errors.First();
+            throw new AuthingBizException(2000, error.Description);
         }
 
         return role.Id;

@@ -29,9 +29,7 @@ public class RoleDataSeedContributor(RoleManager roleManager, ILookupNormalizer 
             adminRole = new Role(
                 roleId,
                 AuthingConstants.AdminRoleName,
-                "超级管理员",
                 "系统内置超级管理员",
-                spaceId,
                 isSystemBuiltIn: true
             );
 
