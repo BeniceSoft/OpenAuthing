@@ -732,18 +732,12 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.Property<string>("Description")
                         .IsRequired()
                         .HasMaxLength(500)
-                        .HasColumnType("varchar(500)")
-                        .HasComment("描述");
-
-                    b.Property<string>("DisplayName")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
-                        .HasComment("显示名称");
+                        .HasColumnType("varchar(500)");
 
                     b.Property<bool>("Enabled")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("tinyint(1)")
-                        .HasComment("是否启用");
+                        .HasDefaultValue(true);
 
                     b.Property<string>("ExtraProperties")
                         .IsRequired()
@@ -767,8 +761,7 @@ namespace BeniceSoft.OpenAuthing.Migrations
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(200)
-                        .HasColumnType("varchar(200)")
-                        .HasComment("名称");
+                        .HasColumnType("varchar(200)");
 
                     b.HasKey("Id");
 

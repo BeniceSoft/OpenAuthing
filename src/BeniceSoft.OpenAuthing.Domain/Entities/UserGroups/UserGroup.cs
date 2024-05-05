@@ -1,4 +1,5 @@
-﻿using Volo.Abp.Domain.Entities.Auditing;
+﻿using Volo.Abp;
+using Volo.Abp.Domain.Entities.Auditing;
 
 namespace BeniceSoft.OpenAuthing.Entities.UserGroups;
 
@@ -8,27 +9,22 @@ namespace BeniceSoft.OpenAuthing.Entities.UserGroups;
 public class UserGroup : FullAuditedAggregateRoot<Guid>
 {
     /// <summary>
-    /// 名称
+    /// Group name
     /// </summary>
     public string Name { get; private set; }
 
     /// <summary>
-    /// 显示名称
-    /// </summary>
-    public string DisplayName { get; private set; }
-
-    /// <summary>
-    /// 描述
+    /// Description
     /// </summary>
     public string Description { get; private set; }
 
     /// <summary>
-    /// 是否启用
+    /// Enabled
     /// </summary>
     public bool Enabled { get; private set; }
 
     /// <summary>
-    /// 成员
+    /// Members
     /// </summary>
     public IReadOnlyCollection<UserGroupMember> Members => _members;
 
@@ -39,12 +35,19 @@ public class UserGroup : FullAuditedAggregateRoot<Guid>
         _members = new();
     }
 
-    public UserGroup(Guid id, string name, string displayName, string description, bool enabled)
+    public UserGroup(Guid id, string name, string description, bool enabled = true)
         : this(id)
     {
         Name = name;
-        DisplayName = displayName;
         Description = description;
         Enabled = enabled;
+    }
+
+    public void Update(string name, string description)
+    {
+        Check.NotNullOrWhiteSpace(name, nameof(name));
+
+        Name = name;
+        Description = description;
     }
 }

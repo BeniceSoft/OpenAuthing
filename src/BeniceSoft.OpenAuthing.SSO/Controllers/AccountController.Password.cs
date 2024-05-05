@@ -34,15 +34,10 @@ public partial class AccountController
 
             if (result.Succeeded)
             {
-                if (!Url.IsLocalUrl(model.ReturnUrl))
-                {
-                    model.ReturnUrl = "/";
-                }
-
                 return Ok(new
                 {
                     LoginSuccess = true,
-                    ReturnUrl = model.ReturnUrl ?? "/",
+                    model.ReturnUrl,
                     UserInfo = user.ToViewModel()
                 }.ToSucceed());
             }
