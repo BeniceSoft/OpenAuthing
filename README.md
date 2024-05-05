@@ -13,6 +13,13 @@
     </a>
     <img src="https://img.shields.io/github/last-commit/BeniceSoft/OpenAuthing/master.svg?logo=github&logoColor=green&label=commit"
         alt="commit"/>
+    <img src="https://img.shields.io/github/actions/workflow/status/benicesoft/openauthing/docker-image.yml" alt="build"/>
+    <img src="https://img.shields.io/github/license/benicesoft/openauthing" alt="licence"/>
+</p>
+<p align="center">
+    <img src="https://img.shields.io/badge/Image Versions:-green" alt="versions"/>
+    <img src="https://img.shields.io/docker/v/benicesoft/openauthing-sso?label=openauthing-sso" alt="openauthing-sso"/>
+    <img src="https://img.shields.io/docker/v/benicesoft/openauthing-api?label=openauthing-api" alt="openauthong-api"/>
 </p>
 
 <p align="center">
@@ -78,7 +85,8 @@ $ npm start
 
 > **Note**
 > If you're using Linux Bash for
-> Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or use `node`
+> Windows, [see this guide](https://www.howtogeek.com/261575/how-to-run-graphical-linux-desktop-applications-from-windows-10s-bash-shell/) or
+> use `node`
 > from the command prompt.
 
 ## 🪪 License
