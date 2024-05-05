@@ -17,6 +17,7 @@ COPY ["src/BeniceSoft.OpenAuthing.Domain/BeniceSoft.OpenAuthing.Domain.csproj", 
 COPY ["src/BeniceSoft.OpenAuthing.EntityFrameworkCore/BeniceSoft.OpenAuthing.EntityFrameworkCore.csproj", "src/BeniceSoft.OpenAuthing.EntityFrameworkCore/"]
 COPY ["src/BeniceSoft.OpenAuthing.RemoteService.Implements/BeniceSoft.OpenAuthing.RemoteService.Implements.csproj", "src/BeniceSoft.OpenAuthing.RemoteService.Implements/"]
 COPY ["src/BeniceSoft.OpenAuthing.RemoteService.Abstractions/BeniceSoft.OpenAuthing.RemoteService.Abstractions.csproj", "src/BeniceSoft.OpenAuthing.RemoteService.Abstractions/"]
+COPY ["src/BeniceSoft.OpenAuthing.Configuration/BeniceSoft.OpenAuthing.Configuration.csproj", "src/BeniceSoft.OpenAuthing.Configuration/"]
 RUN dotnet restore "src/BeniceSoft.OpenAuthing.AdminApi/BeniceSoft.OpenAuthing.AdminApi.csproj"
 COPY . .
 WORKDIR "/src/src/BeniceSoft.OpenAuthing.AdminApi"

@@ -24,6 +24,7 @@ COPY ["src/BeniceSoft.OpenAuthing.EntityFrameworkCore/BeniceSoft.OpenAuthing.Ent
 COPY ["src/BeniceSoft.OpenAuthing.RemoteService.Implements/BeniceSoft.OpenAuthing.RemoteService.Implements.csproj", "src/BeniceSoft.OpenAuthing.RemoteService.Implements/"]
 COPY ["src/BeniceSoft.OpenAuthing.RemoteService.Abstractions/BeniceSoft.OpenAuthing.RemoteService.Abstractions.csproj", "src/BeniceSoft.OpenAuthing.RemoteService.Abstractions/"]
 COPY ["src/BeniceSoft.OpenAuthing.OAuth/BeniceSoft.OpenAuthing.OAuth.csproj", "src/BeniceSoft.OpenAuthing.OAuth/"]
+COPY ["src/BeniceSoft.OpenAuthing.Configuration/BeniceSoft.OpenAuthing.Configuration.csproj", "src/BeniceSoft.OpenAuthing.Configuration/"]
 COPY ["src/BeniceSoft.OpenAuthing.SSO/ClientApp/package*.json", "src/BeniceSoft.OpenAuthing.SSO/ClientApp/"]
 COPY ["src/BeniceSoft.OpenAuthing.SSO/ClientApp/.npmrc", "src/BeniceSoft.OpenAuthing.SSO/ClientApp/"]
 RUN dotnet restore "src/BeniceSoft.OpenAuthing.SSO/BeniceSoft.OpenAuthing.SSO.csproj"
