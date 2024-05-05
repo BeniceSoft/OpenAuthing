@@ -61,5 +61,5 @@ jobs:
         run: docker service update --image benicesoft/openauthing-sso:latest --update-parallelism 1 --update-delay 10s --with-registry-auth openauthing_sso
       
       - name: Deploy API
-        run: docker service update --image benicesoft/openauthing-sso:latest --update-parallelism 1 --update-delay 10s --with-registry-auth openauthing_api
+        run: docker service update --image benicesoft/openauthing-api:latest --update-parallelism 1 --update-delay 10s --with-registry-auth openauthing_api
        
