@@ -29,20 +29,10 @@ internal static class UserGroupAggregateTypeConfiguration
         builder.ToTable(AuthingDbProperties.DbTablePrefix + "UserGroups", x => x.HasComment("用户组"));
         builder.ConfigureByConvention();
         builder.HasKey(x => x.Id);
-        builder.Property(x => x.Name)
-            .IsRequired()
-            .HasMaxLength(200)
-            .HasComment("名称");
-        builder.Property(x => x.DisplayName)
-            .IsRequired()
-            .HasMaxLength(200)
-            .HasComment("显示名称");
-        builder.Property(x => x.Description)
-            .IsRequired()
-            .HasMaxLength(500)
-            .HasComment("描述");
-        builder.Property(x => x.Enabled)
-            .HasComment("是否启用");
+        builder.Property(x => x.Id).ValueGeneratedNever();
+        builder.Property(x => x.Name).IsRequired().HasMaxLength(200);
+        builder.Property(x => x.Description).IsRequired().HasMaxLength(500);
+        builder.Property(x => x.Enabled).HasDefaultValue(true);
 
         builder.Metadata.FindNavigation(nameof(UserGroup.Members))?
             .SetPropertyAccessMode(PropertyAccessMode.Field);

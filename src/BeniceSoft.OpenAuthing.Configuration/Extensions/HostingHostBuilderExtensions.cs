@@ -10,7 +10,7 @@ public static class HostingHostBuilderExtensions
     public static IHostBuilder AddAppSettingsOverrideJson(
         this IHostBuilder hostBuilder,
         bool optional = true,
-        bool reloadOnChange = true,
+        bool reloadOnChange = false,
         string path = AppSettingsSecretJsonPath)
     {
         return hostBuilder.ConfigureAppConfiguration((_, builder) =>
