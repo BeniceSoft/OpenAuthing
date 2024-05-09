@@ -12,12 +12,12 @@ public class AuthingDesignTimeDbContextFactory : IDesignTimeDbContextFactory<Aut
     {
         AbpSettingManagementDbProperties.DbSchema = null;
         AbpSettingManagementDbProperties.DbTablePrefix = AuthingDbProperties.DbTablePrefix;
-        
+
         AbpOpenIddictDbProperties.DbSchema = null;
         AbpOpenIddictDbProperties.DbTablePrefix = AuthingDbProperties.OpenIddictDbTablePrefix;
-        
+
         var configuration = BuildConfiguration();
-        var connectionString = configuration.GetConnectionString("Default")!;
+        var connectionString = configuration.GetConnectionString(AuthingDbProperties.ConnectionStringName)!;
 
         var builder = new DbContextOptionsBuilder<AuthingDbContext>()
             .UseMySql(connectionString, ServerVersion.AutoDetect(connectionString));

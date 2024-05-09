@@ -1,0 +1,13 @@
+resources:
+- deployment.yaml
+- service.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+
+configMapGenerator:
+- name: mysql-env
+  literals:
+    - MYSQL_ROOT_PASSWORD=9FWAQ1PESzI6HLub138zBH
+    - MYSQL_DATABASE=OpenAuthing
+

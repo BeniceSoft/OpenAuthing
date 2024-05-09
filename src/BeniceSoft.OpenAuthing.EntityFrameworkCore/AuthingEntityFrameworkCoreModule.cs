@@ -34,9 +34,6 @@ public class AuthingEntityFrameworkCoreModule : AbpModule
 
         context.Services.AddAbpDbContext<AuthingDbContext>(options =>
         {
-            options.ReplaceDbContext<ISettingManagementDbContext>()
-                .ReplaceDbContext<IOpenIddictDbContext>();
-            
             /* Remove "includeAllEntities: true" to create
              * default repositories only for aggregate roots */
             options.AddDefaultRepositories(includeAllEntities: true);

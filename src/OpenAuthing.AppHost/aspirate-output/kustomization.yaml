@@ -1,0 +1,12 @@
+namespace: openauthing
+
+resources:
+- mysql
+- openauthing-api
+- openauthing-sso
+- namespace.yaml
+- dashboard.yaml
+
+generatorOptions:
+  disableNameSuffixHash: true
+

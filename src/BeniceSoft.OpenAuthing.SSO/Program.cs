@@ -32,12 +32,14 @@ public class Program
         {
             Log.Information("Starting web host.");
             var builder = WebApplication.CreateBuilder(args);
+            builder.AddServiceDefaults();
             builder.Host
                 .AddAppSettingsSecretsJson()
                 .UseAutofac()
                 .UseSerilog();
             await builder.AddApplicationAsync<AuthingSsoModule>();
             var app = builder.Build();
+            app.MapDefaultEndpoints();
             await app.InitializeApplicationAsync();
             await app.RunAsync();
         }

@@ -39,6 +39,7 @@
         <ProjectReference Include="..\BeniceSoft.OpenAuthing.EntityFrameworkCore\BeniceSoft.OpenAuthing.EntityFrameworkCore.csproj"/>
         <ProjectReference Include="..\BeniceSoft.OpenAuthing.OAuth\BeniceSoft.OpenAuthing.OAuth.csproj"/>
         <ProjectReference Include="..\BeniceSoft.OpenAuthing.RemoteService.Implements\BeniceSoft.OpenAuthing.RemoteService.Implements.csproj"/>
+        <ProjectReference Include="..\OpenAuthing.ServiceDefaults\OpenAuthing.ServiceDefaults.csproj" />
     </ItemGroup>
 
     <ItemGroup>

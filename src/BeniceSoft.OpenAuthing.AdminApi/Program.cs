@@ -10,11 +10,10 @@ var configuration = new ConfigurationBuilder()
     .Build();
 Log.Logger = new LoggerConfiguration()
 #if DEBUG
-    .MinimumLevel.Verbose()
+    .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Information)
     .MinimumLevel.Override("Microsoft.AspNetCore.Identity", LogEventLevel.Debug)
 #else
-    .MinimumLevel.Information()
     .MinimumLevel.Override("Microsoft.EntityFrameworkCore", LogEventLevel.Warning)
 #endif
     .Enrich.FromLogContext()
@@ -26,12 +25,14 @@ try
 {
     Log.Information("Starting web host.");
     var builder = WebApplication.CreateBuilder(args);
+    builder.AddServiceDefaults();
     builder.Host
         .AddAppSettingsSecretsJson()
         .UseAutofac()
         .UseSerilog();
     await builder.AddApplicationAsync<AuthingAdminApiModule>();
     var app = builder.Build();
+    app.MapDefaultEndpoints();
     await app.InitializeApplicationAsync();
     await app.RunAsync();
 }

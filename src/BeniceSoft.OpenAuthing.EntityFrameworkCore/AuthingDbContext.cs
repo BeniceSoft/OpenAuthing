@@ -11,6 +11,7 @@ using BeniceSoft.OpenAuthing.Entities.Users;
 using BeniceSoft.OpenAuthing.EntityTypeConfigurations;
 using Microsoft.EntityFrameworkCore;
 using Volo.Abp.Data;
+using Volo.Abp.DependencyInjection;
 using Volo.Abp.EntityFrameworkCore;
 using Volo.Abp.OpenIddict.Applications;
 using Volo.Abp.OpenIddict.Authorizations;
@@ -22,7 +23,8 @@ using Volo.Abp.SettingManagement.EntityFrameworkCore;
 
 namespace BeniceSoft.OpenAuthing;
 
-[ConnectionStringName("Default")]
+[ConnectionStringName(AuthingDbProperties.ConnectionStringName)]
+[ReplaceDbContext(typeof(ISettingManagementDbContext), typeof(IOpenIddictDbContext))]
 public class AuthingDbContext : AbpDbContext<AuthingDbContext>, ISettingManagementDbContext, IOpenIddictDbContext
 {
     public AuthingDbContext(DbContextOptions<AuthingDbContext> options) : base(options)

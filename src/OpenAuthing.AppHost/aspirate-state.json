@@ -1,0 +1,33 @@
+{
+  "projectPath": ".",
+  "inputPath": "aspirate-output",
+  "outputPath": "aspirate-output",
+  "namespace": "openauthing",
+  "containerImageTags": [
+    "latest"
+  ],
+  "containerBuilder": "docker",
+  "containerRepositoryPrefix": "benicesoft",
+  "kubeContext": "default",
+  "outputFormat": "kustomize",
+  "skipFinalKustomizeGeneration": false,
+  "privateRegistryEmail": "aspir8@aka.ms",
+  "useCustomNamespace": true,
+  "secrets": {
+    "salt": "rsSGnB0gxilDN184",
+    "hash": "59Pzb0uEpnZ2935\u002BKSx\u002Bqi368PNdN2ZE\u002BiBBW3q83Bo=",
+    "secrets": {
+      "mysql": {},
+      "OpenAuthing": {},
+      "openauthing-api": {
+        "ConnectionStrings__OpenAuthing": "rsSGnB0gxilDN184maDI1s3cof6PZ4w\u002B3\u002BIq3AuWgOjAoeXb27CSZStko527GrVyyI9M/A3K6CkC0jclV1vpCLepBZKZwHw1tOza66IPJ9BXnlIdCEfnYe5jReKKyqVfZH3c4FheDunONU8bdHgz3Yp8p2c="
+      },
+      "openauthing-sso": {
+        "ConnectionStrings__OpenAuthing": "rsSGnB0gxilDN184maDI1s3cof6PZ4w\u002B3\u002BIq3AuWgOjAoeXb27CSZStko527GrVyyI9M/A3K6CkC0jclV1vpCLepBZKZwHw1tOza66IPJ9BXnlIdCEfnYe5jReKKyqVfZH3c4FheDunONU8bdHgz3Yp8p2c="
+      },
+      "mysql-password": {}
+    }
+  },
+  "processAllComponents": true,
+  "existingSecretsType": "Existing"
+}

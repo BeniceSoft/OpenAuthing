@@ -1,0 +1,30 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mysql
+  labels:
+    app: mysql
+spec:
+  minReadySeconds: 60
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mysql
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: mysql
+    spec:
+      containers:
+      - name: mysql
+        image: docker.io/library/mysql:8.3
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 3306
+        envFrom:
+        - configMapRef:
+            name: mysql-env
+      terminationGracePeriodSeconds: 180

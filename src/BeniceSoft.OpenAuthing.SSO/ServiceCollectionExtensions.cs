@@ -1,3 +1,5 @@
+using System.Security.Cryptography;
+using System.Security.Cryptography.X509Certificates;
 using BeniceSoft.Abp.Auth.Core;
 using BeniceSoft.OpenAuthing.Entities.Roles;
 using BeniceSoft.OpenAuthing.Entities.Users;
@@ -15,12 +17,6 @@ namespace BeniceSoft.OpenAuthing;
 
 internal static class ServiceCollectionExtensions
 {
-    // ReSharper disable UnusedMember.Local
-    private const string SigningCertificateFileConfigKey = "OPENAUTHING_SIGNING_CERTIFICATE_FILE";
-    private const string SigningCertificatePasswordConfigKey = "OPENAUTHING_SIGNING_CERTIFICATE_PASSWORD";
-    private const string EncryptionCertificateFileConfigKey = "OPENAUTHING_ENCRYPTION_CERTIFICATE_FILE";
-    private const string EncryptionCertificatePasswordConfigKey = "OPENAUTHING_ENCRYPTION_CERTIFICATE_PASSWORD";
-
     internal static void ConfigureIdentity(this IServiceCollection services)
     {
         services.Configure<IdentityOptions>(options => { options.User.AllowedUserNameCharacters = ""; });
@@ -117,20 +113,11 @@ internal static class ServiceCollectionExtensions
                     .EnableStatusCodePagesIntegration()
                     .DisableTransportSecurityRequirement();
 
-#if DEBUG
-                builder.AddDevelopmentEncryptionCertificate()
-                    .AddDevelopmentSigningCertificate();
-#else
-                var signingCertificatePath = configuration.EnsureGetValue<string>(SigningCertificateFileConfigKey);
-                var signingCertificatePassword = configuration.GetValue<string>(SigningCertificatePasswordConfigKey);
-
-                var encryptionCertificatePath = configuration.EnsureGetValue<string>(EncryptionCertificateFileConfigKey);
-                var encryptionCertificatePassword = configuration.GetValue<string>(EncryptionCertificatePasswordConfigKey);
-
-                // https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html#registering-a-certificate-recommended-for-production-ready-scenarios
-                builder.AddSigningCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2(signingCertificatePath, signingCertificatePassword))
-                    .AddEncryptionCertificate(new System.Security.Cryptography.X509Certificates.X509Certificate2(encryptionCertificatePath, encryptionCertificatePassword));
-#endif
+                //https://documentation.openiddict.com/configuration/encryption-and-signing-credentials.html
+                var signingCertificate = CreateSelfSignedCertificate(new X500DistinguishedName("CN=Fabrikam Signing Certificate"), X509KeyUsageFlags.DigitalSignature);
+                builder.AddSigningCertificate(signingCertificate);
+                var encryptionCertificate = CreateSelfSignedCertificate(new X500DistinguishedName("CN=Fabrikam Encryption Certificate"), X509KeyUsageFlags.KeyEncipherment);
+                builder.AddEncryptionCertificate(encryptionCertificate);
 
                 builder.DisableAccessTokenEncryption();
 
@@ -155,5 +142,15 @@ internal static class ServiceCollectionExtensions
             config.UseInMemoryStorage();
             // config.UseRedisStorage(connectionString, redisOptions);
         });
+    }
+
+    private static X509Certificate2 CreateSelfSignedCertificate(X500DistinguishedName subjectName, X509KeyUsageFlags keyUsage)
+    {
+        using var algorithm = RSA.Create(keySizeInBits: 2048);
+
+        var request = new CertificateRequest(subjectName, algorithm, HashAlgorithmName.SHA256, RSASignaturePadding.Pkcs1);
+        request.CertificateExtensions.Add(new X509KeyUsageExtension(keyUsage, critical: true));
+
+        return request.CreateSelfSigned(DateTimeOffset.UtcNow, DateTimeOffset.UtcNow.AddYears(2));
     }
 }

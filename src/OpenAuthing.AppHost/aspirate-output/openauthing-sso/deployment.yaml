@@ -1,0 +1,33 @@
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openauthing-sso
+  labels:
+    app: openauthing-sso
+spec:
+  minReadySeconds: 60
+  replicas: 1
+  selector:
+    matchLabels:
+      app: openauthing-sso
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      labels:
+        app: openauthing-sso
+    spec:
+      containers:
+      - name: openauthing-sso
+        image: benicesoft/openauthing-sso:latest
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        - containerPort: 8443
+        envFrom:
+        - configMapRef:
+            name: openauthing-sso-env
+        - secretRef:
+            name: openauthing-sso-secrets
+      terminationGracePeriodSeconds: 180

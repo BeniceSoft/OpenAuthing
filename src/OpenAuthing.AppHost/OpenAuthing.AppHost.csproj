@@ -1,0 +1,23 @@
+<Project Sdk="Microsoft.NET.Sdk">
+    <Import Project="../../common.props"/>
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net8.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsAspireHost>true</IsAspireHost>
+        <UserSecretsId>4865216B-B21C-488A-9963-768CBAD041AD</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Aspire.Hosting.AppHost" />
+        <PackageReference Include="Aspire.Hosting.MySql" />
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\BeniceSoft.OpenAuthing.AdminApi\BeniceSoft.OpenAuthing.AdminApi.csproj" />
+      <ProjectReference Include="..\BeniceSoft.OpenAuthing.SSO\BeniceSoft.OpenAuthing.SSO.csproj" />
+    </ItemGroup>
+
+</Project>
